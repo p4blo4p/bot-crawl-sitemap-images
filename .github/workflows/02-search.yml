@@ -1,0 +1,37 @@
+name: 02 Search Phrase
+
+on:
+  workflow_run:
+    workflows: ["01 Download Sitemaps"]
+    types:
+      - completed
+
+jobs:
+  search:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Download Sitemaps Artifact
+        # We use the GH CLI to download artifacts from the triggering workflow run
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_ID: ${{ github.event.workflow_run.id }}
+        run: |
+          gh run download $RUN_ID -n sitemaps-data --dir sitemaps_archive
+
+      - name: Run Searcher
+        run: python scripts/searcher.py
+
+      - name: Upload Search Results
+        uses: actions/upload-artifact@v4
+        with:
+          name: search-findings
+          path: "*_results_*.txt"
