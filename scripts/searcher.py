@@ -4,7 +4,10 @@ import datetime
 import re
 
 # Configuration
-SEARCH_PHRASE = "Black Friday Sale"
+# If SEARCH_PHRASE env var is set (via GitHub Actions Input), use it. 
+# Otherwise use the default hardcoded phrase.
+DEFAULT_PHRASE = "Black Friday Sale"
+SEARCH_PHRASE = os.getenv("SEARCH_PHRASE", DEFAULT_PHRASE)
 SEARCH_DIR = "sitemaps_archive"
 
 def search_files(directory, phrase):
@@ -35,8 +38,6 @@ def main():
     # sitemaps_archive/YYYY-MM-DD/file.xml
     
     today = datetime.date.today().isoformat()
-    # Depending on how artifacts are extracted, it might be nested or flat. 
-    # We search recursively in SEARCH_DIR.
     
     hits = search_files(SEARCH_DIR, SEARCH_PHRASE)
     
