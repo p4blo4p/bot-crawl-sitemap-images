@@ -5,11 +5,18 @@ on:
     workflows: ["01 Download Sitemaps"]
     types:
       - completed
+  workflow_dispatch:
+    inputs:
+      search_phrase:
+        description: 'Phrase to search for (overrides default)'
+        required: true
+        default: 'Black Friday Sale'
 
 jobs:
   search:
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    # Run if triggered by workflow completion OR manually triggered
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
@@ -20,14 +27,31 @@ jobs:
           python-version: '3.10'
 
       - name: Download Sitemaps Artifact
-        # We use the GH CLI to download artifacts from the triggering workflow run
         env:
           GH_TOKEN: ${{ github.token }}
-          RUN_ID: ${{ github.event.workflow_run.id }}
         run: |
+          # Logic to handle both triggers
+          if [ "${{ github.event_name }}" == "workflow_run" ]; then
+            echo "Triggered by workflow completion. Downloading artifact from Run ID ${{ github.event.workflow_run.id }}"
+            RUN_ID=${{ github.event.workflow_run.id }}
+          else
+            echo "Triggered manually. Finding latest successful download run..."
+            # Get ID of last successful run of the '01 Download Sitemaps' workflow
+            RUN_ID=$(gh run list --workflow "01 Download Sitemaps" --status success --limit 1 --json databaseId -q ".[0].databaseId")
+            if [ -z "$RUN_ID" ]; then
+              echo "Error: No successful download runs found."
+              exit 1
+            fi
+            echo "Found latest Run ID: $RUN_ID"
+          fi
+          
+          # Download the artifact
           gh run download $RUN_ID -n sitemaps-data --dir sitemaps_archive
 
       - name: Run Searcher
+        env:
+          # Use input if provided, otherwise fallback to default logic
+          SEARCH_PHRASE: ${{ github.event.inputs.search_phrase || 'Black Friday Sale' }}
         run: python scripts/searcher.py
 
       - name: Upload Search Results
