@@ -1,0 +1,31 @@
+name: 01 Download Sitemaps
+
+on:
+  schedule:
+    - cron: '0 8 * * 1'
+  workflow_dispatch:
+
+jobs:
+  download:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install Dependencies
+        run: pip install requests
+
+      - name: Run Downloader
+        run: python scripts/downloader.py
+
+      - name: Upload Sitemaps Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: sitemaps-data
+          path: sitemaps_archive/
+          retention-days: 1
