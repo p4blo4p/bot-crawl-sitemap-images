@@ -15,6 +15,9 @@ on:
 jobs:
   search:
     runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
     # Run if triggered by workflow completion OR manually triggered
     if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
     steps:
