@@ -5,8 +5,11 @@ on:
     - cron: '0 8 * * 1'
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 env:
-  SITEMAP_FORK: your-username/sitemaps-fork
+  SITEMAP_BRANCH: data-sitemaps
 
 jobs:
   download:
@@ -27,22 +30,34 @@ jobs:
         run: python scripts/downloader.py
         # Generates sitemaps_archive/YYYY-MM-DD/
 
-      - name: Checkout Sitemap Fork
-        uses: actions/checkout@v3
-        with:
-          repository: ${{ env.SITEMAP_FORK }}
-          token: ${{ secrets.GH_PAT }}
-          path: storage_fork
-
-      - name: Push Sitemaps to Fork
+      - name: Deploy to Sitemap Branch
         run: |
-          echo "Syncing data to fork..."
-          # Ensure parent directory exists in destination if needed, though cp -r usually handles simple cases
-          cp -r sitemaps_archive/* storage_fork/
+          # 1. Configure Git
+          git config --global user.name "Sitemap Hunter Bot"
+          git config --global user.email "bot@actionforge.local"
           
-          cd storage_fork
-          git config user.name "Sitemap Hunter Bot"
-          git config user.email "bot@actionforge.local"
+          # 2. Prepare Storage Directory
+          mkdir storage_temp
+          cp -r sitemaps_archive/* storage_temp/
+          
+          # 3. Fetch and Checkout Target Branch (Orphan if needed)
+          echo "Checking for branch ${{ env.SITEMAP_BRANCH }}..."
+          
+          git fetch origin ${{ env.SITEMAP_BRANCH }} || echo "Branch does not exist yet."
+          
+          if git show-ref --verify --quiet refs/remotes/origin/${{ env.SITEMAP_BRANCH }}; then
+            echo "Branch exists. Checking out..."
+            git checkout ${{ env.SITEMAP_BRANCH }}
+          else
+            echo "Branch does not exist. Creating orphan branch..."
+            git checkout --orphan ${{ env.SITEMAP_BRANCH }}
+            git rm -rf .
+          fi
+          
+          # 4. Add new data
+          # We copy back the data we stored in temp
+          cp -r storage_temp/* .
+          rm -rf storage_temp
           
           git add .
           
@@ -50,7 +65,6 @@ jobs:
           if git diff --staged --quiet; then
             echo "No changes to commit."
           else
-            # Committing with the date as requested
             git commit -m "Add sitemaps for $TODAY"
-            git push
+            git push origin ${{ env.SITEMAP_BRANCH }}
           fi
