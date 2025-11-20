@@ -20,6 +20,9 @@ def search_files(directory, phrase):
 
     # Walk through the date-based structure
     for root, dirs, files in os.walk(directory):
+        # Skip hidden directories like .git
+        dirs[:] = [d for d in dirs if not d.startswith('.')]
+        
         for file in files:
             if file.endswith(".xml") or file.endswith(".txt"):
                 path = os.path.join(root, file)
