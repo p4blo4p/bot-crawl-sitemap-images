@@ -1,18 +1,37 @@
 import requests
 import os
 import sys
-import datetime
+import json
 import re
+import hashlib
 from urllib.parse import urljoin, urlparse
 from collections import deque
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from datetime import datetime
 
 # Configuration
 SITES_FILE = "sites.txt"
+DATA_DIR = "sitemaps_data" # Root folder for persistence
+STATE_FILE = os.path.join(DATA_DIR, "state.json")
 USER_AGENT = "Mozilla/5.0 (compatible; SitemapHunterBot/1.0)"
+MAX_WORKERS = 5 # Parallel downloads
 
-# Regex for extracting URLs
+# Regex
 RE_LOC = re.compile(r'<loc>(.*?)</loc>', re.IGNORECASE)
 RE_SITEMAP_INDEX = re.compile(r'<sitemapindex', re.IGNORECASE)
+
+def load_state():
+    if os.path.exists(STATE_FILE):
+        try:
+            with open(STATE_FILE, 'r') as f:
+                return json.load(f)
+        except:
+            return {}
+    return {}
+
+def save_state(state):
+    with open(STATE_FILE, 'w') as f:
+        json.dump(state, f, indent=2)
 
 def get_initial_sitemaps(domain):
     """Extracts initial sitemap URLs from robots.txt."""
@@ -21,122 +40,155 @@ def get_initial_sitemaps(domain):
         
     robots_url = urljoin(domain, "/robots.txt")
     sitemaps = []
+    print(f"[*] Checking robots.txt: {robots_url}")
     try:
-        print(f"[*] Checking robots.txt: {robots_url}")
         response = requests.get(robots_url, headers={"User-Agent": USER_AGENT}, timeout=10)
         if response.status_code == 200:
             for line in response.text.splitlines():
                 if line.lower().strip().startswith("sitemap:"):
-                    sitemap_url = line.split(":", 1)[1].strip()
-                    sitemaps.append(sitemap_url)
+                    sitemaps.append(line.split(":", 1)[1].strip())
     except Exception as e:
-        print(f"[!] Error fetching robots.txt for {domain}: {e}")
+        print(f"[!] Error robots.txt {domain}: {e}")
     
-    # Fallback if none found in robots.txt
     if not sitemaps:
-        print(f"[-] No sitemaps in robots.txt for {domain}, trying default /sitemap.xml")
         sitemaps.append(urljoin(domain, "/sitemap.xml"))
         
     return sitemaps
 
-def save_xml(content, url, folder):
-    """Saves XML content to file."""
-    try:
-        parsed = urlparse(url)
-        # Create safe filename: domain_path_hash.xml
-        domain_safe = parsed.netloc.replace(".", "_").replace(":", "")
-        name_safe = os.path.basename(parsed.path)
-        if not name_safe: name_safe = "sitemap"
-        if not name_safe.endswith(".xml"): name_safe += ".xml"
-        
-        # Add a simple hash/timestamp component to ensure uniqueness if filenames clash
-        import hashlib
-        url_hash = hashlib.md5(url.encode()).hexdigest()[:6]
-        filename = f"{domain_safe}_{url_hash}_{name_safe}"
-        
-        path = os.path.join(folder, filename)
-        with open(path, "wb") as f:
-            f.write(content)
-        return path
-    except Exception as e:
-        print(f"[!] Error saving file: {e}")
-        return None
-
-def process_site(domain, base_dir):
-    print(f"\n=== Processing Domain: {domain} ===")
+def process_url(url, domain_folder, state):
+    """
+    Downloads a single URL if modified.
+    Returns: (url, success, is_index, content, child_links)
+    """
+    headers = {"User-Agent": USER_AGENT}
     
-    # Prepare folders
-    dir_indices = os.path.join(base_dir, "sitemap_indices")
-    dir_content = os.path.join(base_dir, "final_content")
-    os.makedirs(dir_indices, exist_ok=True)
-    os.makedirs(dir_content, exist_ok=True)
+    # Incremental Check
+    cached_meta = state.get(url, {})
+    if 'etag' in cached_meta and cached_meta['etag']:
+        headers['If-None-Match'] = cached_meta['etag']
+    if 'last_modified' in cached_meta and cached_meta['last_modified']:
+        headers['If-Modified-Since'] = cached_meta['last_modified']
 
-    # Queue for recursion
+    try:
+        response = requests.get(url, headers=headers, timeout=15)
+        
+        # 304 Not Modified -> Skip
+        if response.status_code == 304:
+            # print(f"    [SKIP] Not modified: {url}")
+            return (url, True, cached_meta.get('is_index', False), None, [])
+
+        if response.status_code != 200:
+            print(f"    [ERR] {response.status_code} for {url}")
+            return (url, False, False, None, [])
+
+        content = response.content
+        text_content = response.text
+        
+        # Identify Type
+        is_index = bool(RE_SITEMAP_INDEX.search(text_content))
+        
+        # Save File
+        # Naming: domain/filename_hash.xml
+        parsed = urlparse(url)
+        name = os.path.basename(parsed.path) or "sitemap"
+        if not name.endswith(".xml"): name += ".xml"
+        url_hash = hashlib.md5(url.encode()).hexdigest()[:6]
+        
+        # Subfolders for organization
+        subfolder = "indices" if is_index else "content"
+        save_dir = os.path.join(domain_folder, subfolder)
+        os.makedirs(save_dir, exist_ok=True)
+        
+        filename = f"{name}_{url_hash}.xml"
+        save_path = os.path.join(save_dir, filename)
+        
+        with open(save_path, "wb") as f:
+            f.write(content)
+            
+        # Extract Children if Index
+        children = []
+        if is_index:
+            children = [c.strip() for c in RE_LOC.findall(text_content)]
+            
+        # Update State Metadata
+        new_meta = {
+            'etag': response.headers.get('ETag'),
+            'last_modified': response.headers.get('Last-Modified'),
+            'is_index': is_index,
+            'local_path': save_path,
+            'last_check': datetime.now().isoformat()
+        }
+        
+        return (url, True, is_index, new_meta, children)
+
+    except Exception as e:
+        print(f"    [EXC] {url}: {e}")
+        return (url, False, False, None, [])
+
+def process_site(domain, state):
+    print(f"\n=== Processing Domain: {domain} ===")
+    domain_safe = domain.replace("http://", "").replace("https://", "").replace("/", "_")
+    domain_folder = os.path.join(DATA_DIR, "domains", domain_safe)
+    
     queue = deque(get_initial_sitemaps(domain))
     visited = set()
     
-    count_indices = 0
-    count_leafs = 0
-
-    while queue:
-        url = queue.popleft()
-        
-        if url in visited:
-            continue
-        visited.add(url)
-        
-        print(f"  -> Fetching: {url}")
-        try:
-            response = requests.get(url, headers={"User-Agent": USER_AGENT}, timeout=15)
-            if response.status_code != 200:
-                print(f"     [!] Failed {response.status_code}")
-                continue
-                
-            content = response.content
-            text_content = response.text
+    # Load visited from state to prevent re-queueing same URLs in one run? 
+    # For now, we just use local set for this run to avoid loops.
+    
+    with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
+        while queue:
+            # Batch processing for current level
+            current_batch = []
+            while queue:
+                u = queue.popleft()
+                if u not in visited:
+                    visited.add(u)
+                    current_batch.append(u)
             
-            # Determine if it is an Index or a Leaf
-            if RE_SITEMAP_INDEX.search(text_content):
-                # It is a Sitemap Index -> Save to indices, Extract children, Add to queue
-                save_path = save_xml(content, url, dir_indices)
-                print(f"     [TYPE: INDEX] Saved to {os.path.basename(dir_indices)}/")
+            if not current_batch:
+                break
                 
-                # Extract child sitemaps
-                children = RE_LOC.findall(text_content)
-                new_children = [c.strip() for c in children if c.strip() not in visited]
-                print(f"     [+] Found {len(new_children)} nested sitemaps.")
-                queue.extend(new_children)
-                count_indices += 1
-            else:
-                # It is a regular sitemap (Leaf) -> Save to final_content
-                save_path = save_xml(content, url, dir_content)
-                print(f"     [TYPE: LEAF] Saved to {os.path.basename(dir_content)}/")
-                count_leafs += 1
-                
-        except Exception as e:
-            print(f"     [!] Error: {e}")
-
-    print(f"Done. Indices: {count_indices}, Final Maps: {count_leafs}")
+            print(f"  -> Processing batch of {len(current_batch)} URLs...")
+            
+            future_to_url = {
+                executor.submit(process_url, url, domain_folder, state): url 
+                for url in current_batch
+            }
+            
+            for future in as_completed(future_to_url):
+                url = future_to_url[future]
+                try:
+                    r_url, success, is_index, meta, children = future.result()
+                    if success:
+                        if meta: # It was a fresh download
+                            state[url] = meta
+                            print(f"    [NEW/UPD] {url}")
+                        
+                        if is_index and children:
+                            for child in children:
+                                if child not in visited:
+                                    queue.append(child)
+                except Exception as exc:
+                    print(f"    [ERR] Thread exception {url}: {exc}")
 
 def main():
-    # 1. Setup Date-based Directory
-    today = datetime.date.today().isoformat()
-    base_dir = os.path.join("sitemaps_archive", today)
+    os.makedirs(DATA_DIR, exist_ok=True)
+    state = load_state()
     
-    print(f"=== Starting Recursive Job for {today} ===")
-    print(f"Output Directory: {base_dir}\n")
-
-    # 2. Read Sites
     try:
         with open(SITES_FILE, "r") as f:
             sites = [line.strip() for line in f if line.strip()]
     except FileNotFoundError:
-        print(f"Error: {SITES_FILE} not found.")
-        sys.exit(1)
+        print("No sites.txt found.")
+        return
 
-    # 3. Process Each Site
     for site in sites:
-        process_site(site, base_dir)
+        process_site(site, state)
+        # Save state periodically per domain
+        save_state(state)
+
+    print("\n=== Job Complete ===")
 
 if __name__ == "__main__":
     main()
