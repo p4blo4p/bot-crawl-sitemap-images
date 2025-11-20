@@ -5,11 +5,14 @@ on:
     - cron: '0 8 * * 1'
   workflow_dispatch:
 
+env:
+  SITEMAP_FORK: your-username/sitemaps-fork
+
 jobs:
   download:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
+      - name: Checkout Tool Code
         uses: actions/checkout@v3
 
       - name: Setup Python
@@ -22,10 +25,32 @@ jobs:
 
       - name: Run Downloader
         run: python scripts/downloader.py
+        # Generates sitemaps_archive/YYYY-MM-DD/
 
-      - name: Upload Sitemaps Artifact
-        uses: actions/upload-artifact@v4
+      - name: Checkout Sitemap Fork
+        uses: actions/checkout@v3
         with:
-          name: sitemaps-data
-          path: sitemaps_archive/
-          retention-days: 1
+          repository: ${{ env.SITEMAP_FORK }}
+          token: ${{ secrets.GH_PAT }}
+          path: storage_fork
+
+      - name: Push Sitemaps to Fork
+        run: |
+          echo "Syncing data to fork..."
+          # Ensure parent directory exists in destination if needed, though cp -r usually handles simple cases
+          cp -r sitemaps_archive/* storage_fork/
+          
+          cd storage_fork
+          git config user.name "Sitemap Hunter Bot"
+          git config user.email "bot@actionforge.local"
+          
+          git add .
+          
+          TODAY=$(date +'%Y-%m-%d')
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+          else
+            # Committing with the date as requested
+            git commit -m "Add sitemaps for $TODAY"
+            git push
+          fi
