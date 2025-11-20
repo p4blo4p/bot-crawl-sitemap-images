@@ -12,16 +12,17 @@ on:
         required: true
         default: 'Black Friday Sale'
 
+env:
+  SITEMAP_REPO: your-username/sitemaps-data
+  RESULTS_REPO: your-username/search-results
+
 jobs:
   search:
     runs-on: ubuntu-latest
-    permissions:
-      actions: read
-      contents: read
-    # Run if triggered by workflow completion OR manually triggered
+    # Run if triggered by workflow completion (success) OR manually triggered
     if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
     steps:
-      - name: Checkout Code
+      - name: Checkout Tool Code
         uses: actions/checkout@v3
 
       - name: Setup Python
@@ -29,36 +30,41 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Download Sitemaps Artifact
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          # Logic to handle both triggers
-          if [ "${{ github.event_name }}" == "workflow_run" ]; then
-            echo "Triggered by workflow completion. Downloading artifact from Run ID ${{ github.event.workflow_run.id }}"
-            RUN_ID=${{ github.event.workflow_run.id }}
-          else
-            echo "Triggered manually. Finding latest successful download run..."
-            # Get ID of last successful run of the '01 Download Sitemaps' workflow
-            RUN_ID=$(gh run list --workflow "01 Download Sitemaps" --status success --limit 1 --json databaseId -q ".[0].databaseId")
-            if [ -z "$RUN_ID" ]; then
-              echo "Error: No successful download runs found."
-              exit 1
-            fi
-            echo "Found latest Run ID: $RUN_ID"
-          fi
-          
-          # Download the artifact
-          gh run download $RUN_ID -n sitemaps-data --dir sitemaps_archive
+      - name: Checkout Sitemaps Data
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ env.SITEMAP_REPO }}
+          token: ${{ secrets.GH_PAT }}
+          path: sitemaps_archive
+          # Checked out to 'sitemaps_archive' so searcher.py finds it
 
       - name: Run Searcher
         env:
-          # Use input if provided, otherwise fallback to default logic
           SEARCH_PHRASE: ${{ github.event.inputs.search_phrase || 'Black Friday Sale' }}
         run: python scripts/searcher.py
 
-      - name: Upload Search Results
-        uses: actions/upload-artifact@v4
+      - name: Checkout Results Storage
+        uses: actions/checkout@v3
         with:
-          name: search-findings
-          path: "*_results_*.txt"
+          repository: ${{ env.RESULTS_REPO }}
+          token: ${{ secrets.GH_PAT }}
+          path: results_repo
+
+      - name: Push Results to External Repo
+        run: |
+          echo "Syncing results to results repo..."
+          cp results_*.txt results_repo/
+          
+          cd results_repo
+          git config user.name "Sitemap Hunter Bot"
+          git config user.email "bot@actionforge.local"
+          
+          git add .
+          
+          TODAY=$(date +'%Y-%m-%d')
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Search results for $TODAY"
+            git push
+          fi
