@@ -2,13 +2,13 @@ name: 02 Search Phrase
 
 on:
   workflow_run:
-    workflows: ["01 Download Sitemaps"]
+    workflows: ["01 Download Sitemaps (Incremental)"]
     types:
       - completed
   workflow_dispatch:
     inputs:
       search_phrase:
-        description: 'Phrase to search for (overrides default)'
+        description: 'Phrase to search for'
         required: true
         default: 'Black Friday Sale'
 
@@ -22,67 +22,55 @@ env:
 jobs:
   search:
     runs-on: ubuntu-latest
-    # Run if triggered by workflow completion (success) OR manually triggered
+    # Only run on successful download or manual trigger
     if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
     steps:
-      - name: Checkout Tool Code (Main Branch)
+      - name: Checkout Tool Code
         uses: actions/checkout@v3
         with:
           path: main_code
-          fetch-depth: 0 # Fetch all branches so we can switch later
 
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
-
-      - name: Checkout Data from Sitemap Branch
+      - name: Checkout Data
         uses: actions/checkout@v3
         with:
           ref: ${{ env.SITEMAP_BRANCH }}
-          path: main_code/sitemaps_archive
-          # We mount the data into the script's expected folder
-
+          path: sitemaps_data
+      
       - name: Run Searcher
-        working-directory: main_code
         env:
           SEARCH_PHRASE: ${{ github.event.inputs.search_phrase || 'Black Friday Sale' }}
-        run: python scripts/searcher.py
-
-      - name: Deploy to Results Branch
-        working-directory: main_code # Important: Run git commands inside the repo
         run: |
-          # 1. Configure Git
-          git config user.name "Sitemap Hunter Bot"
-          git config user.email "bot@actionforge.local"
+          # Script expects 'sitemaps_data' in current dir
+          python main_code/scripts/searcher.py
+
+      - name: Deploy Results
+        run: |
+          git config --global user.name "Sitemap Bot"
+          git config --global user.email "bot@actionforge.local"
           
-          # 2. Save Results securely outside the repo folder
-          mkdir -p ../results_temp
-          cp results_*.txt ../results_temp/
+          # Move results to temp
+          mkdir -p results_temp
+          cp results_*.txt results_temp/
           
-          # 3. Switch to Results Branch
-          echo "Switching to results branch: ${{ env.RESULTS_BRANCH }}"
-          git fetch origin ${{ env.RESULTS_BRANCH }} || echo "Remote branch not found."
-          
-          if git rev-parse --verify origin/${{ env.RESULTS_BRANCH }} >/dev/null 2>&1; then
-             echo "Branch exists. Checking out..."
-             git checkout ${{ env.RESULTS_BRANCH }}
-             git pull origin ${{ env.RESULTS_BRANCH }}
+          # Clone/Init Results Branch
+          if git ls-remote --heads origin ${{ env.RESULTS_BRANCH }} | grep ${{ env.RESULTS_BRANCH }}; then
+             git clone --single-branch --branch ${{ env.RESULTS_BRANCH }} https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git results_repo
           else
-             echo "Creating orphan branch..."
-             git checkout --orphan ${{ env.RESULTS_BRANCH }}
-             git rm -rf .
+             mkdir results_repo && cd results_repo
+             git init
+             git checkout -b ${{ env.RESULTS_BRANCH }}
+             cd ..
           fi
           
-          # 4. Copy results and Push
-          cp -r ../results_temp/* .
-          
+          # Copy results
+          cd results_repo
+          cp ../results_temp/* .
           git add .
           
           TODAY=$(date +'%Y-%m-%d')
           if git diff --staged --quiet; then
-            echo "No changes to commit."
+             echo "No results changed."
           else
-            git commit -m "Search results for $TODAY"
-            git push origin ${{ env.RESULTS_BRANCH }}
+             git commit -m "Search results: $TODAY"
+             git push origin ${{ env.RESULTS_BRANCH }}
           fi
