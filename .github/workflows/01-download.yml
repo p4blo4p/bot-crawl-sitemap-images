@@ -1,4 +1,4 @@
-name: 01 Download Sitemaps
+name: 01 Download Sitemaps (Incremental)
 
 on:
   schedule:
@@ -17,6 +17,8 @@ jobs:
     steps:
       - name: Checkout Tool Code
         uses: actions/checkout@v3
+        with:
+          path: main_code
 
       - name: Setup Python
         uses: actions/setup-python@v4
@@ -26,45 +28,53 @@ jobs:
       - name: Install Dependencies
         run: pip install requests
 
-      - name: Run Downloader
-        run: python scripts/downloader.py
-        # Generates sitemaps_archive/YYYY-MM-DD/
-
-      - name: Deploy to Sitemap Branch
+      - name: Prepare Data Branch
         run: |
-          # 1. Configure Git
-          git config --global user.name "Sitemap Hunter Bot"
+          # We clone the data branch into 'sitemap_data' folder
+          # The script is configured to read/write to this folder
+          
+          git config --global user.name "Sitemap Bot"
           git config --global user.email "bot@actionforge.local"
           
-          # 2. Prepare Storage Directory
-          mkdir storage_temp
-          cp -r sitemaps_archive/* storage_temp/
+          echo "Checking for existing data branch..."
+          git fetch origin ${{ env.SITEMAP_BRANCH }} || echo "Branch not found."
           
-          # 3. Fetch and Checkout Target Branch (Orphan if needed)
-          echo "Checking for branch ${{ env.SITEMAP_BRANCH }}..."
-          
-          git fetch origin ${{ env.SITEMAP_BRANCH }} || echo "Branch does not exist yet."
-          
-          if git show-ref --verify --quiet refs/remotes/origin/${{ env.SITEMAP_BRANCH }}; then
-            echo "Branch exists. Checking out..."
-            git checkout ${{ env.SITEMAP_BRANCH }}
+          if git rev-parse --verify origin/${{ env.SITEMAP_BRANCH }} >/dev/null 2>&1; then
+            echo "Branch exists. cloning..."
+            # Clone single branch into subfolder
+            git clone --single-branch --branch ${{ env.SITEMAP_BRANCH }} https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git sitemaps_data
           else
-            echo "Branch does not exist. Creating orphan branch..."
-            git checkout --orphan ${{ env.SITEMAP_BRANCH }}
-            git rm -rf .
+            echo "First run. Creating empty data folder."
+            mkdir sitemaps_data
+            cd sitemaps_data
+            git init
+            git checkout -b ${{ env.SITEMAP_BRANCH }}
+            # Need an initial commit to push
+            echo "{" > state.json
+            echo "}" >> state.json
+            git add .
+            git commit -m "Initial data commit"
+            # We don't push yet, we wait for script
+            cd ..
           fi
-          
-          # 4. Add new data
-          # We copy back the data we stored in temp
-          cp -r storage_temp/* .
-          rm -rf storage_temp
-          
+
+      - name: Run Incremental Downloader
+        run: |
+          # Copy sites.txt to root so script finds it
+          cp main_code/sites.txt .
+          # Run script from main_code, but it writes to sitemaps_data
+          python main_code/scripts/downloader.py
+
+      - name: Commit and Push Changes
+        working-directory: sitemaps_data
+        run: |
           git add .
           
           TODAY=$(date +'%Y-%m-%d')
           if git diff --staged --quiet; then
-            echo "No changes to commit."
+            echo "No changes detected. Everything is up to date."
           else
-            git commit -m "Add sitemaps for $TODAY"
+            echo "Changes detected. Pushing update..."
+            git commit -m "Update sitemaps: $TODAY"
             git push origin ${{ env.SITEMAP_BRANCH }}
           fi
