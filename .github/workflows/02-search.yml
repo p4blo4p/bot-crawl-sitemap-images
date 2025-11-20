@@ -12,9 +12,12 @@ on:
         required: true
         default: 'Black Friday Sale'
 
+permissions:
+  contents: write
+
 env:
-  SITEMAP_REPO: your-username/sitemaps-data
-  RESULTS_REPO: your-username/search-results
+  SITEMAP_BRANCH: data-sitemaps
+  RESULTS_BRANCH: data-results
 
 jobs:
   search:
@@ -22,42 +25,53 @@ jobs:
     # Run if triggered by workflow completion (success) OR manually triggered
     if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
     steps:
-      - name: Checkout Tool Code
+      - name: Checkout Tool Code (Main Branch)
         uses: actions/checkout@v3
+        with:
+          path: main_code
 
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
 
-      - name: Checkout Sitemaps Data
+      - name: Checkout Data from Sitemap Branch
         uses: actions/checkout@v3
         with:
-          repository: ${{ env.SITEMAP_REPO }}
-          token: ${{ secrets.GH_PAT }}
-          path: sitemaps_archive
-          # Checked out to 'sitemaps_archive' so searcher.py finds it
+          ref: ${{ env.SITEMAP_BRANCH }}
+          path: main_code/sitemaps_archive
+          # We mount the data into the script's expected folder
 
       - name: Run Searcher
+        working-directory: main_code
         env:
           SEARCH_PHRASE: ${{ github.event.inputs.search_phrase || 'Black Friday Sale' }}
         run: python scripts/searcher.py
 
-      - name: Checkout Results Storage
-        uses: actions/checkout@v3
-        with:
-          repository: ${{ env.RESULTS_REPO }}
-          token: ${{ secrets.GH_PAT }}
-          path: results_repo
-
-      - name: Push Results to External Repo
+      - name: Deploy to Results Branch
         run: |
-          echo "Syncing results to results repo..."
-          cp results_*.txt results_repo/
+          # 1. Configure Git
+          git config --global user.name "Sitemap Hunter Bot"
+          git config --global user.email "bot@actionforge.local"
           
-          cd results_repo
-          git config user.name "Sitemap Hunter Bot"
-          git config user.email "bot@actionforge.local"
+          # 2. Save Results
+          mkdir results_temp
+          cp main_code/results_*.txt results_temp/
+          
+          # 3. Switch to Results Branch
+          git fetch origin ${{ env.RESULTS_BRANCH }} || echo "Branch does not exist yet."
+          
+          if git show-ref --verify --quiet refs/remotes/origin/${{ env.RESULTS_BRANCH }}; then
+             # Use a fresh checkout of the results branch to avoid conflicts
+             git checkout ${{ env.RESULTS_BRANCH }}
+          else
+             git checkout --orphan ${{ env.RESULTS_BRANCH }}
+             git rm -rf .
+          fi
+          
+          # 4. Copy results and Push
+          cp -r results_temp/* .
+          rm -rf results_temp main_code
           
           git add .
           
@@ -66,5 +80,5 @@ jobs:
             echo "No changes to commit."
           else
             git commit -m "Search results for $TODAY"
-            git push
+            git push origin ${{ env.RESULTS_BRANCH }}
           fi
