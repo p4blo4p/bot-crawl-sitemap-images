@@ -31,31 +31,31 @@ jobs:
 
       - name: Prepare Data Branch
         run: |
-          # We clone the data branch into 'sitemap_data' folder
-          # The script is configured to read/write to this folder
-          
+          # Set up Git User
           git config --global user.name "Sitemap Bot"
           git config --global user.email "bot@actionforge.local"
           
-          echo "Checking for existing data branch..."
-          git fetch origin ${{ env.SITEMAP_BRANCH }} || echo "Branch not found."
+          # Remote URL with Token
+          REPO_URL="https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
           
-          if git rev-parse --verify origin/${{ env.SITEMAP_BRANCH }} >/dev/null 2>&1; then
-            echo "Branch exists. cloning..."
-            # Clone single branch into subfolder
-            git clone --single-branch --branch ${{ env.SITEMAP_BRANCH }} https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git sitemaps_data
+          echo "Checking for remote branch ${{ env.SITEMAP_BRANCH }}..."
+          
+          # Use ls-remote to check existence without needing a local repo context
+          if git ls-remote --heads "$REPO_URL" "${{ env.SITEMAP_BRANCH }}" | grep -q "${{ env.SITEMAP_BRANCH }}"; then
+            echo "Branch exists. Cloning..."
+            git clone --single-branch --branch ${{ env.SITEMAP_BRANCH }} "$REPO_URL" sitemaps_data
           else
-            echo "First run. Creating empty data folder."
+            echo "Branch not found. Initializing new data folder..."
             mkdir sitemaps_data
             cd sitemaps_data
             git init
             git checkout -b ${{ env.SITEMAP_BRANCH }}
-            # Need an initial commit to push
-            echo "{" > state.json
-            echo "}" >> state.json
+            
+            # Create an initial file so we can commit
+            echo '{"created": true}' > state.json
             git add .
-            git commit -m "Initial data commit"
-            # We don't push yet, we wait for script
+            git commit -m "Initial data structure"
+            # We don't push here, we wait for the script to run
             cd ..
           fi
 
@@ -76,7 +76,11 @@ jobs:
             echo "No changes detected. Everything is up to date."
           else
             echo "Changes detected. Pushing update..."
-            # Check if state file shows we are pausing
             git commit -m "Update sitemaps (Checkpoint): $TODAY"
+            
+            # FORCE SET REMOTE to ensure push works even if clone/init was quirky
+            git remote remove origin || true
+            git remote add origin "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
+            
             git push origin ${{ env.SITEMAP_BRANCH }}
           fi
