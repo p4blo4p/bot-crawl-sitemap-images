@@ -41,6 +41,11 @@ jobs:
           SEARCH_PHRASE: ${{ github.event.inputs.search_phrase || 'Black Friday Sale' }}
         run: |
           # Script expects 'sitemaps_data' in current dir
+          # We add a check to ensure data exists, otherwise skip gracefully
+          if [ ! -d "sitemaps_data" ]; then
+            echo "Data folder not found. Skipping search."
+            exit 0
+          fi
           python main_code/scripts/searcher.py
 
       - name: Deploy Results
@@ -50,10 +55,13 @@ jobs:
           
           # Move results to temp
           mkdir -p results_temp
-          cp results_*.txt results_temp/
+          cp results_*.txt results_temp/ 2>/dev/null || echo "No results generated."
           
           # Clone/Init Results Branch
-          if git ls-remote --heads origin ${{ env.RESULTS_BRANCH }} | grep ${{ env.RESULTS_BRANCH }}; then
+          echo "Setting up results branch..."
+          git fetch origin ${{ env.RESULTS_BRANCH }} || echo "Remote branch not found"
+          
+          if git rev-parse --verify origin/${{ env.RESULTS_BRANCH }} >/dev/null 2>&1; then
              git clone --single-branch --branch ${{ env.RESULTS_BRANCH }} https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git results_repo
           else
              mkdir results_repo && cd results_repo
@@ -64,7 +72,7 @@ jobs:
           
           # Copy results
           cd results_repo
-          cp ../results_temp/* .
+          cp ../results_temp/* . 2>/dev/null || echo "No new files to copy."
           git add .
           
           TODAY=$(date +'%Y-%m-%d')
