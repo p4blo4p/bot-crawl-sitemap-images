@@ -12,14 +12,20 @@ def search_files(directory, phrase):
     results = []
     scanned_count = 0
     
-    print(f"[*] Searching for '{phrase}' in '{directory}' (Recursive)...")
+    print(f"[*] Searching for '{phrase}' in '{directory}' (Optimized)...")
     
     if not os.path.exists(directory):
         print(f"[!] Data directory '{directory}' not found.")
         return [], 0
 
     for root, dirs, files in os.walk(directory):
-        # Skip hidden folders (.git)
+        # OPTIMIZATION: Skip hidden folders AND 'content_raw' folders
+        # content_raw contains sitemaps with no titles/captions (low value)
+        if 'content_raw' in dirs:
+            # print(f"    [SKIP] Ignoring raw content folder in {root}")
+            dirs.remove('content_raw')
+        
+        # Also skip git
         dirs[:] = [d for d in dirs if not d.startswith('.')]
         
         for file in files:
@@ -27,8 +33,7 @@ def search_files(directory, phrase):
                 scanned_count += 1
                 path = os.path.join(root, file)
                 
-                # Verbose log every 100 files to show life
-                if scanned_count % 100 == 0:
+                if scanned_count % 200 == 0:
                     print(f"    Scanning [{scanned_count}]: {file}...")
 
                 try:
@@ -49,7 +54,7 @@ def main():
     hits, count = search_files(DATA_DIR, SEARCH_PHRASE)
     
     print(f"\n=== Summary ===")
-    print(f"Total Files Scanned: {count}")
+    print(f"Total Files Scanned (High Value Only): {count}")
     print(f"Matches Found: {len(hits)}")
     
     output_filename = f"results_{safe_phrase}_{today}.txt"
@@ -60,7 +65,7 @@ def main():
             for hit in hits:
                 f.write(hit + "\n")
         else:
-            f.write(f"No matches found for '{SEARCH_PHRASE}'. Scanned {count} files.\n")
+            f.write(f"No matches found for '{SEARCH_PHRASE}'. Scanned {count} high-value files.\n")
             
     print(f"Results saved to: {output_filename}")
 
