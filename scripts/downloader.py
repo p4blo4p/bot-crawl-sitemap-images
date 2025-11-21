@@ -23,8 +23,12 @@ START_TIME = time.time()
 # Regex
 RE_LOC = re.compile(r'<loc>(.*?)</loc>', re.IGNORECASE)
 RE_SITEMAP_INDEX = re.compile(r'<sitemapindex', re.IGNORECASE)
-# Tags that indicate valuable text content (captions, titles, descriptions)
-RE_RICH_CONTENT = re.compile(r'<(?:image:caption|image:title|news:title|video:title|video:description|description|title)>', re.IGNORECASE)
+
+# Relaxed Regex: Matches the presence of specific "rich" namespaces or tags
+# We look for image:caption, image:title, news:title, video:title/description.
+# We avoid generic <title> unless it's clearly part of an item description structure, 
+# but standard sitemaps usually strictly use namespaced tags for metadata.
+RE_RICH_CONTENT = re.compile(r'(image:caption|image:title|news:title|video:title|video:description)', re.IGNORECASE)
 
 def get_elapsed_time():
     return time.time() - START_TIME
@@ -103,10 +107,13 @@ def process_url(url, domain_folder, state):
         # Classification Logic
         if is_index:
             subfolder = "indices"
+            print(f"    [CLASS] {url} -> Index")
         elif is_rich:
             subfolder = "content_rich" # Has descriptions/titles/captions
+            print(f"    [CLASS] {url} -> RICH CONTENT (Found metadata tags)")
         else:
             subfolder = "content_raw"  # Just URLs or non-descriptive images
+            # print(f"    [CLASS] {url} -> RAW (No metadata tags)")
         
         # Save File
         parsed = urlparse(url)
@@ -190,8 +197,6 @@ def process_site(domain, state):
                     if success:
                         if meta: 
                             state['file_meta'][url] = meta
-                            cls = meta.get('classification', 'unknown')
-                            print(f"    [SAVED] {url} -> {cls}")
                         
                         if is_index and children:
                             for child in children:
