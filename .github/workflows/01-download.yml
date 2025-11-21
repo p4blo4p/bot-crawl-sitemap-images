@@ -14,6 +14,7 @@ env:
 jobs:
   download:
     runs-on: ubuntu-latest
+    timeout-minutes: 60 
     steps:
       - name: Checkout Tool Code
         uses: actions/checkout@v3
@@ -75,6 +76,7 @@ jobs:
             echo "No changes detected. Everything is up to date."
           else
             echo "Changes detected. Pushing update..."
-            git commit -m "Update sitemaps: $TODAY"
+            # Check if state file shows we are pausing
+            git commit -m "Update sitemaps (Checkpoint): $TODAY"
             git push origin ${{ env.SITEMAP_BRANCH }}
           fi
