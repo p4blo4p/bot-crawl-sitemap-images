@@ -23,6 +23,8 @@ START_TIME = time.time()
 # Regex
 RE_LOC = re.compile(r'<loc>(.*?)</loc>', re.IGNORECASE)
 RE_SITEMAP_INDEX = re.compile(r'<sitemapindex', re.IGNORECASE)
+# Tags that indicate valuable text content (captions, titles, descriptions)
+RE_RICH_CONTENT = re.compile(r'<(?:image:caption|image:title|news:title|video:title|video:description|description|title)>', re.IGNORECASE)
 
 def get_elapsed_time():
     return time.time() - START_TIME
@@ -33,7 +35,6 @@ def load_state():
         try:
             with open(STATE_FILE, 'r') as f:
                 data = json.load(f)
-                # Ensure structure exists
                 if "file_meta" not in data: data["file_meta"] = {}
                 if "queues" not in data: data["queues"] = {}
                 if "visited" not in data: data["visited"] = {}
@@ -70,7 +71,7 @@ def get_initial_sitemaps(domain):
 
 def process_url(url, domain_folder, state):
     """
-    Downloads a single URL if modified.
+    Downloads a single URL if modified and classifies it.
     """
     headers = {"User-Agent": USER_AGENT}
     
@@ -95,8 +96,17 @@ def process_url(url, domain_folder, state):
         content = response.content
         text_content = response.text
         
-        # Identify Type
+        # Identify Type & Quality
         is_index = bool(RE_SITEMAP_INDEX.search(text_content))
+        is_rich = bool(RE_RICH_CONTENT.search(text_content))
+        
+        # Classification Logic
+        if is_index:
+            subfolder = "indices"
+        elif is_rich:
+            subfolder = "content_rich" # Has descriptions/titles/captions
+        else:
+            subfolder = "content_raw"  # Just URLs or non-descriptive images
         
         # Save File
         parsed = urlparse(url)
@@ -104,7 +114,6 @@ def process_url(url, domain_folder, state):
         if not name.endswith(".xml"): name += ".xml"
         url_hash = hashlib.md5(url.encode()).hexdigest()[:6]
         
-        subfolder = "indices" if is_index else "content"
         save_dir = os.path.join(domain_folder, subfolder)
         os.makedirs(save_dir, exist_ok=True)
         
@@ -122,7 +131,9 @@ def process_url(url, domain_folder, state):
             'etag': response.headers.get('ETag'),
             'last_modified': response.headers.get('Last-Modified'),
             'is_index': is_index,
+            'is_rich': is_rich,
             'local_path': save_path,
+            'classification': subfolder,
             'last_check': datetime.now().isoformat()
         }
         
@@ -137,7 +148,6 @@ def process_site(domain, state):
     domain_safe = domain.replace("http://", "").replace("https://", "").replace("/", "_")
     domain_folder = os.path.join(DATA_DIR, "domains", domain_safe)
     
-    # Restore queue from state if available, otherwise start fresh
     saved_queue = state['queues'].get(domain, [])
     if saved_queue:
         print(f"[*] Resuming {len(saved_queue)} URLs from previous run...")
@@ -145,20 +155,17 @@ def process_site(domain, state):
     else:
         queue = deque(get_initial_sitemaps(domain))
         
-    # Restore visited
     visited = set(state['visited'].get(domain, []))
     
     with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
         while queue:
-            # Check Time Limit
             if get_elapsed_time() > TIME_LIMIT_SECONDS:
                 print(f"\n[!] Time limit reached ({TIME_LIMIT_SECONDS}s). Saving state and exiting gracefully.")
                 state['queues'][domain] = list(queue)
                 state['visited'][domain] = list(visited)
                 save_state(state)
-                sys.exit(0) # Exit success so git push happens
+                sys.exit(0)
 
-            # Batch processing
             current_batch = []
             while queue and len(current_batch) < MAX_WORKERS * 2:
                 u = queue.popleft()
@@ -183,7 +190,8 @@ def process_site(domain, state):
                     if success:
                         if meta: 
                             state['file_meta'][url] = meta
-                            print(f"    [NEW/UPD] {url}")
+                            cls = meta.get('classification', 'unknown')
+                            print(f"    [SAVED] {url} -> {cls}")
                         
                         if is_index and children:
                             for child in children:
@@ -192,17 +200,12 @@ def process_site(domain, state):
                 except Exception as exc:
                     print(f"    [ERR] Thread exception {url}: {exc}")
             
-            # Save intermediate state after every batch to be safe
             state['queues'][domain] = list(queue)
             state['visited'][domain] = list(visited)
             save_state(state)
 
-    # If we finish the queue, clear it from state
     if domain in state['queues']:
         del state['queues'][domain]
-    # We keep visited to avoid re-crawling old stuff next run? 
-    # Actually for sitemaps we usually want to re-check roots. 
-    # But purely for this logic, let's keep it simple.
 
 def main():
     os.makedirs(DATA_DIR, exist_ok=True)
@@ -217,10 +220,8 @@ def main():
 
     for site in sites:
         process_site(site, state)
-        # Save state periodically
         save_state(state)
         
-        # Check global time limit between sites
         if get_elapsed_time() > TIME_LIMIT_SECONDS:
              print(f"\n[!] Global time limit reached. Stopping.")
              sys.exit(0)
