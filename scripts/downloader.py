@@ -3,6 +3,7 @@ import os
 import sys
 import json
 import re
+import time
 import hashlib
 from urllib.parse import urljoin, urlparse
 from collections import deque
@@ -11,23 +12,35 @@ from datetime import datetime
 
 # Configuration
 SITES_FILE = "sites.txt"
-DATA_DIR = "sitemaps_data" # Root folder for persistence
+DATA_DIR = "sitemaps_data" 
 STATE_FILE = os.path.join(DATA_DIR, "state.json")
 USER_AGENT = "Mozilla/5.0 (compatible; SitemapHunterBot/1.0)"
-MAX_WORKERS = 5 # Parallel downloads
+MAX_WORKERS = 5 
+# GitHub Actions limit is usually 60 mins. We stop at 50 mins to allow time for git push.
+TIME_LIMIT_SECONDS = 50 * 60 
+START_TIME = time.time()
 
 # Regex
 RE_LOC = re.compile(r'<loc>(.*?)</loc>', re.IGNORECASE)
 RE_SITEMAP_INDEX = re.compile(r'<sitemapindex', re.IGNORECASE)
 
+def get_elapsed_time():
+    return time.time() - START_TIME
+
 def load_state():
+    default_state = {"file_meta": {}, "queues": {}, "visited": {}}
     if os.path.exists(STATE_FILE):
         try:
             with open(STATE_FILE, 'r') as f:
-                return json.load(f)
+                data = json.load(f)
+                # Ensure structure exists
+                if "file_meta" not in data: data["file_meta"] = {}
+                if "queues" not in data: data["queues"] = {}
+                if "visited" not in data: data["visited"] = {}
+                return data
         except:
-            return {}
-    return {}
+            return default_state
+    return default_state
 
 def save_state(state):
     with open(STATE_FILE, 'w') as f:
@@ -58,12 +71,11 @@ def get_initial_sitemaps(domain):
 def process_url(url, domain_folder, state):
     """
     Downloads a single URL if modified.
-    Returns: (url, success, is_index, content, child_links)
     """
     headers = {"User-Agent": USER_AGENT}
     
     # Incremental Check
-    cached_meta = state.get(url, {})
+    cached_meta = state['file_meta'].get(url, {})
     if 'etag' in cached_meta and cached_meta['etag']:
         headers['If-None-Match'] = cached_meta['etag']
     if 'last_modified' in cached_meta and cached_meta['last_modified']:
@@ -74,7 +86,6 @@ def process_url(url, domain_folder, state):
         
         # 304 Not Modified -> Skip
         if response.status_code == 304:
-            # print(f"    [SKIP] Not modified: {url}")
             return (url, True, cached_meta.get('is_index', False), None, [])
 
         if response.status_code != 200:
@@ -88,13 +99,11 @@ def process_url(url, domain_folder, state):
         is_index = bool(RE_SITEMAP_INDEX.search(text_content))
         
         # Save File
-        # Naming: domain/filename_hash.xml
         parsed = urlparse(url)
         name = os.path.basename(parsed.path) or "sitemap"
         if not name.endswith(".xml"): name += ".xml"
         url_hash = hashlib.md5(url.encode()).hexdigest()[:6]
         
-        # Subfolders for organization
         subfolder = "indices" if is_index else "content"
         save_dir = os.path.join(domain_folder, subfolder)
         os.makedirs(save_dir, exist_ok=True)
@@ -105,12 +114,10 @@ def process_url(url, domain_folder, state):
         with open(save_path, "wb") as f:
             f.write(content)
             
-        # Extract Children if Index
         children = []
         if is_index:
             children = [c.strip() for c in RE_LOC.findall(text_content)]
             
-        # Update State Metadata
         new_meta = {
             'etag': response.headers.get('ETag'),
             'last_modified': response.headers.get('Last-Modified'),
@@ -130,26 +137,39 @@ def process_site(domain, state):
     domain_safe = domain.replace("http://", "").replace("https://", "").replace("/", "_")
     domain_folder = os.path.join(DATA_DIR, "domains", domain_safe)
     
-    queue = deque(get_initial_sitemaps(domain))
-    visited = set()
-    
-    # Load visited from state to prevent re-queueing same URLs in one run? 
-    # For now, we just use local set for this run to avoid loops.
+    # Restore queue from state if available, otherwise start fresh
+    saved_queue = state['queues'].get(domain, [])
+    if saved_queue:
+        print(f"[*] Resuming {len(saved_queue)} URLs from previous run...")
+        queue = deque(saved_queue)
+    else:
+        queue = deque(get_initial_sitemaps(domain))
+        
+    # Restore visited
+    visited = set(state['visited'].get(domain, []))
     
     with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
         while queue:
-            # Batch processing for current level
+            # Check Time Limit
+            if get_elapsed_time() > TIME_LIMIT_SECONDS:
+                print(f"\n[!] Time limit reached ({TIME_LIMIT_SECONDS}s). Saving state and exiting gracefully.")
+                state['queues'][domain] = list(queue)
+                state['visited'][domain] = list(visited)
+                save_state(state)
+                sys.exit(0) # Exit success so git push happens
+
+            # Batch processing
             current_batch = []
-            while queue:
+            while queue and len(current_batch) < MAX_WORKERS * 2:
                 u = queue.popleft()
                 if u not in visited:
                     visited.add(u)
                     current_batch.append(u)
             
             if not current_batch:
-                break
+                continue
                 
-            print(f"  -> Processing batch of {len(current_batch)} URLs...")
+            print(f"  -> Batch: {len(current_batch)} URLs (Queue: {len(queue)})")
             
             future_to_url = {
                 executor.submit(process_url, url, domain_folder, state): url 
@@ -161,8 +181,8 @@ def process_site(domain, state):
                 try:
                     r_url, success, is_index, meta, children = future.result()
                     if success:
-                        if meta: # It was a fresh download
-                            state[url] = meta
+                        if meta: 
+                            state['file_meta'][url] = meta
                             print(f"    [NEW/UPD] {url}")
                         
                         if is_index and children:
@@ -171,6 +191,18 @@ def process_site(domain, state):
                                     queue.append(child)
                 except Exception as exc:
                     print(f"    [ERR] Thread exception {url}: {exc}")
+            
+            # Save intermediate state after every batch to be safe
+            state['queues'][domain] = list(queue)
+            state['visited'][domain] = list(visited)
+            save_state(state)
+
+    # If we finish the queue, clear it from state
+    if domain in state['queues']:
+        del state['queues'][domain]
+    # We keep visited to avoid re-crawling old stuff next run? 
+    # Actually for sitemaps we usually want to re-check roots. 
+    # But purely for this logic, let's keep it simple.
 
 def main():
     os.makedirs(DATA_DIR, exist_ok=True)
@@ -185,8 +217,13 @@ def main():
 
     for site in sites:
         process_site(site, state)
-        # Save state periodically per domain
+        # Save state periodically
         save_state(state)
+        
+        # Check global time limit between sites
+        if get_elapsed_time() > TIME_LIMIT_SECONDS:
+             print(f"\n[!] Global time limit reached. Stopping.")
+             sys.exit(0)
 
     print("\n=== Job Complete ===")
 
