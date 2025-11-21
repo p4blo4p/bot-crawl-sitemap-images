@@ -31,19 +31,23 @@ jobs:
           path: main_code
 
       - name: Checkout Data
-        uses: actions/checkout@v3
-        with:
-          ref: ${{ env.SITEMAP_BRANCH }}
-          path: sitemaps_data
+        run: |
+           REPO_URL="https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
+           
+           # Check if sitemap branch exists
+           if git ls-remote --heads "$REPO_URL" "${{ env.SITEMAP_BRANCH }}" | grep -q "${{ env.SITEMAP_BRANCH }}"; then
+             git clone --single-branch --branch ${{ env.SITEMAP_BRANCH }} "$REPO_URL" sitemaps_data
+           else
+             echo "Sitemap branch not found. Skipping search."
+             exit 0
+           fi
       
       - name: Run Searcher
         env:
           SEARCH_PHRASE: ${{ github.event.inputs.search_phrase || 'Black Friday Sale' }}
         run: |
-          # Script expects 'sitemaps_data' in current dir
-          # We add a check to ensure data exists, otherwise skip gracefully
           if [ ! -d "sitemaps_data" ]; then
-            echo "Data folder not found. Skipping search."
+            echo "Data folder missing."
             exit 0
           fi
           python main_code/scripts/searcher.py
@@ -52,21 +56,25 @@ jobs:
         run: |
           git config --global user.name "Sitemap Bot"
           git config --global user.email "bot@actionforge.local"
+          REPO_URL="https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
           
           # Move results to temp
           mkdir -p results_temp
           cp results_*.txt results_temp/ 2>/dev/null || echo "No results generated."
           
-          # Clone/Init Results Branch
-          echo "Setting up results branch..."
-          git fetch origin ${{ env.RESULTS_BRANCH }} || echo "Remote branch not found"
-          
-          if git rev-parse --verify origin/${{ env.RESULTS_BRANCH }} >/dev/null 2>&1; then
-             git clone --single-branch --branch ${{ env.RESULTS_BRANCH }} https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git results_repo
+          # Prepare Results Branch
+          if git ls-remote --heads "$REPO_URL" "${{ env.RESULTS_BRANCH }}" | grep -q "${{ env.RESULTS_BRANCH }}"; then
+             echo "Cloning results branch..."
+             git clone --single-branch --branch ${{ env.RESULTS_BRANCH }} "$REPO_URL" results_repo
           else
+             echo "Initializing results branch..."
              mkdir results_repo && cd results_repo
              git init
              git checkout -b ${{ env.RESULTS_BRANCH }}
+             # Create dummy file for initial commit
+             echo "Results Storage" > README.md
+             git add .
+             git commit -m "Init results"
              cd ..
           fi
           
@@ -79,6 +87,12 @@ jobs:
           if git diff --staged --quiet; then
              echo "No results changed."
           else
+             echo "Pushing results..."
              git commit -m "Search results: $TODAY"
+             
+             # FORCE SET REMOTE
+             git remote remove origin || true
+             git remote add origin "$REPO_URL"
+             
              git push origin ${{ env.RESULTS_BRANCH }}
           fi
