@@ -26,9 +26,7 @@ RE_SITEMAP_INDEX = re.compile(r'<sitemapindex', re.IGNORECASE)
 
 # Relaxed Regex: Matches the presence of specific "rich" namespaces or tags
 # We look for image:caption, image:title, news:title, video:title/description.
-# We avoid generic <title> unless it's clearly part of an item description structure, 
-# but standard sitemaps usually strictly use namespaced tags for metadata.
-RE_RICH_CONTENT = re.compile(r'(image:caption|image:title|news:title|video:title|video:description)', re.IGNORECASE)
+RE_RICH_METADATA = re.compile(r'(image:caption|image:title|news:title|video:title|video:description|<title>)', re.IGNORECASE)
 
 def get_elapsed_time():
     return time.time() - START_TIME
@@ -73,6 +71,33 @@ def get_initial_sitemaps(domain):
         
     return sitemaps
 
+def classify_content(url, text_content):
+    """
+    Decides if the sitemap is 'Indices', 'Rich' (searchable text), or 'Raw' (junk/IDs).
+    """
+    # 1. Check for Index
+    if RE_SITEMAP_INDEX.search(text_content):
+        return "indices", "Index"
+
+    # 2. Check for Rich Metadata Tags (High Value)
+    if RE_RICH_METADATA.search(text_content):
+        return "content_rich", "RICH (Metadata tags found)"
+
+    # 3. Check for Descriptive URLs (SEO Slugs)
+    # If URLs contain hyphens or underscores and are readable, they are valuable for search.
+    # e.g. /manga/dragon-ball-super-chapter-1 (Good) vs /post/12345 (Bad)
+    locs = RE_LOC.findall(text_content)
+    if locs:
+        # Filter for "slug-like" URLs (contain - or _ and represent paths)
+        seo_urls = [u for u in locs if ('-' in u or '_' in u) and len(u.split('/')[-1]) > 5]
+        
+        # If a good portion of URLs look descriptive, treat as rich
+        if len(seo_urls) > 0:
+             return "content_rich", "RICH (SEO-friendly URLs detected)"
+
+    # 4. Fallback -> Raw (Just pure links/IDs or images with no text)
+    return "content_raw", "RAW (No descriptive text/slugs found)"
+
 def process_url(url, domain_folder, state):
     """
     Downloads a single URL if modified and classifies it.
@@ -100,20 +125,12 @@ def process_url(url, domain_folder, state):
         content = response.content
         text_content = response.text
         
-        # Identify Type & Quality
-        is_index = bool(RE_SITEMAP_INDEX.search(text_content))
-        is_rich = bool(RE_RICH_CONTENT.search(text_content))
-        
         # Classification Logic
-        if is_index:
-            subfolder = "indices"
-            print(f"    [CLASS] {url} -> Index")
-        elif is_rich:
-            subfolder = "content_rich" # Has descriptions/titles/captions
-            print(f"    [CLASS] {url} -> RICH CONTENT (Found metadata tags)")
-        else:
-            subfolder = "content_raw"  # Just URLs or non-descriptive images
-            # print(f"    [CLASS] {url} -> RAW (No metadata tags)")
+        subfolder, reason = classify_content(url, text_content)
+        is_index = (subfolder == "indices")
+        is_rich = (subfolder == "content_rich")
+        
+        print(f"    [CLASS] {url} -> {reason}")
         
         # Save File
         parsed = urlparse(url)
