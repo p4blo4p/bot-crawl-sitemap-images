@@ -20,9 +20,7 @@ def search_files(directory, phrase):
 
     for root, dirs, files in os.walk(directory):
         # OPTIMIZATION: Skip hidden folders AND 'content_raw' folders
-        # content_raw contains sitemaps with no titles/captions (low value)
         if 'content_raw' in dirs:
-            # print(f"    [SKIP] Ignoring raw content folder in {root}")
             dirs.remove('content_raw')
         
         # Also skip git
@@ -38,10 +36,27 @@ def search_files(directory, phrase):
 
                 try:
                     with open(path, "r", encoding="utf-8", errors="ignore") as f:
-                        content = f.read()
-                        if phrase.lower() in content.lower():
-                            print(f"    >>> MATCH: {file}")
-                            results.append(f"File: {file}\nPath: {path}\nMatch: Found phrase inside file.\n" + "-"*30)
+                        content = f.read().lower()
+                        phrase_lower = phrase.lower()
+                        found = False
+                        match_type = ""
+
+                        # 1. Exact Match
+                        if phrase_lower in content:
+                            found = True
+                            match_type = "Exact"
+                        else:
+                            # 2. Normalized Match (Slugs)
+                            # Replaces -, _, / with spaces. "dragon-ball" -> "dragon ball"
+                            normalized = content.replace('-', ' ').replace('_', ' ').replace('/', ' ')
+                            if phrase_lower in normalized:
+                                found = True
+                                match_type = "Normalized (Slug)"
+
+                        if found:
+                            print(f"    >>> MATCH [{match_type}]: {file}")
+                            results.append(f"File: {file}\nPath: {path}\nMatch Type: {match_type}\n" + "-"*30)
+                            
                 except Exception as e:
                     pass
     
