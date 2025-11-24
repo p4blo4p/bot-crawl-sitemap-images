@@ -8,6 +8,9 @@ DEFAULT_PHRASE = "Black Friday Sale"
 SEARCH_PHRASE = os.getenv("SEARCH_PHRASE", DEFAULT_PHRASE)
 DATA_DIR = "sitemaps_data" # Matches downloader
 
+# Regex to extract URLs from XML content
+RE_LOC = re.compile(r'<loc>(.*?)</loc>', re.IGNORECASE)
+
 def search_files(directory, phrase):
     results = []
     scanned_count = 0
@@ -36,26 +39,36 @@ def search_files(directory, phrase):
 
                 try:
                     with open(path, "r", encoding="utf-8", errors="ignore") as f:
-                        content = f.read().lower()
+                        content = f.read() # Read as original case first for URL extraction
+                        
+                        # Extract all URLs first
+                        urls = RE_LOC.findall(content)
+                        if not urls:
+                            # Fallback for plain text lists (if any)
+                            urls = [w for w in content.split() if w.startswith('http')]
+
                         phrase_lower = phrase.lower()
-                        found = False
-                        match_type = ""
+                        
+                        for url in urls:
+                            url_lower = url.lower()
+                            match_found = False
+                            match_type = ""
 
-                        # 1. Exact Match
-                        if phrase_lower in content:
-                            found = True
-                            match_type = "Exact"
-                        else:
-                            # 2. Normalized Match (Slugs)
-                            # Replaces -, _, / with spaces. "dragon-ball" -> "dragon ball"
-                            normalized = content.replace('-', ' ').replace('_', ' ').replace('/', ' ')
-                            if phrase_lower in normalized:
-                                found = True
-                                match_type = "Normalized (Slug)"
+                            # 1. Exact Match on the URL string
+                            if phrase_lower in url_lower:
+                                match_found = True
+                                match_type = "Exact"
+                            else:
+                                # 2. Normalized Match (Slugs)
+                                # Replaces -, _, / with spaces. "dragon-ball" -> "dragon ball"
+                                normalized = url_lower.replace('-', ' ').replace('_', ' ').replace('/', ' ')
+                                if phrase_lower in normalized:
+                                    match_found = True
+                                    match_type = "Normalized (Slug)"
 
-                        if found:
-                            print(f"    >>> MATCH [{match_type}]: {file}")
-                            results.append(f"File: {file}\nPath: {path}\nMatch Type: {match_type}\n" + "-"*30)
+                            if match_found:
+                                print(f"    >>> MATCH [{match_type}]: {url}")
+                                results.append(f"{url} | [{match_type}]")
                             
                 except Exception as e:
                     pass
@@ -76,8 +89,10 @@ def main():
     with open(output_filename, "w") as f:
         if hits:
             f.write(f"Search Results for '{SEARCH_PHRASE}' on {today}\n")
-            f.write("="*50 + "\n\n")
-            for hit in hits:
+            f.write("="*50 + "\n")
+            # Remove duplicates just in case
+            unique_hits = sorted(list(set(hits)))
+            for hit in unique_hits:
                 f.write(hit + "\n")
         else:
             f.write(f"No matches found for '{SEARCH_PHRASE}'. Scanned {count} high-value files.\n")
