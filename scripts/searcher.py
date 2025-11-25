@@ -68,7 +68,8 @@ def search_files(directory, phrase):
 
                             if match_found:
                                 print(f"    >>> MATCH [{match_type}]: {url}")
-                                results.append(f"{url} | [{match_type}]")
+                                # Store ONLY the URL for gallery-dl compatibility
+                                results.append(url)
                             
                 except Exception as e:
                     pass
@@ -88,14 +89,14 @@ def main():
     output_filename = f"results_{safe_phrase}_{today}.txt"
     with open(output_filename, "w") as f:
         if hits:
-            f.write(f"Search Results for '{SEARCH_PHRASE}' on {today}\n")
-            f.write("="*50 + "\n")
-            # Remove duplicates just in case
+            # PURE LIST: No headers, no footers, just URLs.
+            # Ideally suited for 'gallery-dl -i input.txt'
             unique_hits = sorted(list(set(hits)))
             for hit in unique_hits:
                 f.write(hit + "\n")
         else:
-            f.write(f"No matches found for '{SEARCH_PHRASE}'. Scanned {count} high-value files.\n")
+             # If empty, write nothing or just a single comment line (which gallery-dl ignores usually)
+             pass
             
     print(f"Results saved to: {output_filename}")
 
