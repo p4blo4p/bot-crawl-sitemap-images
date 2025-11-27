@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta name="Copyright" content="Tencent" />
+<meta name="Keywords" content="漫画,动画,卡通,原创动漫,漫画网,在线漫画" />
+<meta name="Description" content="腾讯原创动漫发行平台，中国最大最权威的正版动漫网站，汇集大陆、港台、日韩、欧美漫画家的海量作品。通过全平台的优势，为上千万动漫爱好者提供海量优质漫画的在线阅读，为原创动漫作者提供施展才华的一站式服务，为中国的动漫产业打造梦想的舞台。" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge; chrome=1"/>
+<title>404-腾讯动漫</title>
+<link rel="stylesheet" type="text/css" href="//gtimgcdn.ac.qq.com/media/css/ac.global.css?v=20201029" media="screen" /><!-- 样式文件 -->
+<style>
+/** 404 **/
+body{
+    background-color: #f6f6f6;
+}
+.wrapp{
+    width: 640px;
+    height: 420px;
+    margin: 100px auto 15%;
+}
+.wrapp h3{
+    width: 100%;
+    height: 100%;
+    text-indent: -9999em;
+}
+.msg-1{
+    background: url(//manhua.acimg.cn/operation/0/07_15_46_2e0d704914575e9284e7416ecfb33249_1670399197221.jpg/0) no-repeat;
+}
+.msg-2{
+    background: url(//manhua.acimg.cn/operation/0/07_15_28_a94aa18e089dc99ccfbf46186ede5110_1670398133758.jpg/0) no-repeat;
+}    
+</style>
+</head>
+<body class="mod-body-404">
+    
+    <div class="wrapp">
+        <h3 id="J_404_msg" class="msg-1">sorry,页面去旅游了，请先休息一下吧^_^!</h3>
+    </div>
+    
+    <script type="text/javascript">
+        function changeStyle(){
+            var msgObj = document.getElementById('J_404_msg'),
+                msgs = ['sorry，页面去旅游了，请先休息一下吧^_^!', 'sorry，页面被打劫了，先休息一下吧^_^!'];
+
+            var randomNumber = function(m,n){
+                return Math.round(Math.random()*(n-m)+m);
+            }
+
+            var idx = randomNumber(1,2);
+
+            msgObj.className = 'msg-' + idx;
+            msgObj.innerHTML = msgs[idx-1];     
+        }
+
+        window.onload = changeStyle();
+
+        setTimeout('window.location="//ac.qq.com"', 3000);
+    </script>
+</body>
+</html>

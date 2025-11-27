@@ -1,1 +1,209 @@
-{"created": true}
+{
+  "created": true,
+  "file_meta": {
+    "https://ac.qq.com/sitemap.xml": {
+      "etag": "W/\"917-643fe16690740\"",
+      "last_modified": "Thu, 20 Nov 2025 03:13:57 GMT",
+      "is_index": false,
+      "is_rich": true,
+      "local_path": "sitemaps_data/domains/ac.qq.com/content_rich/sitemap.xml_dbdd70.xml",
+      "classification": "content_rich",
+      "last_check": "2025-11-27T18:26:13.772021"
+    },
+    "https://manganelo.com/sitemap.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": true,
+      "local_path": "sitemaps_data/domains/manganelo.com/content_rich/sitemap.xml_ae475f.xml",
+      "classification": "content_rich",
+      "last_check": "2025-11-27T18:26:15.638486"
+    },
+    "https://mangakakalot.com/sitemap.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": true,
+      "local_path": "sitemaps_data/domains/mangakakalot.com/content_rich/sitemap.xml_338f7a.xml",
+      "classification": "content_rich",
+      "last_check": "2025-11-27T18:26:16.134050"
+    },
+    "https://manganato.com/sitemap.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": true,
+      "local_path": "sitemaps_data/domains/manganato.com/content_rich/sitemap.xml_f64fa5.xml",
+      "classification": "content_rich",
+      "last_check": "2025-11-27T18:26:16.631685"
+    },
+    "https://chapmanganato.com/sitemap.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": true,
+      "local_path": "sitemaps_data/domains/chapmanganato.com/content_rich/sitemap.xml_b640b6.xml",
+      "classification": "content_rich",
+      "last_check": "2025-11-27T18:26:17.128586"
+    },
+    "https://readmanganato.com/sitemap.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": true,
+      "local_path": "sitemaps_data/domains/readmanganato.com/content_rich/sitemap.xml_b6e2c5.xml",
+      "classification": "content_rich",
+      "last_check": "2025-11-27T18:26:17.627048"
+    },
+    "https://otakusmash.com/sitemap.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "local_path": "sitemaps_data/domains/otakusmash.com/content_raw/sitemap.xml_e76bd4.xml",
+      "classification": "content_raw",
+      "last_check": "2025-11-27T18:26:19.535613"
+    },
+    "https://webtoons.com/sitemap.xml": {
+      "etag": "\"6927c17c-1a3\"",
+      "last_modified": "Thu, 27 Nov 2025 03:11:56 GMT",
+      "is_index": true,
+      "is_rich": false,
+      "local_path": "sitemaps_data/domains/webtoons.com/indices/sitemap.xml_75bce7.xml",
+      "classification": "indices",
+      "last_check": "2025-11-27T18:26:22.987069"
+    },
+    "https://www.webtoons.com/en/sitemap_2.xml": {
+      "etag": "W/\"6927c14e-9351e8\"",
+      "last_modified": "Thu, 27 Nov 2025 03:11:10 GMT",
+      "is_index": false,
+      "is_rich": true,
+      "local_path": "sitemaps_data/domains/webtoons.com/content_rich/sitemap_2.xml_aebc51.xml",
+      "classification": "content_rich",
+      "last_check": "2025-11-27T18:26:25.464711"
+    },
+    "https://www.webtoons.com/en/sitemap_1.xml": {
+      "etag": "W/\"6927c17c-917e88\"",
+      "last_modified": "Thu, 27 Nov 2025 03:11:56 GMT",
+      "is_index": false,
+      "is_rich": true,
+      "local_path": "sitemaps_data/domains/webtoons.com/content_rich/sitemap_1.xml_c507c3.xml",
+      "classification": "content_rich",
+      "last_check": "2025-11-27T18:26:26.245308"
+    },
+    "https://www.webtoons.com/en/sitemap_0.xml": {
+      "etag": "W/\"6927c14e-956603\"",
+      "last_modified": "Thu, 27 Nov 2025 03:11:10 GMT",
+      "is_index": false,
+      "is_rich": true,
+      "local_path": "sitemaps_data/domains/webtoons.com/content_rich/sitemap_0.xml_5cd6e3.xml",
+      "classification": "content_rich",
+      "last_check": "2025-11-27T18:26:27.016924"
+    },
+    "https://Mangatoon.mobi/sitemap.xml": {
+      "etag": "W/\"65a72da5-189e4\"",
+      "last_modified": "Wed, 17 Jan 2024 01:30:13 GMT",
+      "is_index": false,
+      "is_rich": true,
+      "local_path": "sitemaps_data/domains/Mangatoon.mobi/content_rich/sitemap.xml_1c63ca.xml",
+      "classification": "content_rich",
+      "last_check": "2025-11-27T18:26:29.474586"
+    },
+    "https://mangadex.org/sitemap.xml": {
+      "etag": "W/\"git-20251126-1613-15860e46\"",
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "local_path": "sitemaps_data/domains/Mangadex.org/content_raw/sitemap.xml_944062.xml",
+      "classification": "content_raw",
+      "last_check": "2025-11-27T18:26:30.398037"
+    },
+    "https://raw.senmanga.com/sitemap.xml": {
+      "etag": null,
+      "last_modified": "Wed, 29 Oct 2025 15:23:41 GMT",
+      "is_index": false,
+      "is_rich": true,
+      "local_path": "sitemaps_data/domains/raw.senmanga.com/content_rich/sitemap.xml_593a65.xml",
+      "classification": "content_rich",
+      "last_check": "2025-11-27T18:26:31.467498"
+    }
+  },
+  "queues": {},
+  "visited": {
+    "Mangafox.me": [
+      "https://Mangafox.me/sitemap.xml"
+    ],
+    "Readcomiconline.li": [
+      "https://Readcomiconline.li/sitemap.xml"
+    ],
+    "Readcomiconline.ru": [
+      "https://Readcomiconline.ru/sitemap.xml"
+    ],
+    "mangahere.co": [
+      "https://mangahere.co/sitemap.xml"
+    ],
+    "omgbeaupeep.com": [
+      "https://omgbeaupeep.com/sitemap.xml"
+    ],
+    "ac.qq.com": [
+      "https://ac.qq.com/sitemap.xml"
+    ],
+    "striputopija.blogspot.si": [
+      "https://striputopija.blogspot.si/sitemap.xml"
+    ],
+    "mangareader.net": [
+      "https://mangareader.net/sitemap.xml"
+    ],
+    "readcomicbooksonline.net": [
+      "https://readcomicbooksonline.net/sitemap.xml"
+    ],
+    "manganelo.com": [
+      "https://manganelo.com/sitemap.xml"
+    ],
+    "mangakakalot.com": [
+      "https://mangakakalot.com/sitemap.xml"
+    ],
+    "manganato.com": [
+      "https://manganato.com/sitemap.xml"
+    ],
+    "chapmanganato.com": [
+      "https://chapmanganato.com/sitemap.xml"
+    ],
+    "readmanganato.com": [
+      "https://readmanganato.com/sitemap.xml"
+    ],
+    "hqbr.com.br": [
+      "https://hqbr.com.br/sitemap_index.xml"
+    ],
+    "comicextra.com": [
+      "https://comicextra.com/sitemap.xml"
+    ],
+    "readcomics.io": [
+      "https://readcomics.io/sitemap.xml"
+    ],
+    "otakusmash.com": [
+      "https://otakusmash.com/sitemap.xml"
+    ],
+    "webtoons.com": [
+      "https://www.webtoons.com/en/sitemap_0.xml",
+      "https://www.webtoons.com/en/sitemap_2.xml",
+      "https://www.webtoons.com/en/sitemap_1.xml",
+      "https://webtoons.com/sitemap.xml"
+    ],
+    "TMOFans/lectortmo.com": [
+      "https://TMOFans/sitemap.xml"
+    ],
+    "Mangatoon.mobi": [
+      "https://Mangatoon.mobi/sitemap.xml"
+    ],
+    "Mangadex.org": [
+      "https://mangadex.org/sitemap.xml"
+    ],
+    "Qiremanhua.com": [
+      "https://Qiremanhua.com/sitemap.xml"
+    ],
+    "raw.senmanga.com": [
+      "https://raw.senmanga.com/sitemap.xml"
+    ]
+  }
+}
