@@ -1,0 +1,23 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/frizz-magazin-darmstadt/docs/frizz_da_01_2023_web</loc>
+        <lastmod>2022-12-20</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/hotelquelle/docs/pfandlservice_deutsch_2023</loc>
+        <lastmod>2022-12-26</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/gn-media/docs/sz_2022-12-25</loc>
+        <lastmod>2022-12-26</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/citti.dk/docs/citti_markt_uge_52_de_drikkevarer_28.12_-_03.01</loc>
+        <lastmod>2022-12-22</lastmod>
+    </url>
+</urlset>

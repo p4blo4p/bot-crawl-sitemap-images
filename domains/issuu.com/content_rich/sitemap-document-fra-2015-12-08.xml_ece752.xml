@@ -1,0 +1,31 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/buromaconline/docs/2016_lvr_e-catalogue</loc>
+        <lastmod>2015-12-08</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/francetelevisions/docs/avent_noel_entier_val_actif_def</loc>
+        <lastmod>2015-12-08</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/lyonpeople/docs/guide_de_villeurbanne</loc>
+        <lastmod>2015-12-08</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/straumann/docs/zarrine_fra</loc>
+        <lastmod>2015-12-08</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/semcdistribution/docs/catalogue_semc_bike_2016_06fac0e0242fc7</loc>
+        <lastmod>2016-04-13</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/with-you/docs/la-gazette11</loc>
+        <lastmod>2015-12-08</lastmod>
+    </url>
+</urlset>

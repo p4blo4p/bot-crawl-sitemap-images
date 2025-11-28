@@ -1,0 +1,23 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/publicacionesdetodosa/docs/edicion_n__3313_codigo_030120174993188</loc>
+        <lastmod>2020-01-03</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/elexpres/docs/678pdf</loc>
+        <lastmod>2020-01-05</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/diariodemocracia/docs/qd_20200105</loc>
+        <lastmod>2020-01-05</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/socialclub_mag/docs/numero__2_socialclub_200104_issuu</loc>
+        <lastmod>2020-01-05</lastmod>
+    </url>
+</urlset>

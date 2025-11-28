@@ -1,0 +1,23 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/visioninternet/docs/bosv-nachrichten_web</loc>
+        <lastmod>2016-12-30</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/sonntagsblatt_stmk/docs/161230075226-c7754f27535f4dabb2c052ab94ca73b6</loc>
+        <lastmod>2016-12-30</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/sonntagsblatt_stmk/docs/161230102233-e4f3e1c56da34c908312e59656005a38</loc>
+        <lastmod>2016-12-30</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/polnisches_institut_wien/docs/programm_1-2.2017</loc>
+        <lastmod>2016-12-30</lastmod>
+    </url>
+</urlset>

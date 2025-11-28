@@ -1,0 +1,23 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/match.smatch/docs/mag_hiver</loc>
+        <lastmod>2022-01-27</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/editions_philman/docs/plenitude</loc>
+        <lastmod>2022-01-30</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/editions_philman/docs/gen_se</loc>
+        <lastmod>2022-01-30</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/canadiancampuscommunities/docs/campus1_mtl_connect_2.2022</loc>
+        <lastmod>2022-01-30</lastmod>
+    </url>
+</urlset>

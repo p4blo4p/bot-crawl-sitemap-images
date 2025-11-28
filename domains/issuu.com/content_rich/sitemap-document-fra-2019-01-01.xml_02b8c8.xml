@@ -1,0 +1,27 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/numiscollection/docs/nouveautes-billets-et-monnaies-hive</loc>
+        <lastmod>2019-01-01</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/judaisme/docs/59_torah-box-magazine</loc>
+        <lastmod>2019-01-01</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/majalla/docs/01-46</loc>
+        <lastmod>2019-01-01</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/trouverenisrael/docs/tei_mag_07</loc>
+        <lastmod>2019-01-01</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/inkansascity/docs/inkc_january2019linked</loc>
+        <lastmod>2018-12-21</lastmod>
+    </url>
+</urlset>

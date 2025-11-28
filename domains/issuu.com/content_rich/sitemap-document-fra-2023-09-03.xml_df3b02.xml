@@ -1,0 +1,31 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/editions_philman/docs/emmanuel</loc>
+        <lastmod>2023-09-03</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/tablerondefrance/docs/0823_v3</loc>
+        <lastmod>2023-09-04</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/tablerondefrance/docs/0723_v5</loc>
+        <lastmod>2023-09-04</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/tablerondefrance/docs/0923_v2</loc>
+        <lastmod>2023-09-04</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/societe_historique_saint_lazare/docs/magazine_il_tait_une_fois_-_septembre_2023</loc>
+        <lastmod>2023-09-03</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/mark.huntington/docs/autumn_1_fr_linked_1_</loc>
+        <lastmod>2023-08-21</lastmod>
+    </url>
+</urlset>

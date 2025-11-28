@@ -1,0 +1,23 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/brunotison1/docs/les_2_langues_girafe</loc>
+        <lastmod>2023-05-07</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/herve_baum/docs/sp_saintleu_2012</loc>
+        <lastmod>2023-05-07</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/herve_baum/docs/visu_1741_wish</loc>
+        <lastmod>2023-05-07</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/herve_baum/docs/40_supp_bio</loc>
+        <lastmod>2023-05-07</lastmod>
+    </url>
+</urlset>

@@ -1,0 +1,39 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/tecdemty/docs/folleto_negocios</loc>
+        <lastmod>2021-10-18</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/tecdemty/docs/folleto_salud</loc>
+        <lastmod>2021-10-01</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/peldano/docs/entre-estudiantes_222</loc>
+        <lastmod>2018-09-17</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/revistaacta/docs/vol48n3-2018</loc>
+        <lastmod>2018-12-20</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/amchamguatemala/docs/estatutosamcham2016</loc>
+        <lastmod>2020-06-01</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/tecdemty/docs/folleto_cis</loc>
+        <lastmod>2022-03-17</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/elementmagazine/docs/element_17_diseno</loc>
+        <lastmod>2018-09-18</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/inprfm/docs/300</loc>
+        <lastmod>2018-09-20</lastmod>
+    </url>
+</urlset>

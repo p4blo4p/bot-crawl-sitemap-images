@@ -1,0 +1,23 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/azimoveisdigital/docs/az-setembro-site</loc>
+        <lastmod>2018-10-06</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/jornalacritica/docs/jornal_a_cr_tica_-_edi__o_1914_-_07</loc>
+        <lastmod>2018-10-06</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/sandembergpontes4/docs/revista_total_ed._101</loc>
+        <lastmod>2018-10-06</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/azimoveisdigital/docs/az-setembro-site-caderno</loc>
+        <lastmod>2018-10-06</lastmod>
+    </url>
+</urlset>

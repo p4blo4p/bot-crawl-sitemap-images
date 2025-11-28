@@ -1,0 +1,27 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/autowirtschaft/docs/at_06_2017</loc>
+        <lastmod>2017-06-25</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/autowirtschaft/docs/aw_06_2017</loc>
+        <lastmod>2017-06-25</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/autowirtschaft/docs/ac_03_2017</loc>
+        <lastmod>2017-06-25</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/autowirtschaft/docs/at_05_2017</loc>
+        <lastmod>2017-06-25</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/autowirtschaft/docs/aw_05_2017</loc>
+        <lastmod>2017-06-25</lastmod>
+    </url>
+</urlset>

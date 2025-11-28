@@ -1,0 +1,18 @@
+<br />
+<b>Warning</b>:  include_once(): open_basedir restriction in effect. File(/remote/imgth.com/htdocs/core/config.php) is not within the allowed path(s): (/www/imgth.com:/usr/share/:/tmp:/var/lib/php) in <b>/www/imgth.com/htdocs/sitemap.php</b> on line <b>2</b><br />
+<br />
+<b>Warning</b>:  include_once(/remote/imgth.com/htdocs/core/config.php): Failed to open stream: Operation not permitted in <b>/www/imgth.com/htdocs/sitemap.php</b> on line <b>2</b><br />
+<br />
+<b>Warning</b>:  include_once(): Failed opening '/remote/imgth.com/htdocs/core/config.php' for inclusion (include_path='.:/usr/share/php') in <b>/www/imgth.com/htdocs/sitemap.php</b> on line <b>2</b><br />
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<url><loc>http://www.imgth.com/</loc><lastmod>2012-04-24T00:23:52+02:00</lastmod> <changefreq>monthly</changefreq><priority>0.1</priority></url>
+<url><loc>http://www.imgth.com/galleries/</loc><lastmod>2025-11-28T11:46:10+00:00</lastmod> <changefreq>daily</changefreq><priority>0.1</priority></url>
+<br />
+<b>Warning</b>:  Undefined variable $link in <b>/www/imgth.com/htdocs/sitemap.php</b> on line <b>23</b><br />
+<br />
+<b>Fatal error</b>:  Uncaught TypeError: mysqli_query(): Argument #1 ($mysql) must be of type mysqli, null given in /www/imgth.com/htdocs/sitemap.php:23
+Stack trace:
+#0 /www/imgth.com/htdocs/sitemap.php(23): mysqli_query()
+#1 {main}
+  thrown in <b>/www/imgth.com/htdocs/sitemap.php</b> on line <b>23</b><br />

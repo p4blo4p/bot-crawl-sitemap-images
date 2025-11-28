@@ -1,0 +1,27 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/blick-fang/docs/magazin_next_08_2013</loc>
+        <lastmod>2015-09-19</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/imst/docs/issuu_tvb_imst_alpenherbst_2013</loc>
+        <lastmod>2015-09-18</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/filati/docs/classici_05</loc>
+        <lastmod>2015-09-18</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/tcsbeiderbasel/docs/touring_ausgabe_7_2013</loc>
+        <lastmod>2015-09-19</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/koelnpress/docs/kids_gesamt_x3</loc>
+        <lastmod>2015-09-19</lastmod>
+    </url>
+</urlset>

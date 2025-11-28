@@ -1,0 +1,23 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/povolivre/docs/pl_15_marco</loc>
+        <lastmod>2022-09-20</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/geografica/docs/revista_e_corrigida</loc>
+        <lastmod>2017-03-15</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/ejuma/docs/jabaquara_c1c1eb41d3a4ec</loc>
+        <lastmod>2017-03-15</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/ejuma/docs/cidade_ademar_7d45926a5344b8</loc>
+        <lastmod>2017-03-15</lastmod>
+    </url>
+</urlset>

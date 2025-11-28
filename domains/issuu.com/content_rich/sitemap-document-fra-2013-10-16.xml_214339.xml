@@ -1,0 +1,23 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/rubi_soligo_2/docs/rubistatic_manuels</loc>
+        <lastmod>2015-09-19</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/pewag/docs/fo-13-00086</loc>
+        <lastmod>2015-09-19</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/blfeurope/docs/blf_le_gros_tracteur_rouge_francis_</loc>
+        <lastmod>2015-09-19</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/ghelectrotermia/docs/ghcom012001.0_ghfrance-fr</loc>
+        <lastmod>2015-09-19</lastmod>
+    </url>
+</urlset>

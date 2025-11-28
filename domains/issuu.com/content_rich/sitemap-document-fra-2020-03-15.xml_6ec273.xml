@@ -1,0 +1,23 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/arnaud.delvit/docs/lagraff22</loc>
+        <lastmod>2020-03-15</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/marouenhammami300/docs/publication_livret_workshop</loc>
+        <lastmod>2020-03-15</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/marouenhammami300/docs/publication</loc>
+        <lastmod>2020-03-15</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/lnmcommunication/docs/100__news_n_174</loc>
+        <lastmod>2020-03-15</lastmod>
+    </url>
+</urlset>

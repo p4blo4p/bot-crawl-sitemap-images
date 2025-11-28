@@ -1,0 +1,23 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/lenarcissique/docs/narcissique-fev2016-vf</loc>
+        <lastmod>2016-02-12</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/bonhote/docs/revue_de_presse_g__n__rale____jour</loc>
+        <lastmod>2023-01-03</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/jbpl/docs/summer2016_catalog_fr1</loc>
+        <lastmod>2016-02-22</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/geckomkt/docs/instream2_techbook_fr</loc>
+        <lastmod>2021-05-11</lastmod>
+    </url>
+</urlset>

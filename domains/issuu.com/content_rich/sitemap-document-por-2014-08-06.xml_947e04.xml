@@ -1,0 +1,23 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/smetal_sorocaba/docs/folha_754_web</loc>
+        <lastmod>2015-09-19</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/cbhsaofrancisco/docs/jornal_21</loc>
+        <lastmod>2015-09-19</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/bluemedia/docs/eurobike26_all_digital</loc>
+        <lastmod>2015-09-19</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/guicul/docs/servi__o_educativo_set_a_dez_2014</loc>
+        <lastmod>2015-09-19</lastmod>
+    </url>
+</urlset>

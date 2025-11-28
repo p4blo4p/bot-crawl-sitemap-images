@@ -1,0 +1,31 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/goout/docs/goout_mars_2014</loc>
+        <lastmod>2015-09-19</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/ornormestrasbourg-magazine/docs/emt4-web</loc>
+        <lastmod>2015-09-19</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/rouergue/docs/moisson_des_innocents_fb</loc>
+        <lastmod>2015-09-19</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/rouergue/docs/int-squat-pap-fb</loc>
+        <lastmod>2015-09-19</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/welcomemagazinefrance/docs/les-bonnes-adresses-lyon</loc>
+        <lastmod>2015-10-28</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/30degres/docs/30degres_47_mars_2014_fr</loc>
+        <lastmod>2015-09-19</lastmod>
+    </url>
+</urlset>

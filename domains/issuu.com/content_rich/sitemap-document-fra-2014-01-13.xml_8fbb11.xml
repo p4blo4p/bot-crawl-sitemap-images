@@ -1,0 +1,23 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/bartscher/docs/katalog_2014_fr</loc>
+        <lastmod>2015-09-19</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/craaq/docs/extrait_feuilletage_pcun0102trousse</loc>
+        <lastmod>2015-09-19</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/craaq/docs/extrait_feuilletage_papi0104agro-de</loc>
+        <lastmod>2015-09-18</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/craaq/docs/extrait_feuilletage_papi0102_versio</loc>
+        <lastmod>2015-09-19</lastmod>
+    </url>
+</urlset>

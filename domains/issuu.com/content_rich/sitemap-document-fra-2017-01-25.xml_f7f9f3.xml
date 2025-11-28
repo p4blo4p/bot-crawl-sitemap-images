@@ -1,0 +1,31 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/cvciweb/docs/web_cvci_janvier_2017</loc>
+        <lastmod>2017-01-25</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/maisonmoderne/docs/paperjam_02_2017_bd</loc>
+        <lastmod>2017-01-25</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/acl2/docs/acl_0705_16_at1_fr_prod_web</loc>
+        <lastmod>2022-01-25</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/proxilog/docs/cm130-fevrier2017-web</loc>
+        <lastmod>2017-01-25</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/djmwebsprl/docs/folder_05_06</loc>
+        <lastmod>2017-01-25</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/maisonmoderne/docs/issuu_91ac7e1397f8e0</loc>
+        <lastmod>2017-01-25</lastmod>
+    </url>
+</urlset>

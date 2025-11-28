@@ -1,0 +1,31 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/marcotuliopedrozaamarillas/docs/programa_web</loc>
+        <lastmod>2018-09-02</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/revistadiagnostico/docs/2018_-_simi</loc>
+        <lastmod>2025-02-04</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/avinews/docs/web_avinews-agosto-2018.compressed</loc>
+        <lastmod>2018-11-12</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/aeg-pucp/docs/br_jula_53</loc>
+        <lastmod>2018-08-29</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/mega_travel/docs/sep-issuu</loc>
+        <lastmod>2018-08-28</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/mega_travel/docs/sep-mtissuu</loc>
+        <lastmod>2018-08-28</lastmod>
+    </url>
+</urlset>

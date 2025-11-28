@@ -1,0 +1,31 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/redbulletin.com/docs/tm_1605_issuu</loc>
+        <lastmod>2016-08-01</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/kloenschnack/docs/kloenschnack-08-16</loc>
+        <lastmod>2016-08-01</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/coop-pronto/docs/pronto_nr4__d</loc>
+        <lastmod>2016-07-13</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/redbulletin.com/docs/sumo1303</loc>
+        <lastmod>2016-08-01</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/relaxguide1/docs/sh_wellnessfibel_2016</loc>
+        <lastmod>2016-08-01</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/vorarlberg.travel/docs/architektouren-vorarlberg-2015-de</loc>
+        <lastmod>2016-08-01</lastmod>
+    </url>
+</urlset>

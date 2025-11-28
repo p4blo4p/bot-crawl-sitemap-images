@@ -1,0 +1,19 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/jael_joyeria/docs/revista_jael_joyas_de_galicia_n_11</loc>
+        <lastmod>2016-12-21</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/bioecoactual/docs/bioecoactual_enero_2017_cas</loc>
+        <lastmod>2016-12-25</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/bioecoactual/docs/bioecoactual_gener_2017_cat</loc>
+        <lastmod>2016-12-25</lastmod>
+    </url>
+</urlset>

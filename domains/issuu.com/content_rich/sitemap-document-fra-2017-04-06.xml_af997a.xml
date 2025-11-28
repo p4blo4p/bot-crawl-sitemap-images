@@ -1,0 +1,31 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/welcomemagazinefrance/docs/wm2pages</loc>
+        <lastmod>2017-04-06</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/rega/docs/rega_rapport_annuel_2016_fr</loc>
+        <lastmod>2017-04-05</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/mayottehebdo/docs/mh_790_bd-preview</loc>
+        <lastmod>2017-04-06</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/cpacadiennes/docs/uni_rapport_annuel_franc__ais</loc>
+        <lastmod>2017-05-15</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/acl2/docs/acl_1068_17_at2_fr_pages_prod</loc>
+        <lastmod>2022-01-25</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/djmwebsprl/docs/frappe_fort_s15</loc>
+        <lastmod>2017-04-06</lastmod>
+    </url>
+</urlset>

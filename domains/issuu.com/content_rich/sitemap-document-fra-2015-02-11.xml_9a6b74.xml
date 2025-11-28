@@ -1,0 +1,23 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/proxilog/docs/francesportmini3</loc>
+        <lastmod>2015-09-20</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/bundesamt-fuer-umwelt-bafu/docs/a-la-loupe</loc>
+        <lastmod>2015-09-20</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/jiempe/docs/lausanne_bienvenue_2015_fr</loc>
+        <lastmod>2015-09-20</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/materia_ab/docs/materia_overview_2015_fr_hr</loc>
+        <lastmod>2015-09-20</lastmod>
+    </url>
+</urlset>

@@ -1,0 +1,31 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/fleurametzbv/docs/1_fr_jan_feb</loc>
+        <lastmod>2020-01-02</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/arnaud.delvit/docs/lagraff17</loc>
+        <lastmod>2020-01-04</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/trouverenisrael/docs/tei_18</loc>
+        <lastmod>2020-01-01</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/majalla/docs/01-78</loc>
+        <lastmod>2020-01-01</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/husqvarna_construction/docs/hcp_prodcat_2020_ch_fr_web</loc>
+        <lastmod>2019-12-23</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/husqvarna_construction/docs/hcp_prodcat_2020_fr_web</loc>
+        <lastmod>2019-12-23</lastmod>
+    </url>
+</urlset>

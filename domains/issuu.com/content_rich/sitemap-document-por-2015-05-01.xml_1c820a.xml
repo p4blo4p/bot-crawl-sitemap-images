@@ -1,0 +1,23 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/jornalcorreioregional/docs/jornal_correio_regional_de_2_de_mai</loc>
+        <lastmod>2015-09-20</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/guia-off/docs/off_rj_105_-_issuu</loc>
+        <lastmod>2015-09-20</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/jornalcana/docs/jc256</loc>
+        <lastmod>2015-09-20</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/brazilusasuncoast/docs/brazilusa_suncoast_maio_2015</loc>
+        <lastmod>2015-09-20</lastmod>
+    </url>
+</urlset>

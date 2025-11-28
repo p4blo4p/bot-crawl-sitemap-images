@@ -1,0 +1,31 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/etatdevaud/docs/dgep_prmb_web_prod</loc>
+        <lastmod>2017-09-26</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/etatdevaud/docs/dgep_msts_web_prod</loc>
+        <lastmod>2017-10-04</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/pratico-pratiques/docs/visionneuse_l0505</loc>
+        <lastmod>2016-07-28</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/djmwebsprl/docs/frappe_fort_s31</loc>
+        <lastmod>2016-07-28</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/etatdevaud/docs/dgep_mssa_web_prod</loc>
+        <lastmod>2017-08-11</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/etatdevaud/docs/dgep_msop_web_prod</loc>
+        <lastmod>2017-10-04</lastmod>
+    </url>
+</urlset>

@@ -1,0 +1,23 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/mairiedelaseguiniere/docs/edito_bulletin_avril_2021</loc>
+        <lastmod>2021-05-01</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/mairiedelaseguiniere/docs/bulletin_avril_2021</loc>
+        <lastmod>2021-05-02</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/lnmcommunication/docs/100__news_n_201</loc>
+        <lastmod>2021-05-01</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/editions_philman/docs/pensee_et_vie</loc>
+        <lastmod>2021-05-01</lastmod>
+    </url>
+</urlset>

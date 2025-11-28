@@ -1,0 +1,23 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/jornalacritica/docs/jornal_a_cr_tica_-_edi__o_1917_-_04</loc>
+        <lastmod>2018-11-03</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/jornaldetoronto/docs/jornal_de_toronto_n_17</loc>
+        <lastmod>2018-12-10</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/anuariorelogiosecanetas/docs/novembro_2018</loc>
+        <lastmod>2018-11-03</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/otempo/docs/binder1_f11f8d2c6a6d03</loc>
+        <lastmod>2018-11-03</lastmod>
+    </url>
+</urlset>

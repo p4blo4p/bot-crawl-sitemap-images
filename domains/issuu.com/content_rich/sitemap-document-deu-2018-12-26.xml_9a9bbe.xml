@@ -1,0 +1,23 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/blick-fang/docs/magazin_next_01_2019_web</loc>
+        <lastmod>2018-12-26</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/frauenfelderwoche/docs/1852_epaper</loc>
+        <lastmod>2019-01-04</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/intradel/docs/eupen_bd_intradel_2019</loc>
+        <lastmod>2018-12-26</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/majortom/docs/nasavas_0218</loc>
+        <lastmod>2018-12-26</lastmod>
+    </url>
+</urlset>

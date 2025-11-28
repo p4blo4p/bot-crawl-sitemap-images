@@ -1,0 +1,31 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/kadipuu/docs/ku_veeb</loc>
+        <lastmod>2015-09-18</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/koreanphilatimes/docs/vol705page1-117</loc>
+        <lastmod>2015-09-18</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/koreanphilatimes/docs/vol705page118-224</loc>
+        <lastmod>2015-09-19</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/barnashus/docs/dm23-issuu</loc>
+        <lastmod>2015-09-19</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/ampsmagazine/docs/volume_1_issue_3</loc>
+        <lastmod>2015-09-19</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/entercity/docs/isologismos-aleksaki-2012</loc>
+        <lastmod>2015-09-19</lastmod>
+    </url>
+</urlset>

@@ -1,0 +1,23 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/education21ch/docs/ventuno_1_16_fr</loc>
+        <lastmod>2016-01-26</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/leobvba/docs/mb10_fr_lowres</loc>
+        <lastmod>2016-01-26</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/swac-oecd/docs/swac_newsletter-june2015_fr</loc>
+        <lastmod>2016-01-26</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/swac-oecd/docs/swac_newsletter-feb2015_fr</loc>
+        <lastmod>2016-01-26</lastmod>
+    </url>
+</urlset>

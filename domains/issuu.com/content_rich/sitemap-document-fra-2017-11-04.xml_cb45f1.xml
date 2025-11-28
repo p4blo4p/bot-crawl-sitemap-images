@@ -1,0 +1,23 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/zoienvironment/docs/nexus.brief-elnino-fr</loc>
+        <lastmod>2017-11-04</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/zoienvironment/docs/nexus.brief-health-fr</loc>
+        <lastmod>2017-11-04</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/orfeomagazine/docs/orfeo_10_fr</loc>
+        <lastmod>2017-11-05</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/zoienvironment/docs/nexusbrief-migration-fr</loc>
+        <lastmod>2017-11-04</lastmod>
+    </url>
+</urlset>

@@ -1,0 +1,23 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/rokus-klett/docs/9789612711078_d773afa7153654</loc>
+        <lastmod>2020-06-14</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/pennyat/docs/fb_kw25</loc>
+        <lastmod>2020-06-10</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/zeppelingroup/docs/plauserhof-2020</loc>
+        <lastmod>2020-06-14</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/zeppelingroup/docs/etschland-2020</loc>
+        <lastmod>2020-06-14</lastmod>
+    </url>
+</urlset>

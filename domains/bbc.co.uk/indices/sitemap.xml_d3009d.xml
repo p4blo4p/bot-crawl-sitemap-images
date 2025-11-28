@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   version: 56a69b60efd849ceb3be3f0e0e45c86ded7fc081
+   HTTPS www.bbc.co.uk
+-->
+
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" >
+   <sitemap><loc>https://www.bbc.co.uk/sport/sitemap.xml</loc></sitemap>
+   <sitemap><loc>https://www.bbc.co.uk/news/localnews/locations/sitemap.xml</loc></sitemap>
+   <sitemap><loc>https://www.bbc.co.uk/news/politics/eu-regions/vote2014_sitemap.xml</loc></sitemap>
+   <sitemap><loc>https://www.bbc.co.uk/news/politics/councils/vote2014_sitemap.xml</loc></sitemap>
+   <sitemap><loc>https://www.bbc.co.uk/news/events/vote2014/sitemap.xml</loc></sitemap>
+   <sitemap><loc>https://www.bbc.co.uk/learningenglish/sitemap.xml</loc></sitemap>
+</sitemapindex>

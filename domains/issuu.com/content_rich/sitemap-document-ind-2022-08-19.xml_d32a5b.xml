@@ -1,0 +1,23 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/memorandumcoid/docs/memorandum_edisi_20_agustus_2022</loc>
+        <lastmod>2022-08-19</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/radarbogor/docs/epaper_radar_bogor_20_-agustus-2022</loc>
+        <lastmod>2022-08-19</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/barugakosmikuh/docs/acta_diurna_dept</loc>
+        <lastmod>2022-08-19</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/korankampus_ukdw/docs/1_2_merged</loc>
+        <lastmod>2022-08-19</lastmod>
+    </url>
+</urlset>

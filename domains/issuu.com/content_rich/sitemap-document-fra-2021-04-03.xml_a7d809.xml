@@ -1,0 +1,23 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/denner-ch/docs/2021-14-fr</loc>
+        <lastmod>2021-04-03</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/wimbledonhighschool/docs/avis_de_recherche.pptx</loc>
+        <lastmod>2021-04-03</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/editions_philman/docs/le_semeur_detoiles</loc>
+        <lastmod>2021-04-03</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/majalla/docs/01__1__7bee0b29e53052</loc>
+        <lastmod>2021-04-03</lastmod>
+    </url>
+</urlset>

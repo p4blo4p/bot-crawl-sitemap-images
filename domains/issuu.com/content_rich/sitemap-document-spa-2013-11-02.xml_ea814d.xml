@@ -1,0 +1,23 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/corposano/docs/corposano_noviembre_2013</loc>
+        <lastmod>2015-09-18</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/semanario_independiente/docs/edi_768</loc>
+        <lastmod>2015-09-19</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/mediacomm/docs/canal_ti_398</loc>
+        <lastmod>2015-09-19</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/tiempo21_ediciondigital/docs/edicion_255</loc>
+        <lastmod>2015-09-19</lastmod>
+    </url>
+</urlset>

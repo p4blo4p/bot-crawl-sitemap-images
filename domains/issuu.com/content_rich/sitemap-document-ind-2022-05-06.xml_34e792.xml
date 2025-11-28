@@ -1,0 +1,23 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/eroski8/docs/eroski_mayo_2022_euskera</loc>
+        <lastmod>2022-05-06</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/radarbogor/docs/epaper_radar_bogor_7_-mei-2022_3725b4bd7665ff</loc>
+        <lastmod>2022-05-06</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/radarbogor/docs/epaper_radar_bogor_7_-mei-2022</loc>
+        <lastmod>2022-05-06</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/speos/docs/stupaulinebajzak</loc>
+        <lastmod>2022-05-10</lastmod>
+    </url>
+</urlset>

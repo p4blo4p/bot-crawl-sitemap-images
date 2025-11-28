@@ -1,0 +1,23 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/binke/docs/binke_069_web</loc>
+        <lastmod>2022-03-21</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/memorandumcoid/docs/memorandum_edisi_22_maret_2022</loc>
+        <lastmod>2022-03-21</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/lpmedents/docs/kordents_vol_1_maret_2022</loc>
+        <lastmod>2022-03-21</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/unisweekly/docs/edisi_06_vol_ii_-_unis_weekly-1</loc>
+        <lastmod>2022-03-21</lastmod>
+    </url>
+</urlset>

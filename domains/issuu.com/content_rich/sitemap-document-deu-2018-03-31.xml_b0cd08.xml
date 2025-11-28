@@ -1,0 +1,23 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/migros.ch/docs/sortiment_grill_2018_de_v2</loc>
+        <lastmod>2018-03-31</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/migros.ch/docs/flyer_ald2017_280x415_cov3_pop_d_30</loc>
+        <lastmod>2018-03-31</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/migros.ch/docs/sortimentsuebersicht_gartenmoebel_2</loc>
+        <lastmod>2018-03-31</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/migros.ch/docs/gartenwelt_2018_de_v2</loc>
+        <lastmod>2018-03-31</lastmod>
+    </url>
+</urlset>

@@ -1,0 +1,23 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/engadinstmoritz/docs/_5_samedan_basis_high-res</loc>
+        <lastmod>2019-01-01</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/engadinstmoritz/docs/_4_la_punt_basis_high-res</loc>
+        <lastmod>2019-01-01</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/engadinstmoritz/docs/_3_madulain_basis_high-res</loc>
+        <lastmod>2019-01-01</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/engadinstmoritz/docs/_1_s-chanf_basis_high-res</loc>
+        <lastmod>2019-01-01</lastmod>
+    </url>
+</urlset>

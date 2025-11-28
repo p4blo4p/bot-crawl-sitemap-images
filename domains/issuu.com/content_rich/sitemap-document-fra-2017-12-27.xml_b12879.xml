@@ -1,0 +1,23 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/moleculewinkel/docs/folder_januari_2018_fr</loc>
+        <lastmod>2018-01-02</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/djmwebsprl/docs/folder_blegique_s01_02</loc>
+        <lastmod>2017-12-27</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/dbccommunications/docs/opt_revue_de_lannee_2017</loc>
+        <lastmod>2017-12-27</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/infosnews/docs/3v315</loc>
+        <lastmod>2017-12-27</lastmod>
+    </url>
+</urlset>

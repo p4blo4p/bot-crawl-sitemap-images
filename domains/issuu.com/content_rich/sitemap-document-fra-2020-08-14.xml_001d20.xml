@@ -1,0 +1,23 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/bazarland/docs/bzl_braderie4</loc>
+        <lastmod>2020-10-08</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/bea-verlag/docs/beababy_2020_fr_web</loc>
+        <lastmod>2020-08-14</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/revashelf/docs/rev-a-shelf-canada-brochure_2020-french</loc>
+        <lastmod>2020-08-14</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/qtponline/docs/august_product_news_french_20</loc>
+        <lastmod>2020-08-14</lastmod>
+    </url>
+</urlset>

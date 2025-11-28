@@ -1,0 +1,31 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/cvciweb/docs/cvci_sept_2013</loc>
+        <lastmod>2015-09-19</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/canoadetolda/docs/deux_ann__es_au_br__sil-parte2</loc>
+        <lastmod>2019-03-26</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/thierryf/docs/ngo13_fr</loc>
+        <lastmod>2015-09-18</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/bbf.ch/docs/finma-portrait_f</loc>
+        <lastmod>2019-01-24</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/with-you/docs/gazette_05</loc>
+        <lastmod>2015-09-18</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/canoadetolda/docs/deux_ann__es_au_br__sil-parte1</loc>
+        <lastmod>2019-03-26</lastmod>
+    </url>
+</urlset>

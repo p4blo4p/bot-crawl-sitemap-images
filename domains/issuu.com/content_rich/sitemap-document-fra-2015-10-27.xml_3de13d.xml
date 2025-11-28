@@ -1,0 +1,23 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/anac_gabon/docs/maganac-22</loc>
+        <lastmod>2015-10-27</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/moleculewinkel/docs/folder_november_2015_fr_web</loc>
+        <lastmod>2015-10-27</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/maisonmoderne/docs/merkur_6_2015</loc>
+        <lastmod>2015-10-27</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/cvciweb/docs/web_cvci_octobre_2015</loc>
+        <lastmod>2015-10-27</lastmod>
+    </url>
+</urlset>

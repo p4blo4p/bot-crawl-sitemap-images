@@ -1,0 +1,23 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/itam/docs/fintech_digital</loc>
+        <lastmod>2022-06-13</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/laconexionusa/docs/la_conexion_2018-08-08</loc>
+        <lastmod>2018-08-15</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/joseangel940/docs/borrador_59</loc>
+        <lastmod>2018-08-16</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/contratiempo/docs/141-contratiempo-verano</loc>
+        <lastmod>2022-01-09</lastmod>
+    </url>
+</urlset>

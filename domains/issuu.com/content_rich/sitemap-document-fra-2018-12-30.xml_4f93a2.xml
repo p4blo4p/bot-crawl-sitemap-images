@@ -1,0 +1,31 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/desprez.design/docs/dp-elemis-qvc</loc>
+        <lastmod>2018-12-30</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/tomandco6/docs/folder_1_-_2019_-_luxembourg</loc>
+        <lastmod>2018-12-30</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/tomandco6/docs/folder_1_-_2019_-_france</loc>
+        <lastmod>2018-12-30</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/desprez.design/docs/livret8</loc>
+        <lastmod>2018-12-30</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/tomandco6/docs/folder_1_-_2019_-_belgique</loc>
+        <lastmod>2018-12-30</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/desprez.design/docs/mag-qvc</loc>
+        <lastmod>2018-12-31</lastmod>
+    </url>
+</urlset>

@@ -1,0 +1,23 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/estrelaseouricos/docs/eo_digital_especial_janeiro_2017</loc>
+        <lastmod>2016-12-28</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/municipiodeaveiro/docs/ta_prog_jan_fev_mar_2017</loc>
+        <lastmod>2016-12-30</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/estrelaseouricos/docs/eo_digital_janeiro_2017</loc>
+        <lastmod>2016-12-28</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/jornaldemarau/docs/jm_31.12</loc>
+        <lastmod>2016-12-30</lastmod>
+    </url>
+</urlset>

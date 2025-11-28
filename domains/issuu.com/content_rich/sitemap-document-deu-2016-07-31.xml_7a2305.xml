@@ -1,0 +1,23 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/solidar/docs/solidaritaet_3_2016</loc>
+        <lastmod>2016-07-31</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/adventistworldmagazine/docs/aw_2016-1008_germany</loc>
+        <lastmod>2016-07-31</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/woolmarket/docs/filati_52_titel_final</loc>
+        <lastmod>2016-07-31</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/edizioni_versante_sud/docs/kanton_tessin_hohe_wande</loc>
+        <lastmod>2016-07-31</lastmod>
+    </url>
+</urlset>

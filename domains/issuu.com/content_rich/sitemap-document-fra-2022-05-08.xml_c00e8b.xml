@@ -1,0 +1,23 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/cpslaurier/docs/laurier_fin_de_mandat_final_issuu</loc>
+        <lastmod>2022-05-08</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/associationsommellerieinternationale/docs/asi_mai_2022_fr</loc>
+        <lastmod>2022-05-09</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/owlpinegroup/docs/degrenne_2022_reduce</loc>
+        <lastmod>2022-05-08</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/owlpinegroup/docs/smart_green_catalogue</loc>
+        <lastmod>2022-05-08</lastmod>
+    </url>
+</urlset>

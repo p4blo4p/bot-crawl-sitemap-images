@@ -1,0 +1,23 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/mbi12/docs/14feb2016</loc>
+        <lastmod>2016-02-13</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/elmundolv/docs/el_mundo_lv</loc>
+        <lastmod>2016-02-13</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/mediacomm/docs/cana_ti_504</loc>
+        <lastmod>2021-04-08</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/elexpres/docs/pdf_para_impreso_475</loc>
+        <lastmod>2016-02-13</lastmod>
+    </url>
+</urlset>

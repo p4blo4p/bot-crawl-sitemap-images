@@ -1,0 +1,19 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/marcosandares/docs/andar_extremo_40</loc>
+        <lastmod>2016-06-04</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/revistamagellan/docs/magellan_18</loc>
+        <lastmod>2016-06-04</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/labocamag/docs/019_labocamag</loc>
+        <lastmod>2016-06-04</lastmod>
+    </url>
+</urlset>

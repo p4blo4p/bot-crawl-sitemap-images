@@ -1,0 +1,23 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/pfarreistans/docs/stans_08_2016</loc>
+        <lastmod>2016-04-02</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/coop-pronto/docs/coop-pronto_02-16_de</loc>
+        <lastmod>2016-03-24</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/opernhauszuerich/docs/mag38</loc>
+        <lastmod>2016-03-18</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/evivre/docs/aromapflegemagazin_2016-6_issuu</loc>
+        <lastmod>2016-04-02</lastmod>
+    </url>
+</urlset>

@@ -1,0 +1,23 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/myzap/docs/zap218_nov_2022</loc>
+        <lastmod>2022-11-08</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/editions_philman/docs/tableaux_de_linfini</loc>
+        <lastmod>2022-11-06</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/revue303/docs/hotel_de_region_extraits</loc>
+        <lastmod>2022-11-24</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/editions_philman/docs/service_mediumnique</loc>
+        <lastmod>2022-11-06</lastmod>
+    </url>
+</urlset>

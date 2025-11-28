@@ -1,0 +1,31 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/agoralausitz/docs/sportkurier1-15</loc>
+        <lastmod>2015-09-20</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/frizz-magazin-darmstadt/docs/frizz_0515_issuu</loc>
+        <lastmod>2015-09-20</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/zielgruppenverlag.at/docs/saison_issuu</loc>
+        <lastmod>2015-09-20</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/rotronicag/docs/rotronic_measurement_news_2015_de_r</loc>
+        <lastmod>2015-09-20</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/bezirksmedien/docs/baz_10_2015</loc>
+        <lastmod>2015-09-20</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/bezirksmedien/docs/plus_05_2015</loc>
+        <lastmod>2015-09-20</lastmod>
+    </url>
+</urlset>

@@ -1,0 +1,788 @@
+<?xml version='1.0' encoding='UTF-8'?>
+    <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+        
+        <url>
+            <loc>https://issuu.com/</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/about</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/about/people</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/careers</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/contact</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/customer-success</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/customer-success/elite</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/customer-success/issuu-stories-contest</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/demo</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/features</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/features/add-links-old</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/features/adobe-express-to-flipbook</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/features/articles</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/features/canva-to-flipbook</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/features/cloud-storage</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/features/collaborate</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/features/digital-sales</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/features/embed</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/features/flipbook</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/features/fullscreen-sharing</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/features/gifs</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/features/google-amp</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/features/groups</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/features/hubspot-integration</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/features/indesign-export-to-flipbook</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/features/lead-generation-form</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/features/qr-codes</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/features/reading</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/features/seo</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/features/social-posts</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/features/sso</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/features/statistics</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/features/teams</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/features/templates</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/features/unlisted</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/features/video</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/features/virtual-bookshelf</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/features/visual-stories</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/features/web-ready-fonts</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/flipbook</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/flipbook/digital-flipbook</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/flipbook/html5-flipbook</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/flipbook/interactive-pdf</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/flipbook/pdf-to-flipbook</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/industry</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/industry/art-and-design</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/industry/content-marketers</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/industry/designers</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/industry/education</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/industry/events-and-conferences</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/industry/government</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/industry/human-resources</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/industry/internal-communications</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/industry/marketing-pr</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/industry/nonprofits</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/industry/parks-and-recreation</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/industry/publishers</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/industry/real-estate</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/industry/religious-organizations</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/industry/restaurants</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/industry/retail</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/industry/salespeople</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/industry/social-media-managers</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/industry/sports</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/industry/travel</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/legal/accessibility</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/legal/ccpa</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/legal/cookies</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/legal/copyright</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/legal/dmca</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/legal/eupublisher</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/legal/privacy</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/legal/terms</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/lp/meetissuu</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/offers/blackfriday2023</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/offers/cybermonday2023</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/offers/democratization-of-design-ebook</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/offers/explore</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/offers/issuu-for-marketing-pr</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/offers/optimum-sale-2023o</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/offers/optimum-sale-2023p</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/offers/spring-sale-2024s</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/offers/summer-sale-2024i</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/offers/summer-sale-2024os</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/partners/marq</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/partners/print</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/podcast</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/podcast/abg</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/podcast/acme</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/press</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/pricing</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/publishing/art-and-design</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/publishing/content-marketers</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/publishing/corporate-communication</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/publishing/designers</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/publishing/education</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/publishing/government</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/publishing/human-resources</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/publishing/marketing-pr</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/publishing/nonprofits</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/publishing/parks-and-recreation</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/publishing/publishers</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/publishing/real-estate</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/publishing/religious-organizations</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/publishing/retail</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/publishing/salespeople</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/publishing/social-media-managers</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/publishing/sports</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/publishing/travel</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/referrals/ambassadors</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/case-studies</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/case-studies/barlow-respiratory-hospital</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/case-studies/bg-be-active</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/case-studies/insigniam</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/case-studies/island-cruising-nz</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/case-studies/just-imagine-marketing</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/case-studies/kapoor-galleries</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/case-studies/kempinski</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/case-studies/lonely-planet</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/case-studies/moes-home</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/case-studies/stroud-and-clarke</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/case-studies/the-knot</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/case-studies/westcare</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/ebooks-and-guides</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/topics-of-interest</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/topics-of-interest/content-marketing</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/topics-of-interest/content-marketing/brand-style-guide</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/topics-of-interest/content-marketing/guide-to-flipbook</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/topics-of-interest/content-marketing/realestate-client</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/topics-of-interest/content-marketing/writing-style</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/topics-of-interest/design</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/topics-of-interest/design/10-popular-newspaper-fonts</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/topics-of-interest/design/7-ways-to-repurpose-content</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/topics-of-interest/design/design-a-magazine-layout</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/topics-of-interest/design/interactive-presentation</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/video-tutorials</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/video-tutorials/add-links-and-videos-to-publications</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/video-tutorials/adobe-indesign-plugin</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/video-tutorials/connect-your-canva-account</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/video-tutorials/create-articles</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/video-tutorials/create-gifs</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/video-tutorials/create-social-posts</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/video-tutorials/customize-your-content-in-issuu</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/video-tutorials/embed-links-for-your-publications</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/video-tutorials/embed-publication-in-wix</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/video-tutorials/embed-publications-in-squarespace</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/video-tutorials/embed-publications-in-wordpress</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/video-tutorials/embed-publications-on-your-website</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/video-tutorials/enable-auto-detection-of-links</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/video-tutorials/format-pages-correctly</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/video-tutorials/generate-a-qr-code</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/video-tutorials/google-drive-integration</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/video-tutorials/holiday-marketing-that-stands-out</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/video-tutorials/hootsuite-integration</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/video-tutorials/how-to-use-canva-app</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/video-tutorials/how-to-use-issuu-add-on-for-adobe-express</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/video-tutorials/introducing-adobe-express-add-on</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/video-tutorials/issuu-for-art-architecture-and-design</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/video-tutorials/issuu-for-education</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/video-tutorials/issuu-for-marketing-and-pr</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/video-tutorials/issuu-for-nonprofits</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/video-tutorials/issuu-for-parks-and-rec</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/video-tutorials/issuu-for-publishers</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/video-tutorials/issuu-for-real-estate</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/video-tutorials/issuu-for-religious-organizations</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/video-tutorials/issuu-for-restaurants</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/video-tutorials/issuu-for-retail-catalog-and-wholesale</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/video-tutorials/issuu-for-travel-professionals</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/video-tutorials/issuu-x-marq-for-real-estate</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/video-tutorials/issuu-x-maxa-for-real-estate</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/video-tutorials/manage-publication-settings</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/video-tutorials/meet-issuu</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/video-tutorials/remove-banner-ads-in-issuu</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/video-tutorials/share-your-content-in-fullscreen</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/video-tutorials/showcase-your-content</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/video-tutorials/starter-vs-premium</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/video-tutorials/transform-creations-with-canva-app</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/video-tutorials/use-digital-sales</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/video-tutorials/use-issuu-for-teams</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/resources/video-tutorials/use-issuu-statistics</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/responsible-disclosure</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/sell-digital-magazines</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/solutions</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/solutions/corporate</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/solutions/corporate-docs</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/solutions/design</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/solutions/ebooks</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/solutions/education</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/solutions/events</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/solutions/fashion</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/solutions/flipbooks</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/solutions/marketing</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/solutions/publishing</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/tryissuu</loc>
+        </url>
+        
+        <url>
+            <loc>https://issuu.com/webinars</loc>
+        </url>
+        
+    </urlset>

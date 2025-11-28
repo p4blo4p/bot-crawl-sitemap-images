@@ -1,0 +1,31 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/ensembleiq/docs/octane_fr_01_21</loc>
+        <lastmod>2021-01-12</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/ensembleiq/docs/actdep_01_21</loc>
+        <lastmod>2021-01-08</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/kellerfahnen/docs/bl_tterkatalog_f_c4cb618bceafef</loc>
+        <lastmod>2020-12-30</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/djmwebsprl/docs/folder_01</loc>
+        <lastmod>2020-12-30</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/ville-de-merignac/docs/mlm130-janv2020-201215</loc>
+        <lastmod>2020-12-30</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/orthosupply/docs/glassloc-onepager</loc>
+        <lastmod>2020-12-30</lastmod>
+    </url>
+</urlset>

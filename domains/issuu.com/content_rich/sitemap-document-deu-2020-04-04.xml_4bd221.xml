@@ -1,0 +1,23 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/heinsberger-land/docs/heins_ausgabe_nr._01_2020</loc>
+        <lastmod>2020-04-04</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/darragh-kerlin/docs/lg_one_long_walk</loc>
+        <lastmod>2020-04-04</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/verlagshausschwellbrunn/docs/a858828354-leseprobe-01</loc>
+        <lastmod>2020-04-04</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/verlagshausschwellbrunn/docs/f038950219-leseprobe-01</loc>
+        <lastmod>2020-04-04</lastmod>
+    </url>
+</urlset>

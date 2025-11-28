@@ -1,0 +1,39 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/bezirksmedien/docs/plus_03_2015</loc>
+        <lastmod>2015-09-20</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/bezirksmedien/docs/baz_06_2015</loc>
+        <lastmod>2015-09-20</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/riscontrol/docs/riscontrol_03_2015_web</loc>
+        <lastmod>2016-05-23</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/seeberger/docs/nachhaltigkeitsbericht_einzelseiten</loc>
+        <lastmod>2015-09-20</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/raiffeisenoberoesterreich/docs/34422</loc>
+        <lastmod>2015-09-20</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/svpkantonzuerich/docs/extrablatt_d_zh_web</loc>
+        <lastmod>2015-09-20</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/deutscheoperberlin/docs/dob_saisonvorschau_1516_rz-issuu</loc>
+        <lastmod>2015-09-20</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/verlagruhr/docs/katalog_fruehpaedagogik_2015</loc>
+        <lastmod>2015-09-20</lastmod>
+    </url>
+</urlset>

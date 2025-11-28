@@ -1,0 +1,23 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/redaksiglobalnews/docs/gn_edisi_361online</loc>
+        <lastmod>2022-08-24</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/memorandumcoid/docs/memorandum_edisi_25_agustus_2022</loc>
+        <lastmod>2022-08-24</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/karawangbekasiekspress/docs/kbe_25_agustus_4d3a86d4323b10</loc>
+        <lastmod>2022-08-24</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/radarbogor/docs/epaper_radar_bogor_25_agustus-2022</loc>
+        <lastmod>2022-08-24</lastmod>
+    </url>
+</urlset>

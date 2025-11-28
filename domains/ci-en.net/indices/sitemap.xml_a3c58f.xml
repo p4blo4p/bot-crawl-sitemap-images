@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/vendor/sitemap/styles/sitemapindex.xsl" type="text/xsl"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+	<sitemap>
+		<loc>https://ci-en.net/sitemap/general</loc>
+		</sitemap>
+	<sitemap>
+		<loc>https://ci-en.net/sitemap/adult</loc>
+		</sitemap>
+	<sitemap>
+		<loc>https://ci-en.net/sitemap/statics</loc>
+		</sitemap>
+</sitemapindex>

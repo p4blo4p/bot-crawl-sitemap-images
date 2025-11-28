@@ -1,0 +1,23 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/memorandumcoid/docs/memorandum_edisi_24_maret_2023</loc>
+        <lastmod>2023-03-23</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/radarbogor/docs/epaper_radar_bogor_24_maret-2023</loc>
+        <lastmod>2023-03-23</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/karawangbekasiekspress/docs/kbe_24_maret_7ed21f823154c3</loc>
+        <lastmod>2023-03-23</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/karawangbekasiekspress/docs/kbe_21_maret_0355bb69c76ea4</loc>
+        <lastmod>2023-03-23</lastmod>
+    </url>
+</urlset>

@@ -1,0 +1,23 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/heinsberger-land/docs/heins_1_23_final_issuu</loc>
+        <lastmod>2023-07-09</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/cafecantineauszeit/docs/wochenkarte_auszeit_10.07._bis_14.07.23</loc>
+        <lastmod>2023-07-09</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/agoralausitz/docs/sportkurier_1-23_</loc>
+        <lastmod>2023-07-09</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/heinsberger-land/docs/hl_pocketguide_zusammenzeit_0723</loc>
+        <lastmod>2023-07-09</lastmod>
+    </url>
+</urlset>

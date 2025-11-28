@@ -1,0 +1,23 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/kufsteinerland/docs/tirol_bewegt_fibel</loc>
+        <lastmod>2017-07-01</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/magazinring/docs/bgl_juli-aug_2017_10s</loc>
+        <lastmod>2017-06-26</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/sonntagsblatt_stmk/docs/170701121407-672002865c21412298d016b667654043</loc>
+        <lastmod>2017-07-01</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/pfarreistans/docs/stans_14_2017</loc>
+        <lastmod>2017-07-01</lastmod>
+    </url>
+</urlset>

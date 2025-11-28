@@ -1,0 +1,27 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/etela/docs/eu-160717-su</loc>
+        <lastmod>2016-07-17</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/eliasserhed/docs/2016_eurocopa</loc>
+        <lastmod>2016-07-17</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/koppernik/docs/koppernik_catalogus_najaar_2016</loc>
+        <lastmod>2016-07-17</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/mediaburoschoppema/docs/zk_2016_07</loc>
+        <lastmod>2016-07-17</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/mediaburoschoppema/docs/de_2016_28</loc>
+        <lastmod>2016-07-17</lastmod>
+    </url>
+</urlset>

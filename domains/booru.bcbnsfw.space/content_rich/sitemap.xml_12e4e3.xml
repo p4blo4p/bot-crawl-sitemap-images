@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<title>This website is not available in Arizona, US</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    html {
+        font-family: 'sans-serif';
+        background-color: black;
+    }
+
+    body {
+        padding: 32px;
+        margin: 144px auto 10px auto;
+        max-width: 700px;
+        background-color: deeppink;
+        border-radius: 16px;
+        box-shadow: 0 0 64px deeppink;
+
+        transition: padding 100ms;
+        transition: margin 100ms;
+
+
+        & > h1 {
+            display: block;
+            margin-bottom: 32px;
+            color: #530101;
+        }
+
+        & > main > div#lawinfo {
+            & > div {
+                display: table-row;
+
+                & > * {
+                    padding: 0 4px;
+                    display: table-cell;
+                }
+            }
+        }
+    }
+
+    @media only screen and (max-width: 480px) {
+        body {
+            padding: 0;
+            padding-bottom: 16px;
+            margin: 0;
+
+            & > h1 {
+                padding: 32px;
+                padding-bottom: 0px;
+                margin-bottom: 0px;
+            }
+
+            & > main {
+                margin: 0 12px;
+            }
+        }
+    }
+</style>
+<body>
+<h1>This website is not available in Arizona, US</h1>
+<main>
+    <h2>What?</h2>
+    <p>The server has detected you live in Arizona (US). This jurisdiction puts legal requirements on
+        websites containing adult material to block access entirely, verify ID, track age verification, and/or keep
+        records for a long period of time.</p>
+    <p>At this moment, this website does not implement the legally mandated verification mechanisms to permit you access
+        to its content, if such content is permissible for you to view at all.</p>
+
+    <h3>Huh?</h3>
+    <p>The type of block encountered: <strong>privacy-infringing age verification methods</strong>. Consult the legal information linked below for
+    a more detailed explanation.</p>
+
+    <h2>Details</h2>
+    <div id="lawinfo">
+        <div>
+            <span>Law name</span><span>Arizona HB 2112</span>
+        </div>
+        <div>
+            <span>More information</span><span><a href="https://legiscan.com/AZ/text/HB2112/id/3239821" rel="noopener">https://legiscan.com/AZ/text/HB2112/id/3239821</a></span>
+        </div>
+    </div>
+
+    <h2>What can I do?</h2>
+    <p>This website is not planning on adding new age verification methods any time soon, so there is not much you can
+        do. Consider voting for politicians that oppose laws like <em>Arizona HB 2112</em> in the future so measures
+        like these are no longer necessary.</p>
+    <p>If your government does not permit access to adult content at all, despite age verification methods, this website
+    will not be accessible to you.</p>
+    <p>Note that bypassing legal blockades may be a criminal offence. Check with your local laws and regulations before
+    attempting to bypass legal content restrictions. This website will not take responsibility for attempts to bypass
+    legal restrictions.</p>
+</main>

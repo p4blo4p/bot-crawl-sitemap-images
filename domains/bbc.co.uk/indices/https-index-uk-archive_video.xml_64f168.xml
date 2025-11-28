@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+    <sitemap>
+        <loc>https://www.bbc.co.uk/sitemaps/https-sitemap-uk-archive_video-1.xml</loc>
+        <lastmod>2025-11-28T10:46:44Z</lastmod>
+    </sitemap>
+    <sitemap>
+        <loc>https://www.bbc.co.uk/sitemaps/https-sitemap-uk-archive_video-2.xml</loc>
+        <lastmod>2025-11-28T11:07:20Z</lastmod>
+    </sitemap>
+</sitemapindex>

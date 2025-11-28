@@ -1,0 +1,23 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/azionemigrosticino/docs/azione_02</loc>
+        <lastmod>2018-01-05</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/lasaponeria/docs/volantino_n.1_online_la_saponeria85</loc>
+        <lastmod>2018-01-04</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/lasaponeria/docs/sap_vol01_817sa</loc>
+        <lastmod>2018-01-04</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/acquasapone-oltrelaconvenienza/docs/a_s_vol01_817as</loc>
+        <lastmod>2018-01-04</lastmod>
+    </url>
+</urlset>

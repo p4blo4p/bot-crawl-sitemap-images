@@ -1,0 +1,23 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/sobrasa/docs/livro_reporter_2023</loc>
+        <lastmod>2025-03-10</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/sobrasa/docs/afogamentos_boletim_brasil_2023</loc>
+        <lastmod>2024-02-18</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/sobrasa/docs/colecao_sobrasa</loc>
+        <lastmod>2024-02-18</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/revistasiempreasanz/docs/n21_-_em_portugu_s</loc>
+        <lastmod>2024-02-18</lastmod>
+    </url>
+</urlset>

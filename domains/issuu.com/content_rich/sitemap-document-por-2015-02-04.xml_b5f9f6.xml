@@ -1,0 +1,31 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/ejuma/docs/jornal_cda</loc>
+        <lastmod>2015-09-20</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/ppsslisboa/docs/cagliero11_201502</loc>
+        <lastmod>2015-09-20</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/seebfloripa/docs/espelhojaneiro</loc>
+        <lastmod>2015-09-20</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/revista_backstage/docs/back_239</loc>
+        <lastmod>2015-09-20</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/itapevi.agora/docs/itapevi_agora_1025</loc>
+        <lastmod>2015-09-20</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/ejuma/docs/jornal_jaba</loc>
+        <lastmod>2015-09-20</lastmod>
+    </url>
+</urlset>

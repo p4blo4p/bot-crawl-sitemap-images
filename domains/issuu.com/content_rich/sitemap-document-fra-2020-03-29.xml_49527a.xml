@@ -1,0 +1,35 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/associationyaniv/docs/yaniv_ete2020-web</loc>
+        <lastmod>2020-03-29</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/trouverenisrael/docs/tei_21</loc>
+        <lastmod>2020-03-29</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/trouverenisrael/docs/____</loc>
+        <lastmod>2020-03-29</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/majalla/docs/01-84</loc>
+        <lastmod>2020-03-29</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/fawe/docs/about_fawe__french_brochure</loc>
+        <lastmod>2020-03-29</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/fawe/docs/fawe_sp_brochure__french_</loc>
+        <lastmod>2020-03-29</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/pellencsa/docs/145828-a_dep_gamme_alpha_2018_fre-maj-2020-bd</loc>
+        <lastmod>2020-03-29</lastmod>
+    </url>
+</urlset>

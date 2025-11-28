@@ -1,0 +1,23 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/p-stadtkultur/docs/p_ausgabe_148</loc>
+        <lastmod>2022-10-30</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/mosaikzeitschrift/docs/mosaik38_leseprobe_einzels_compressed</loc>
+        <lastmod>2022-10-30</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/ibzag/docs/ibz_rundschau_2_2022</loc>
+        <lastmod>2023-11-15</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/martinkrause/docs/reporter_44-22</loc>
+        <lastmod>2022-10-30</lastmod>
+    </url>
+</urlset>
