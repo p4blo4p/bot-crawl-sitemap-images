@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:xhtml="http://www.w3.org/1999/xhtml"
+	xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+	http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd
+	http://www.w3.org/1999/xhtml
+	http://www.w3.org/2002/08/xhtml/xhtml1-strict.xsd">
+	<url>
+		<loc>https://lightroom.adobe.com/</loc>
+		<priority>1</priority>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/learn/discover</loc>
+		<priority>0.8</priority>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/learn/tutorial</loc>
+		<priority>0.8</priority>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy?locale=pt-BR"/>
+		<priority>0.8</priority>
+	</url>
+	<!-- Academy Pillars -->
+	<url>
+		<loc>https://lightroom.adobe.com/academy/principles</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/principles?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/principles?locale=pt-BR"/>
+		<priority>0.6</priority>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/genres</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/genres?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/genres?locale=pt-BR"/>
+		<priority>0.6</priority>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/editing</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/editing?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/editing?locale=pt-BR"/>
+		<priority>0.6</priority>
+	</url>
+	<!-- Academy Principles Pillar -->
+	<url>
+		<loc>https://lightroom.adobe.com/academy/principles/composition</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/principles/composition?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/principles/composition?locale=pt-BR"/>
+		<priority>0.5</priority>
+	</url>
+	<!-- Academy Genres Pillar -->
+	<url>
+		<loc>https://lightroom.adobe.com/academy/genres/food</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/genres/food?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/genres/food?locale=pt-BR"/>
+		<priority>0.5</priority>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/genres/travel</loc>
+		<priority>0.5</priority>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/genres/travel?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/genres/travel?locale=pt-BR"/>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/genres/night</loc>
+		<priority>0.5</priority>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/genres/night?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/genres/night?locale=pt-BR"/>
+	</url>
+	<!-- Academy Editing Pillar -->
+	<url>
+		<loc>https://lightroom.adobe.com/academy/editing/black-and-white</loc>
+		<priority>0.5</priority>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/editing/black-and-white?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/editing/black-and-white?locale=pt-BR"/>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/editing/lightroom-essentials</loc>
+		<priority>0.5</priority>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/editing/lightroom-essentials?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/editing/lightroom-essentials?locale=pt-BR"/>
+	</url>
+	<!-- Academy Articles -->
+	<url>
+	<loc>https://lightroom.adobe.com/academy/editing/black-and-white/beyond-the-camera</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/editing/black-and-white/beyond-the-camera?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/editing/black-and-white/beyond-the-camera?locale=pt-BR"/>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/editing/black-and-white/exploring-exposure</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/editing/black-and-white/exploring-exposure?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/editing/black-and-white/exploring-exposure?locale=pt-BR"/>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/editing/black-and-white/introduction</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/editing/black-and-white/introduction?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/editing/black-and-white/introduction?locale=pt-BR"/>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/editing/black-and-white/lessons-in-light</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/editing/black-and-white/lessons-in-light?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/editing/black-and-white/lessons-in-light?locale=pt-BR"/>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/editing/black-and-white/lightroom-profile-essentials</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/editing/black-and-white/lightroom-profile-essentials?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/editing/black-and-white/lightroom-profile-essentials?locale=pt-BR"/>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/editing/black-and-white/seeing-in-black-and-white</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/editing/black-and-white/seeing-in-black-and-white?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/editing/black-and-white/seeing-in-black-and-white?locale=pt-BR"/>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/editing/black-and-white/setting-the-tone</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/editing/black-and-white/setting-the-tone?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/editing/black-and-white/setting-the-tone?locale=pt-BR"/>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/principles/composition/background</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/principles/composition/background?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/principles/composition/background?locale=pt-BR"/>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/principles/composition/break-the-rules</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/principles/composition/break-the-rules?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/principles/composition/break-the-rules?locale=pt-BR"/>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/principles/composition/distractions</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/principles/composition/distractions?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/principles/composition/distractions?locale=pt-BR"/>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/principles/composition/explore-juxtaposition</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/principles/composition/explore-juxtaposition?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/principles/composition/explore-juxtaposition?locale=pt-BR"/>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/principles/composition/fill-the-frame</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/principles/composition/fill-the-frame?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/principles/composition/fill-the-frame?locale=pt-BR"/>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/principles/composition/flip-the-frame</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/principles/composition/flip-the-frame?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/principles/composition/flip-the-frame?locale=pt-BR"/>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/principles/composition/frame-within-frame</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/principles/composition/frame-within-frame?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/principles/composition/frame-within-frame?locale=pt-BR"/>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/principles/composition/get-closer</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/principles/composition/get-closer?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/principles/composition/get-closer?locale=pt-BR"/>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/principles/composition/introduction</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/principles/composition/introduction?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/principles/composition/introduction?locale=pt-BR"/>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/principles/composition/leading-lines</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/principles/composition/leading-lines?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/principles/composition/leading-lines?locale=pt-BR"/>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/principles/composition/off-center</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/principles/composition/off-center?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/principles/composition/off-center?locale=pt-BR"/>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/principles/composition/point-of-view</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/principles/composition/point-of-view?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/principles/composition/point-of-view?locale=pt-BR"/>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/principles/composition/scale-reference</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/principles/composition/scale-reference?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/principles/composition/scale-reference?locale=pt-BR"/>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/principles/composition/shapes-forms-patterns</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/principles/composition/shapes-forms-patterns?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/principles/composition/shapes-forms-patterns?locale=pt-BR"/>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/principles/composition/shift-to-the-side</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/principles/composition/shift-to-the-side?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/principles/composition/shift-to-the-side?locale=pt-BR"/>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/principles/composition/symmetry</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/principles/composition/symmetry?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/principles/composition/symmetry?locale=pt-BR"/>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/principles/composition/visual-layers</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/principles/composition/visual-layers?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/principles/composition/visual-layers?locale=pt-BR"/>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/genres/food/cooking-with-color</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/genres/food/cooking-with-color?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/genres/food/cooking-with-color?locale=pt-BR"/>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/genres/food/food-is-personal</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/genres/food/food-is-personal?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/genres/food/food-is-personal?locale=pt-BR"/>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/genres/food/introduction</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/genres/food/introduction?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/genres/food/introduction?locale=pt-BR"/>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/genres/food/leading-the-viewers-eye</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/genres/food/leading-the-viewers-eye?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/genres/food/leading-the-viewers-eye?locale=pt-BR"/>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/genres/food/love-the-light</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/genres/food/love-the-light?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/genres/food/love-the-light?locale=pt-BR"/>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/genres/food/motion-and-levitation</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/genres/food/motion-and-levitation?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/genres/food/motion-and-levitation?locale=pt-BR"/>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/genres/food/photographing-cold-beverages</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/genres/food/photographing-cold-beverages?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/genres/food/photographing-cold-beverages?locale=pt-BR"/>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/genres/food/point-of-view</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/genres/food/point-of-view?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/genres/food/point-of-view?locale=pt-BR"/>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/genres/food/presentation-and-styling</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/genres/food/presentation-and-styling?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/genres/food/presentation-and-styling?locale=pt-BR"/>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/genres/food/recipe-for-success</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/genres/food/recipe-for-success?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/genres/food/recipe-for-success?locale=pt-BR"/>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/genres/food/sprinkles-pours-and-drizzles</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/genres/food/sprinkles-pours-and-drizzles?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/genres/food/sprinkles-pours-and-drizzles?locale=pt-BR"/>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/genres/food/steam-and-smoke-wizardry</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/genres/food/steam-and-smoke-wizardry?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/genres/food/steam-and-smoke-wizardry?locale=pt-BR"/>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/genres/food/tools-of-the-trade</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/genres/food/tools-of-the-trade?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/genres/food/tools-of-the-trade?locale=pt-BR"/>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/genres/food/window-light</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/genres/food/window-light?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/genres/food/window-light?locale=pt-BR"/>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/editing/lightroom-essentials/add-photos-videos</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/editing/lightroom-essentials/add-photos-videos?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/editing/lightroom-essentials/add-photos-videos?locale=pt-BR"/>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/editing/lightroom-essentials/editing-foundations</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/editing/lightroom-essentials/editing-foundations?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/editing/lightroom-essentials/editing-foundations?locale=pt-BR"/>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/editing/lightroom-essentials/introduction</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/editing/lightroom-essentials/introduction?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/editing/lightroom-essentials/introduction?locale=pt-BR"/>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/editing/lightroom-essentials/light-contrast</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/editing/lightroom-essentials/light-contrast?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/editing/lightroom-essentials/light-contrast?locale=pt-BR"/>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/editing/lightroom-essentials/organize-rate-find</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/editing/lightroom-essentials/organize-rate-find?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/editing/lightroom-essentials/organize-rate-find?locale=pt-BR"/>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/editing/lightroom-essentials/the-lightroom-system</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/editing/lightroom-essentials/the-lightroom-system?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/editing/lightroom-essentials/the-lightroom-system?locale=pt-BR"/>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/editing/lightroom-essentials/tonality-histograms</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/editing/lightroom-essentials/tonality-histograms?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/editing/lightroom-essentials/tonality-histograms?locale=pt-BR"/>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/genres/night/city-at-night</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/genres/night/city-at-night?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/genres/night/city-at-night?locale=pt-BR"/>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/genres/night/explore-the-world</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/genres/night/explore-the-world?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/genres/night/explore-the-world?locale=pt-BR"/>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/genres/night/gear</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/genres/night/gear?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/genres/night/gear?locale=pt-BR"/>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/genres/night/in-the-field</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/genres/night/in-the-field?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/genres/night/in-the-field?locale=pt-BR"/>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/genres/night/introduction</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/genres/night/introduction?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/genres/night/introduction?locale=pt-BR"/>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/genres/night/plan-prepare-practice</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/genres/night/plan-prepare-practice?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/genres/night/plan-prepare-practice?locale=pt-BR"/>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/genres/night/technical-guide</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/genres/night/technical-guide?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/genres/night/technical-guide?locale=pt-BR"/>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/genres/night/top-subjects</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/genres/night/top-subjects?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/genres/night/top-subjects?locale=pt-BR"/>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/genres/travel/etiquette</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/genres/travel/etiquette?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/genres/travel/etiquette?locale=pt-BR"/>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/genres/travel/express-yourself</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/genres/travel/express-yourself?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/genres/travel/express-yourself?locale=pt-BR"/>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/genres/travel/introduction</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/genres/travel/introduction?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/genres/travel/introduction?locale=pt-BR"/>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/genres/travel/packing-travel-gear</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/genres/travel/packing-travel-gear?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/genres/travel/packing-travel-gear?locale=pt-BR"/>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/genres/travel/photograph-the-world</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/genres/travel/photograph-the-world?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/genres/travel/photograph-the-world?locale=pt-BR"/>
+	</url>
+	<url>
+		<loc>https://lightroom.adobe.com/academy/genres/travel/prepare</loc>
+		<xhtml:link rel="alternate" hreflang="de-DE" href="https://lightroom.adobe.com/academy/genres/travel/prepare?locale=de-DE"/>
+		<xhtml:link rel="alternate" hreflang="pt-BR" href="https://lightroom.adobe.com/academy/genres/travel/prepare?locale=pt-BR"/>
+	</url>
+
+</urlset>

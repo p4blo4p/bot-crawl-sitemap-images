@@ -1,0 +1,23 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/urania_aste/docs/catalogo_viii_asta_web</loc>
+        <lastmod>2017-09-24</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/lasaponeria/docs/volantino_n.15_online_la_saponeria5</loc>
+        <lastmod>2017-09-21</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/surrentum/docs/2017_10</loc>
+        <lastmod>2017-09-24</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/azionemigrosticino/docs/azione_n39</loc>
+        <lastmod>2017-09-22</lastmod>
+    </url>
+</urlset>

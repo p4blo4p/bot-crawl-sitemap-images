@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- This is the parent sitemap linking to additional sitemaps for products, collections and pages as shown below. The sitemap can not be edited manually, but is kept up to date in real time. -->
+  <sitemap>
+    <loc>https://modcloth.com/sitemap_products_1.xml?from=6628557324459&amp;to=8568015650987</loc>
+  </sitemap>
+  <sitemap>
+    <loc>https://modcloth.com/sitemap_products_2.xml?from=8568015716523&amp;to=8595156762795</loc>
+  </sitemap>
+  <sitemap>
+    <loc>https://modcloth.com/sitemap_pages_1.xml?from=80353886379&amp;to=141773799595</loc>
+  </sitemap>
+  <sitemap>
+    <loc>https://modcloth.com/sitemap_collections_1.xml?from=264919482539&amp;to=324895015083</loc>
+  </sitemap>
+  <sitemap>
+    <loc>https://modcloth.com/sitemap_blogs_1.xml</loc>
+  </sitemap>
+</sitemapindex>

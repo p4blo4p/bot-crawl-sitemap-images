@@ -1,0 +1,19 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/calvinsyang</loc>
+        <lastmod>2024-01-28</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/thesamohinews</loc>
+        <lastmod>2025-10-30</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/nacp4nacp-bipoc.org</loc>
+        <lastmod>2024-03-25</lastmod>
+    </url>
+</urlset>

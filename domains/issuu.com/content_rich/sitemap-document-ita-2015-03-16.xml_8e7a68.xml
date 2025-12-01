@@ -1,0 +1,23 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+>
+    <url>
+        <loc>https://issuu.com/migros.ch/docs/osterflyer_2015_2_brunch_it</loc>
+        <lastmod>2015-09-20</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/dida-unifi/docs/ra_n.2_ok</loc>
+        <lastmod>2015-11-24</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/paranet/docs/paraplegie_1_2015_it</loc>
+        <lastmod>2015-09-20</lastmod>
+    </url>
+    <url>
+        <loc>https://issuu.com/gbconline/docs/gbc_2015_-_catalogoled</loc>
+        <lastmod>2015-09-20</lastmod>
+    </url>
+</urlset>
