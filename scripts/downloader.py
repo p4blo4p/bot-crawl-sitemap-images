@@ -9,7 +9,8 @@ import urllib.robotparser
 from urllib.parse import urljoin, urlparse
 from collections import deque
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from datetime import datetime, parsedatetime
+from datetime import datetime
+from email.utils import parsedate_to_datetime
 
 # Configuration
 SITES_FILE = "sites.txt"
@@ -37,8 +38,8 @@ def get_elapsed_time():
 def parse_date(date_str):
     if not date_str: return None
     try:
-        # Attempt to parse common HTTP date formats
-        return datetime.strptime(date_str, '%a, %d %b %Y %H:%M:%S %Z')
+        # Use email.utils to robustly parse HTTP Last-Modified headers (RFC 2822)
+        return parsedate_to_datetime(date_str)
     except:
         return None
 
