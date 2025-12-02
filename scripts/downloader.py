@@ -5,6 +5,8 @@ import json
 import re
 import time
 import random
+import gzip
+import shutil
 import urllib.robotparser
 from urllib.parse import urljoin, urlparse
 from collections import deque
@@ -19,6 +21,7 @@ STATE_FILE = os.path.join(DATA_DIR, "state.json")
 USER_AGENT = "Mozilla/5.0 (compatible; SitemapHunterBot/2.0; +https://github.com/p4blo4p/bot-crawl-sitemap-images)"
 MAX_WORKERS = 5 
 TIME_LIMIT_SECONDS = 50 * 60 
+MIN_DISK_FREE_BYTES = 1024 * 1024 * 1024 # 1GB Buffer
 
 # Efficiency & Politeness
 MAX_URL_RETRIES = 3 
@@ -34,6 +37,14 @@ RE_RICH_METADATA = re.compile(r'(image:caption|image:title|news:title|video:titl
 
 def get_elapsed_time():
     return time.time() - START_TIME
+
+def check_disk_space():
+    """Returns False if disk space is critically low."""
+    try:
+        total, used, free = shutil.disk_usage(DATA_DIR)
+        return free > MIN_DISK_FREE_BYTES
+    except:
+        return True
 
 def parse_date(date_str):
     if not date_str: return None
@@ -156,19 +167,23 @@ def process_url(url, domain_folder, state, crawl_delay):
         is_index = (subfolder == "indices")
         is_rich = (subfolder == "content_rich")
         
-        # Save File
+        # Save File (Compressed)
         parsed = urlparse(url)
         name = os.path.basename(parsed.path) or "sitemap"
-        if not name.endswith(".xml"): name += ".xml"
-        # Short hash to avoid filename collisions but keep readable name
+        if name.endswith(".xml"): 
+            name = name[:-4] # Strip .xml to add .xml.gz later
+        
+        # Short hash to avoid filename collisions
         url_hash = hex(abs(hash(url)))[2:][:6] 
         
         save_dir = os.path.join(domain_folder, subfolder)
         os.makedirs(save_dir, exist_ok=True)
-        filename = f"{name}_{url_hash}.xml"
+        
+        # Use .xml.gz extension
+        filename = f"{name}_{url_hash}.xml.gz"
         save_path = os.path.join(save_dir, filename)
         
-        with open(save_path, "wb") as f:
+        with gzip.open(save_path, "wb") as f:
             f.write(content)
             
         children = []
@@ -224,8 +239,16 @@ def process_site(domain, state):
     
     with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
         while queue:
+            # Global Checks
             if get_elapsed_time() > TIME_LIMIT_SECONDS:
                 print(f"\n[!] Global time limit reached.")
+                state['queues'][domain] = list(queue)
+                state['visited'][domain] = list(visited)
+                save_state(state)
+                sys.exit(0)
+            
+            if not check_disk_space():
+                print(f"\n[!] DISK FULL (<1GB). Saving state and exiting gracefully.")
                 state['queues'][domain] = list(queue)
                 state['visited'][domain] = list(visited)
                 save_state(state)
