@@ -31,56 +31,42 @@ jobs:
 
       - name: Prepare Data Branch
         run: |
-          # Set up Git User
           git config --global user.name "Sitemap Bot"
           git config --global user.email "bot@actionforge.local"
-          
-          # Remote URL with Token
           REPO_URL="https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
           
-          echo "Checking for remote branch ${{ env.SITEMAP_BRANCH }}..."
-          
-          # Use ls-remote to check existence without needing a local repo context
-          if git ls-remote --heads "$REPO_URL" "${{ env.SITEMAP_BRANCH }}" | grep -q "${{ env.SITEMAP_BRANCH }}"; then
+          if git ls-remote --heads "$REPO_URL" "${{ env.SITEMAP_BRANCH }}"; then
             echo "Branch exists. Cloning..."
             git clone --single-branch --branch ${{ env.SITEMAP_BRANCH }} "$REPO_URL" sitemaps_data
           else
-            echo "Branch not found. Initializing new data folder..."
+            echo "Branch not found. Initializing..."
             mkdir sitemaps_data
             cd sitemaps_data
             git init
             git checkout -b ${{ env.SITEMAP_BRANCH }}
-            
-            # Create an initial file so we can commit
+            git remote add origin "$REPO_URL"
             echo '{"created": true}' > state.json
             git add .
             git commit -m "Initial data structure"
-            # We don't push here, we wait for the script to run
             cd ..
           fi
 
-      - name: Run Incremental Downloader
+      - name: Run Downloader
         run: |
-          # Copy sites.txt to root so script finds it
           cp main_code/sites.txt .
-          # Run script from main_code, but it writes to sitemaps_data
           python main_code/scripts/downloader.py
 
       - name: Commit and Push Changes
         working-directory: sitemaps_data
         run: |
           git add .
-          
           TODAY=$(date +'%Y-%m-%d')
           if git diff --staged --quiet; then
-            echo "No changes detected. Everything is up to date."
+            echo "No changes."
           else
-            echo "Changes detected. Pushing update..."
+            echo "Pushing update..."
             git commit -m "Update sitemaps (Checkpoint): $TODAY"
-            
-            # FORCE SET REMOTE to ensure push works even if clone/init was quirky
-            git remote remove origin || true
+            git remote remove origin 2>/dev/null || true
             git remote add origin "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
-            
             git push origin ${{ env.SITEMAP_BRANCH }}
           fi
