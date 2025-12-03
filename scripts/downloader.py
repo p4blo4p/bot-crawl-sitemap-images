@@ -24,6 +24,7 @@ MAX_WORKERS = 5
 # Leaves 20 mins for Git operations (add/commit/push) which can be very slow with thousands of files.
 TIME_LIMIT_SECONDS = 40 * 60 
 MIN_DISK_FREE_BYTES = 1024 * 1024 * 1024 # 1GB Buffer
+MAX_FILES_PER_RUN = 500 # Reduced to 500 to prevent HTTP 500 RPC Errors during git push
 
 # Efficiency & Politeness
 MAX_URL_RETRIES = 3 
@@ -31,6 +32,7 @@ DOMAIN_FAILURE_LIMIT = 20
 DEFAULT_CRAWL_DELAY = 1.0 # Seconds
 
 START_TIME = time.time()
+FILES_PROCESSED_THIS_RUN = 0
 
 # Regex
 RE_LOC = re.compile(r'<loc>(.*?)</loc>', re.IGNORECASE)
@@ -213,7 +215,8 @@ def process_url(url, domain_folder, state, crawl_delay):
         return (url, False, False, None, [], str(e))
 
 def process_site(domain, state):
-    print(f"\n=== Processing Domain: {domain} ===")
+    global FILES_PROCESSED_THIS_RUN
+    print(f"\\n=== Processing Domain: {domain} ===")
     
     if not domain.startswith("http"): domain = "https://" + domain
     
@@ -247,8 +250,18 @@ def process_site(domain, state):
     with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
         while queue:
             # Global Checks
+            
+            # Check File Limit (Batching)
+            if FILES_PROCESSED_THIS_RUN >= MAX_FILES_PER_RUN:
+                print(f"\\n[!] FILE BATCH LIMIT REACHED ({MAX_FILES_PER_RUN}). Saving state and exiting for git push.")
+                state['queues'][domain] = list(queue)
+                state['visited'][domain] = list(visited)
+                # Don't mark as crawled fully yet, just save
+                save_state(state)
+                sys.exit(0)
+
             if get_elapsed_time() > TIME_LIMIT_SECONDS:
-                print(f"\n[!] TIME LIMIT REACHED (40m). Stopping to sync data.")
+                print(f"\\n[!] TIME LIMIT REACHED (40m). Stopping to sync data.")
                 state['queues'][domain] = list(queue)
                 state['visited'][domain] = list(visited)
                 mark_domain_crawled(state, domain) # Mark as touched so it goes to back of queue next time
@@ -256,7 +269,7 @@ def process_site(domain, state):
                 sys.exit(0)
             
             if not check_disk_space():
-                print(f"\n[!] DISK FULL (<1GB). Saving state and exiting gracefully.")
+                print(f"\\n[!] DISK FULL (<1GB). Saving state and exiting gracefully.")
                 state['queues'][domain] = list(queue)
                 state['visited'][domain] = list(visited)
                 mark_domain_crawled(state, domain)
@@ -295,7 +308,8 @@ def process_site(domain, state):
                         if url in state['errors']: del state['errors'][url]
                         
                         if success:
-                            print(f"    [OK] {status}: {url}")
+                            FILES_PROCESSED_THIS_RUN += 1
+                            print(f"    [OK] {status} (#{FILES_PROCESSED_THIS_RUN}): {url}")
                             if meta: 
                                 state['file_meta'][url] = meta
                                 update_domain_stats(state, domain, meta.get('last_modified'))
@@ -348,12 +362,12 @@ def main():
             process_site(site, state)
             
     except KeyboardInterrupt:
-        print("\n[!] Interrupted.")
+        print("\\n[!] Interrupted.")
     except Exception as e:
-        print(f"\n[!] Unexpected Crash: {e}")
+        print(f"\\n[!] Unexpected Crash: {e}")
     finally:
         if 'state' in locals(): save_state(state)
-        print("\n=== Job Complete ===")
+        print("\\n=== Job Complete ===")
 
 if __name__ == "__main__":
     main()
