@@ -2,7 +2,7 @@ name: 01 Download Sitemaps (Incremental)
 
 on:
   schedule:
-    - cron: '0 8 * * 1'
+    - cron: '0 * * * *'
   workflow_dispatch:
 
 permissions:
