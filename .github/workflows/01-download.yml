@@ -2,7 +2,7 @@ name: 01 Download Sitemaps (Incremental)
 
 on:
   schedule:
-    - cron: '${config.cronSchedule}'
+    - cron: '0 8 * * 1'
   workflow_dispatch:
 
 permissions:
@@ -14,7 +14,7 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  SITEMAP_BRANCH: ${config.sitemapBranch}
+  SITEMAP_BRANCH: data-sitemaps
 
 jobs:
   download:
@@ -52,17 +52,17 @@ jobs:
           git config --global http.version HTTP/1.1
           git config --global core.compression 9
           
-          REPO_URL="https://x-access-token:\${{ secrets.GITHUB_TOKEN }}@github.com/\${{ github.repository }}.git"
+          REPO_URL="https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
           
-          if git ls-remote --heads "$REPO_URL" "\${{ env.SITEMAP_BRANCH }}"; then
+          if git ls-remote --heads "$REPO_URL" "${{ env.SITEMAP_BRANCH }}"; then
             echo "Branch exists. Cloning..."
-            git clone --single-branch --branch \${{ env.SITEMAP_BRANCH }} "$REPO_URL" sitemaps_data
+            git clone --single-branch --branch ${{ env.SITEMAP_BRANCH }} "$REPO_URL" sitemaps_data
           else
             echo "Branch not found. Initializing..."
             mkdir sitemaps_data
             cd sitemaps_data
             git init
-            git checkout -b \${{ env.SITEMAP_BRANCH }}
+            git checkout -b ${{ env.SITEMAP_BRANCH }}
             git remote add origin "$REPO_URL"
             echo '{"created": true}' > state.json
             git add .
@@ -86,6 +86,6 @@ jobs:
             echo "Pushing update..."
             git commit -m "Update sitemaps (Checkpoint): $TODAY"
             git remote remove origin 2>/dev/null || true
-            git remote add origin "https://x-access-token:\${{ secrets.GITHUB_TOKEN }}@github.com/\${{ github.repository }}.git"
-            git push origin \${{ env.SITEMAP_BRANCH }}
+            git remote add origin "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
+            git push origin ${{ env.SITEMAP_BRANCH }}
           fi
