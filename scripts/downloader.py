@@ -216,7 +216,7 @@ def process_url(url, domain_folder, state, crawl_delay):
 
 def process_site(domain, state):
     global FILES_PROCESSED_THIS_RUN
-    print(f"\\n=== Processing Domain: {domain} ===")
+    print(f"\n=== Processing Domain: {domain} ===")
     
     if not domain.startswith("http"): domain = "https://" + domain
     
@@ -253,7 +253,7 @@ def process_site(domain, state):
             
             # Check File Limit (Batching)
             if FILES_PROCESSED_THIS_RUN >= MAX_FILES_PER_RUN:
-                print(f"\\n[!] FILE BATCH LIMIT REACHED ({MAX_FILES_PER_RUN}). Saving state and exiting for git push.")
+                print(f"\n[!] FILE BATCH LIMIT REACHED ({MAX_FILES_PER_RUN}). Saving state and exiting for git push.")
                 state['queues'][domain] = list(queue)
                 state['visited'][domain] = list(visited)
                 # Don't mark as crawled fully yet, just save
@@ -261,7 +261,7 @@ def process_site(domain, state):
                 sys.exit(0)
 
             if get_elapsed_time() > TIME_LIMIT_SECONDS:
-                print(f"\\n[!] TIME LIMIT REACHED (40m). Stopping to sync data.")
+                print(f"\n[!] TIME LIMIT REACHED (40m). Stopping to sync data.")
                 state['queues'][domain] = list(queue)
                 state['visited'][domain] = list(visited)
                 mark_domain_crawled(state, domain) # Mark as touched so it goes to back of queue next time
@@ -269,7 +269,7 @@ def process_site(domain, state):
                 sys.exit(0)
             
             if not check_disk_space():
-                print(f"\\n[!] DISK FULL (<1GB). Saving state and exiting gracefully.")
+                print(f"\n[!] DISK FULL (<1GB). Saving state and exiting gracefully.")
                 state['queues'][domain] = list(queue)
                 state['visited'][domain] = list(visited)
                 mark_domain_crawled(state, domain)
@@ -362,12 +362,12 @@ def main():
             process_site(site, state)
             
     except KeyboardInterrupt:
-        print("\\n[!] Interrupted.")
+        print("\n[!] Interrupted.")
     except Exception as e:
-        print(f"\\n[!] Unexpected Crash: {e}")
+        print(f"\n[!] Unexpected Crash: {e}")
     finally:
         if 'state' in locals(): save_state(state)
-        print("\\n=== Job Complete ===")
+        print("\n=== Job Complete ===")
 
 if __name__ == "__main__":
     main()
