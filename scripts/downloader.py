@@ -20,7 +20,9 @@ DATA_DIR = "sitemaps_data"
 STATE_FILE = os.path.join(DATA_DIR, "state.json")
 USER_AGENT = "Mozilla/5.0 (compatible; SitemapHunterBot/2.0; +https://github.com/p4blo4p/bot-crawl-sitemap-images)"
 MAX_WORKERS = 5 
-TIME_LIMIT_SECONDS = 50 * 60 
+# REDUCED TIME LIMIT: 40 Minutes. 
+# Leaves 20 mins for Git operations (add/commit/push) which can be very slow with thousands of files.
+TIME_LIMIT_SECONDS = 40 * 60 
 MIN_DISK_FREE_BYTES = 1024 * 1024 * 1024 # 1GB Buffer
 
 # Efficiency & Politeness
@@ -60,7 +62,7 @@ def load_state():
         "queues": {}, 
         "visited": {},
         "errors": {},
-        "domain_stats": {} # { "domain": { "total_files": 0, "newest_mod": null, "oldest_mod": null } }
+        "domain_stats": {} # { "domain": { "total_files": 0, "newest_mod": null, "oldest_mod": null, "last_crawl": null } }
     }
     if os.path.exists(STATE_FILE):
         try:
@@ -121,7 +123,7 @@ def classify_content(url, text_content):
 
 def update_domain_stats(state, domain, file_date_str):
     if domain not in state['domain_stats']:
-        state['domain_stats'][domain] = {"total_files": 0, "newest_mod": None, "oldest_mod": None}
+        state['domain_stats'][domain] = {"total_files": 0, "newest_mod": None, "oldest_mod": None, "last_crawl": None}
     
     stats = state['domain_stats'][domain]
     stats['total_files'] += 1
@@ -134,6 +136,11 @@ def update_domain_stats(state, domain, file_date_str):
         # Update Oldest
         if not stats['oldest_mod'] or current_date < datetime.fromisoformat(stats['oldest_mod']):
             stats['oldest_mod'] = current_date.isoformat()
+
+def mark_domain_crawled(state, domain):
+    if domain not in state['domain_stats']:
+        state['domain_stats'][domain] = {}
+    state['domain_stats'][domain]['last_crawl'] = datetime.now().isoformat()
 
 def process_url(url, domain_folder, state, crawl_delay):
     # Polite Delay
@@ -241,9 +248,10 @@ def process_site(domain, state):
         while queue:
             # Global Checks
             if get_elapsed_time() > TIME_LIMIT_SECONDS:
-                print(f"\n[!] Global time limit reached.")
+                print(f"\n[!] TIME LIMIT REACHED (40m). Stopping to sync data.")
                 state['queues'][domain] = list(queue)
                 state['visited'][domain] = list(visited)
+                mark_domain_crawled(state, domain) # Mark as touched so it goes to back of queue next time
                 save_state(state)
                 sys.exit(0)
             
@@ -251,6 +259,7 @@ def process_site(domain, state):
                 print(f"\n[!] DISK FULL (<1GB). Saving state and exiting gracefully.")
                 state['queues'][domain] = list(queue)
                 state['visited'][domain] = list(visited)
+                mark_domain_crawled(state, domain)
                 save_state(state)
                 sys.exit(0)
 
@@ -258,6 +267,7 @@ def process_site(domain, state):
                 print(f"[!] Circuit breaker triggered for {domain}. Skipping.")
                 state['queues'][domain] = list(queue)
                 state['visited'][domain] = list(visited)
+                mark_domain_crawled(state, domain)
                 save_state(state)
                 return 
 
@@ -311,7 +321,9 @@ def process_site(domain, state):
             state['visited'][domain] = list(visited)
             save_state(state)
 
+    # If we finish the queue, we clear it and update timestamp
     if domain in state['queues']: del state['queues'][domain]
+    mark_domain_crawled(state, domain)
 
 def main():
     try:
@@ -321,6 +333,13 @@ def main():
         try:
             with open(SITES_FILE, "r") as f:
                 sites = [line.strip() for line in f if line.strip()]
+            
+            # Sort sites by 'last_crawl' timestamp. 
+            # Sites with no timestamp (never crawled) or old timestamps get priority.
+            # '1970...' ensures never-visited sites come first.
+            sites.sort(key=lambda s: state.get('domain_stats', {}).get(s, {}).get('last_crawl', "1970-01-01"))
+            print(f"Loaded {len(sites)} sites. Sorted by staleness (Oldest crawl first).")
+
         except FileNotFoundError:
             print("No sites.txt found.")
             return
