@@ -1,377 +1,95 @@
-import requests
-import os
-import sys
-import json
-import re
-import time
-import random
-import gzip
-import shutil
-import urllib.robotparser
-from urllib.parse import urljoin, urlparse
-from collections import deque
-from concurrent.futures import ThreadPoolExecutor, as_completed
-from datetime import datetime
-from email.utils import parsedate_to_datetime
+name: 01 Download Sitemaps (Incremental)
 
-# Configuration
-SITES_FILE = "sites.txt"
-DATA_DIR = "sitemaps_data" 
-STATE_FILE = os.path.join(DATA_DIR, "state.json")
-USER_AGENT = "Mozilla/5.0 (compatible; SitemapHunterBot/2.0; +https://github.com/p4blo4p/bot-crawl-sitemap-images)"
-MAX_WORKERS = 5 
-# REDUCED TIME LIMIT: 40 Minutes. 
-# Leaves 20 mins for Git operations (add/commit/push) which can be very slow with thousands of files.
-TIME_LIMIT_SECONDS = 40 * 60 
-MIN_DISK_FREE_BYTES = 1024 * 1024 * 1024 # 1GB Buffer
-MAX_FILES_PER_RUN = 100 # Reduced to 100 to prevent HTTP 500 RPC Errors during git push
+on:
+  schedule:
+    - cron: '0 * * * *'
+  workflow_dispatch:
 
-# Efficiency & Politeness
-MAX_URL_RETRIES = 3 
-DOMAIN_FAILURE_LIMIT = 20 
-DEFAULT_CRAWL_DELAY = 1.0 # Seconds
+permissions:
+  contents: write
 
-START_TIME = time.time()
-FILES_PROCESSED_THIS_RUN = 0
+# Prevent race conditions if runs stack up
+concurrency:
+  group: sitemap-download
+  cancel-in-progress: false
 
-# Regex
-RE_LOC = re.compile(r'<loc>(.*?)</loc>', re.IGNORECASE)
-RE_SITEMAP_INDEX = re.compile(r'<sitemapindex', re.IGNORECASE)
-RE_RICH_METADATA = re.compile(r'(image:caption|image:title|news:title|video:title|video:description|<title>)', re.IGNORECASE)
+env:
+  SITEMAP_BRANCH: data-sitemaps
 
-def get_elapsed_time():
-    return time.time() - START_TIME
+jobs:
+  download:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360 # Allow up to 6 hours if account permits
+    steps:
+      - name: Free Disk Space (Aggressive)
+        run: |
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /opt/ghc
+          sudo rm -rf /opt/hostedtoolcache/CodeQL
+          sudo docker image prune --all --force
+          df -h
 
-def check_disk_space():
-    """Returns False if disk space is critically low."""
-    try:
-        total, used, free = shutil.disk_usage(DATA_DIR)
-        return free > MIN_DISK_FREE_BYTES
-    except:
-        return True
+      - name: Checkout Tool Code
+        uses: actions/checkout@v3
+        with:
+          path: main_code
 
-def parse_date(date_str):
-    if not date_str: return None
-    try:
-        # Use email.utils to robustly parse HTTP Last-Modified headers (RFC 2822)
-        return parsedate_to_datetime(date_str)
-    except:
-        return None
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
 
-def load_state():
-    default_state = {
-        "file_meta": {}, 
-        "queues": {}, 
-        "visited": {},
-        "errors": {},
-        "domain_stats": {} # { "domain": { "total_files": 0, "newest_mod": null, "oldest_mod": null, "last_crawl": null } }
-    }
-    if os.path.exists(STATE_FILE):
-        try:
-            with open(STATE_FILE, 'r') as f:
-                data = json.load(f)
-                for k in default_state:
-                    if k not in data: data[k] = default_state[k]
-                return data
-        except:
-            return default_state
-    return default_state
+      - name: Install Dependencies
+        run: pip install requests
 
-def save_state(state):
-    try:
-        with open(STATE_FILE, 'w') as f:
-            json.dump(state, f, indent=2)
-    except Exception as e:
-        print(f"[!] Critical error saving state: {e}")
+      - name: Prepare Data Branch
+        run: |
+          git config --global user.name "Sitemap Bot"
+          git config --global user.email "bot@actionforge.local"
+          # Optimize Git for large pushes (HTTP/1.1 is more stable for large payloads)
+          git config --global http.postBuffer 1048576000
+          git config --global http.version HTTP/1.1
+          git config --global core.compression 9
+          # Network resilience
+          git config --global http.lowSpeedLimit 0
+          git config --global http.lowSpeedTime 999999
+          git config --global pack.windowMemory 100m
+          
+          REPO_URL="https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
+          
+          if git ls-remote --heads "$REPO_URL" "${{ env.SITEMAP_BRANCH }}"; then
+            echo "Branch exists. Cloning..."
+            git clone --single-branch --branch ${{ env.SITEMAP_BRANCH }} "$REPO_URL" sitemaps_data
+          else
+            echo "Branch not found. Initializing..."
+            mkdir sitemaps_data
+            cd sitemaps_data
+            git init
+            git checkout -b ${{ env.SITEMAP_BRANCH }}
+            git remote add origin "$REPO_URL"
+            echo '{"created": true}' > state.json
+            git add .
+            git commit -m "Initial data structure"
+            cd ..
+          fi
 
-def get_robots_parser(domain):
-    rp = urllib.robotparser.RobotFileParser()
-    rp.set_url(urljoin(domain, "/robots.txt"))
-    try:
-        rp.read()
-        return rp
-    except:
-        return None
+      - name: Run Downloader
+        run: |
+          cp main_code/sites.txt .
+          python main_code/scripts/downloader.py
 
-def get_initial_sitemaps(domain, rp):
-    """Extracts initial sitemap URLs from robots.txt using RobotFileParser."""
-    sitemaps = []
-    if rp:
-        sitemaps = rp.site_maps() or []
-    
-    if not sitemaps:
-        # Fallback common locations
-        common = ["/sitemap.xml", "/sitemap_index.xml", "/sitemap-index.xml"]
-        for path in common:
-            sitemaps.append(urljoin(domain, path))
-            
-    return list(set(sitemaps)) # Dedup
-
-def classify_content(url, text_content):
-    if RE_SITEMAP_INDEX.search(text_content):
-        return "indices", "Index"
-
-    if RE_RICH_METADATA.search(text_content):
-        return "content_rich", "RICH (Metadata tags found)"
-
-    locs = RE_LOC.findall(text_content)
-    if locs:
-        # Heuristic: Check for SEO friendly URLs (hyphens/underscores)
-        seo_urls = [u for u in locs if ('-' in u or '_' in u) and len(u.split('/')[-1]) > 5]
-        if len(seo_urls) > 0:
-             return "content_rich", "RICH (SEO-friendly URLs detected)"
-
-    return "content_raw", "RAW (No descriptive text/slugs found)"
-
-def update_domain_stats(state, domain, file_date_str):
-    if domain not in state['domain_stats']:
-        state['domain_stats'][domain] = {"total_files": 0, "newest_mod": None, "oldest_mod": None, "last_crawl": None}
-    
-    stats = state['domain_stats'][domain]
-    stats['total_files'] += 1
-    
-    current_date = parse_date(file_date_str)
-    if current_date:
-        # Update Newest
-        if not stats['newest_mod'] or current_date > datetime.fromisoformat(stats['newest_mod']):
-            stats['newest_mod'] = current_date.isoformat()
-        # Update Oldest
-        if not stats['oldest_mod'] or current_date < datetime.fromisoformat(stats['oldest_mod']):
-            stats['oldest_mod'] = current_date.isoformat()
-
-def mark_domain_crawled(state, domain):
-    if domain not in state['domain_stats']:
-        state['domain_stats'][domain] = {}
-    state['domain_stats'][domain]['last_crawl'] = datetime.now().isoformat()
-
-def process_url(url, domain_folder, state, crawl_delay):
-    # Polite Delay
-    time.sleep(crawl_delay + random.uniform(0, 0.5))
-
-    headers = {"User-Agent": USER_AGENT}
-    
-    error_count = state['errors'].get(url, 0)
-    if error_count >= MAX_URL_RETRIES:
-        return (url, False, False, None, [], "MAX_RETRIES_EXCEEDED")
-
-    cached_meta = state['file_meta'].get(url, {})
-    if 'etag' in cached_meta and cached_meta['etag']:
-        headers['If-None-Match'] = cached_meta['etag']
-    if 'last_modified' in cached_meta and cached_meta['last_modified']:
-        headers['If-Modified-Since'] = cached_meta['last_modified']
-
-    try:
-        response = requests.get(url, headers=headers, timeout=20)
-        
-        if response.status_code == 304:
-            return (url, True, cached_meta.get('is_index', False), None, [], "NOT_MODIFIED")
-
-        if response.status_code != 200:
-            return (url, False, False, None, [], f"HTTP_{response.status_code}")
-
-        content = response.content
-        text_content = response.text
-        
-        subfolder, reason = classify_content(url, text_content)
-        is_index = (subfolder == "indices")
-        is_rich = (subfolder == "content_rich")
-        
-        # Save File (Compressed)
-        parsed = urlparse(url)
-        name = os.path.basename(parsed.path) or "sitemap"
-        
-        # Smart extension handling
-        if name.lower().endswith(".xml"): 
-            name = name[:-4]
-        elif name.lower().endswith(".xml.gz"):
-            name = name[:-7]
-        
-        # Short hash to avoid filename collisions
-        url_hash = hex(abs(hash(url)))[2:][:6] 
-        
-        save_dir = os.path.join(domain_folder, subfolder)
-        os.makedirs(save_dir, exist_ok=True)
-        
-        # Use .xml.gz extension
-        filename = f"{name}_{url_hash}.xml.gz"
-        save_path = os.path.join(save_dir, filename)
-        
-        with gzip.open(save_path, "wb") as f:
-            f.write(content)
-            
-        children = []
-        if is_index:
-            children = [c.strip() for c in RE_LOC.findall(text_content)]
-            
-        new_meta = {
-            'etag': response.headers.get('ETag'),
-            'last_modified': response.headers.get('Last-Modified'),
-            'is_index': is_index,
-            'is_rich': is_rich,
-            'local_path': save_path,
-            'classification': subfolder,
-            'last_check': datetime.now().isoformat()
-        }
-        
-        return (url, True, is_index, new_meta, children, "DOWNLOADED")
-
-    except Exception as e:
-        return (url, False, False, None, [], str(e))
-
-def process_site(domain, state):
-    global FILES_PROCESSED_THIS_RUN
-    print(f"\n=== Processing Domain: {domain} ===")
-    
-    if not domain.startswith("http"): domain = "https://" + domain
-    
-    # 1. Setup Robot Parser
-    rp = get_robots_parser(domain)
-    crawl_delay = DEFAULT_CRAWL_DELAY
-    if rp:
-        rate = rp.request_rate(USER_AGENT)
-        if rate:
-            crawl_delay = rate.seconds / rate.requests
-        elif rp.crawl_delay(USER_AGENT):
-            crawl_delay = rp.crawl_delay(USER_AGENT)
-    
-    print(f"[*] Polite Delay: {crawl_delay:.2f}s")
-
-    # 2. Setup Folder
-    domain_safe = domain.replace("http://", "").replace("https://", "").replace("/", "_")
-    domain_folder = os.path.join(DATA_DIR, "domains", domain_safe)
-    
-    # 3. Load Queue
-    saved_queue = state['queues'].get(domain, [])
-    if saved_queue:
-        print(f"[*] Resuming {len(saved_queue)} URLs...")
-        queue = deque(saved_queue)
-    else:
-        queue = deque(get_initial_sitemaps(domain, rp))
-        
-    visited = set(state['visited'].get(domain, []))
-    consecutive_failures = 0
-    
-    with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
-        while queue:
-            # Global Checks
-            
-            # Check File Limit (Batching)
-            if FILES_PROCESSED_THIS_RUN >= MAX_FILES_PER_RUN:
-                print(f"\n[!] FILE BATCH LIMIT REACHED ({MAX_FILES_PER_RUN}). Saving state and exiting for git push.")
-                state['queues'][domain] = list(queue)
-                state['visited'][domain] = list(visited)
-                # Don't mark as crawled fully yet, just save
-                save_state(state)
-                sys.exit(0)
-
-            if get_elapsed_time() > TIME_LIMIT_SECONDS:
-                print(f"\n[!] TIME LIMIT REACHED (40m). Stopping to sync data.")
-                state['queues'][domain] = list(queue)
-                state['visited'][domain] = list(visited)
-                mark_domain_crawled(state, domain) # Mark as touched so it goes to back of queue next time
-                save_state(state)
-                sys.exit(0)
-            
-            if not check_disk_space():
-                print(f"\n[!] DISK FULL (<1GB). Saving state and exiting gracefully.")
-                state['queues'][domain] = list(queue)
-                state['visited'][domain] = list(visited)
-                mark_domain_crawled(state, domain)
-                save_state(state)
-                sys.exit(0)
-
-            if consecutive_failures >= DOMAIN_FAILURE_LIMIT:
-                print(f"[!] Circuit breaker triggered for {domain}. Skipping.")
-                state['queues'][domain] = list(queue)
-                state['visited'][domain] = list(visited)
-                mark_domain_crawled(state, domain)
-                save_state(state)
-                return 
-
-            current_batch = []
-            while queue and len(current_batch) < MAX_WORKERS:
-                u = queue.popleft()
-                if u not in visited:
-                    visited.add(u)
-                    current_batch.append(u)
-            
-            if not current_batch: continue
-                
-            future_to_url = {
-                executor.submit(process_url, url, domain_folder, state, crawl_delay): url 
-                for url in current_batch
-            }
-            
-            for future in as_completed(future_to_url):
-                url = future_to_url[future]
-                try:
-                    r_url, success, is_index, meta, children, status = future.result()
-                    
-                    if success or status == "NOT_MODIFIED":
-                        consecutive_failures = 0
-                        if url in state['errors']: del state['errors'][url]
-                        
-                        if success:
-                            FILES_PROCESSED_THIS_RUN += 1
-                            print(f"    [OK] {status} (#{FILES_PROCESSED_THIS_RUN}): {url}")
-                            if meta: 
-                                state['file_meta'][url] = meta
-                                update_domain_stats(state, domain, meta.get('last_modified'))
-                            if is_index and children:
-                                for child in children:
-                                    if child not in visited: queue.append(child)
-                        else:
-                            print(f"    [OK] {status}: {url}")
-
-                    elif status == "MAX_RETRIES_EXCEEDED":
-                         print(f"    [DROP] {url} (Max Retries)")
-                    else:
-                        consecutive_failures += 1
-                        print(f"    [ERR] {url}: {status}")
-                        state['errors'][url] = state['errors'].get(url, 0) + 1
-
-                except Exception as exc:
-                    print(f"    [ERR] Thread exception {url}: {exc}")
-                    consecutive_failures += 1
-            
-            # Checkpoint every batch
-            state['queues'][domain] = list(queue)
-            state['visited'][domain] = list(visited)
-            save_state(state)
-
-    # If we finish the queue, we clear it and update timestamp
-    if domain in state['queues']: del state['queues'][domain]
-    mark_domain_crawled(state, domain)
-
-def main():
-    try:
-        os.makedirs(DATA_DIR, exist_ok=True)
-        state = load_state()
-        
-        try:
-            with open(SITES_FILE, "r") as f:
-                sites = [line.strip() for line in f if line.strip()]
-            
-            # Sort sites by 'last_crawl' timestamp. 
-            # Sites with no timestamp (never crawled) or old timestamps get priority.
-            # '1970...' ensures never-visited sites come first.
-            sites.sort(key=lambda s: state.get('domain_stats', {}).get(s, {}).get('last_crawl', "1970-01-01"))
-            print(f"Loaded {len(sites)} sites. Sorted by staleness (Oldest crawl first).")
-
-        except FileNotFoundError:
-            print("No sites.txt found.")
-            return
-
-        for site in sites:
-            process_site(site, state)
-            
-    except KeyboardInterrupt:
-        print("\n[!] Interrupted.")
-    except Exception as e:
-        print(f"\n[!] Unexpected Crash: {e}")
-    finally:
-        if 'state' in locals(): save_state(state)
-        print("\n=== Job Complete ===")
-
-if __name__ == "__main__":
-    main()
+      - name: Commit and Push Changes
+        working-directory: sitemaps_data
+        run: |
+          git add .
+          TODAY=$(date +'%Y-%m-%d')
+          if git diff --staged --quiet; then
+            echo "No changes."
+          else
+            echo "Pushing update..."
+            git commit -m "Update sitemaps (Checkpoint): $TODAY"
+            git remote remove origin 2>/dev/null || true
+            git remote add origin "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
+            git push origin ${{ env.SITEMAP_BRANCH }}
+          fi
