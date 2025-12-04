@@ -24,7 +24,7 @@ MAX_WORKERS = 5
 # Leaves 20 mins for Git operations (add/commit/push) which can be very slow with thousands of files.
 TIME_LIMIT_SECONDS = 40 * 60 
 MIN_DISK_FREE_BYTES = 1024 * 1024 * 1024 # 1GB Buffer
-MAX_FILES_PER_RUN = 500 # Reduced to 500 to prevent HTTP 500 RPC Errors during git push
+MAX_FILES_PER_RUN = 100 # Reduced to 100 to prevent HTTP 500 RPC Errors during git push
 
 # Efficiency & Politeness
 MAX_URL_RETRIES = 3 
@@ -179,8 +179,12 @@ def process_url(url, domain_folder, state, crawl_delay):
         # Save File (Compressed)
         parsed = urlparse(url)
         name = os.path.basename(parsed.path) or "sitemap"
-        if name.endswith(".xml"): 
-            name = name[:-4] # Strip .xml to add .xml.gz later
+        
+        # Smart extension handling
+        if name.lower().endswith(".xml"): 
+            name = name[:-4]
+        elif name.lower().endswith(".xml.gz"):
+            name = name[:-7]
         
         # Short hash to avoid filename collisions
         url_hash = hex(abs(hash(url)))[2:][:6] 
