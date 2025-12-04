@@ -3,6 +3,7 @@ import sys
 import re
 import datetime
 import difflib
+import gzip
 
 # Configuration
 DEFAULT_PHRASE = "Dragon Ball"
@@ -29,7 +30,6 @@ def fuzzy_match(query, text):
         return True, 1.0, "Substring"
     
     # 2. Fuzzy Match (Parody/Typo detection)
-    # We only check fuzzy if the text length is reasonable to avoid performance hits on massive strings
     if len(text_norm) < 300: 
         ratio = difflib.SequenceMatcher(None, query_norm, text_norm).ratio()
         if ratio >= FUZZY_THRESHOLD:
@@ -52,22 +52,19 @@ def search_files(directory, phrase):
         dirs[:] = [d for d in dirs if not d.startswith('.')]
         
         for file in files:
-            if file.endswith(".xml"):
+            # Support both raw XML (legacy) and GZ (new)
+            if file.endswith(".xml") or file.endswith(".xml.gz"):
                 scanned_count += 1
                 path = os.path.join(root, file)
                 
                 if scanned_count % 1000 == 0: print(f"    Scanning [{scanned_count}]...")
 
                 try:
-                    with open(path, "r", encoding="utf-8", errors="ignore") as f:
+                    open_func = gzip.open if file.endswith(".gz") else open
+                    with open_func(path, "rt", encoding="utf-8", errors="ignore") as f:
                         content = f.read()
                         
-                        # Optimization: Extract only relevant tag content to search against
-                        # This avoids searching massive base64 blobs or random XML attributes
                         potential_matches = RE_EXTRACT_CONTENT.findall(content)
-                        
-                        found_in_file = False
-                        best_file_match = None
                         
                         # Also extract URLs specifically to report them
                         urls = [p[1] for p in potential_matches if p[0].lower() == 'loc']
@@ -75,9 +72,7 @@ def search_files(directory, phrase):
                         for tag_type, text in potential_matches:
                             is_match, conf, m_type = fuzzy_match(phrase, text)
                             if is_match:
-                                found_in_file = True
                                 # If we found a match in a title/caption, associate it with the first available URL in the file
-                                # or the text itself if it looks like a URL
                                 associated_url = text if tag_type == 'loc' else (urls[0] if urls else "No URL found in sitemap")
                                 
                                 results.append({
@@ -87,10 +82,9 @@ def search_files(directory, phrase):
                                     "type": m_type,
                                     "file": file
                                 })
-                                # Stop searching this file after finding a good match to save time? 
-                                # No, we might miss different chapters.
                             
                 except Exception as e:
+                    # print(f"Error reading {file}: {e}")
                     pass
     
     return results, scanned_count
@@ -135,7 +129,6 @@ def main():
             for hit in sorted_hits:
                 conf_str = f"{int(hit['confidence']*100)}%"
                 url_display = f"[{hit['url']}]({hit['url']})" if hit['url'].startswith('http') else hit['url']
-                # If match text is different from URL, show it
                 context = ""
                 if hit['match_text'] != hit['url']:
                     context = f"<br/>*Match: {hit['match_text'][:50]}...*"
