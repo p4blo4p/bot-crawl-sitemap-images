@@ -1,17 +1,17 @@
 {
   "domain_stats": {
     "https://2ch.su": {
-      "last_crawl": "2025-12-09T10:22:19.091329"
+      "last_crawl": "2025-12-09T12:28:43.696770"
     },
     "https://35photo.pro": {
       "total_files": 24,
       "newest_mod": "2025-12-09T10:15:23+00:00",
-      "last_crawl": "2025-12-09T10:22:19.855875"
+      "last_crawl": "2025-12-09T12:28:44.646477"
     },
     "https://4archive.org": {
-      "total_files": 176,
+      "total_files": 211,
       "newest_mod": "2025-07-18T16:14:53+00:00",
-      "last_crawl": null
+      "last_crawl": "2025-12-09T12:29:23.531877"
     }
   }
 }
