@@ -1,0 +1,14 @@
+{
+  "file_meta": {},
+  "queues": [],
+  "visited": [
+    "https://2ch.su/sitemap_index.xml",
+    "https://2ch.su/sitemap-index.xml",
+    "https://2ch.su/sitemap.xml"
+  ],
+  "errors": {
+    "https://2ch.su/sitemap_index.xml": 1,
+    "https://2ch.su/sitemap.xml": 1,
+    "https://2ch.su/sitemap-index.xml": 1
+  }
+}
