@@ -17,19 +17,17 @@ from email.utils import parsedate_to_datetime
 # Configuration
 SITES_FILE = "sites.txt"
 DATA_DIR = "sitemaps_data" 
-STATE_FILE = os.path.join(DATA_DIR, "state.json")
-USER_AGENT = "Mozilla/5.0 (compatible; SitemapHunterBot/2.0; +https://github.com/p4blo4p/bot-crawl-sitemap-images)"
+GLOBAL_STATE_FILE = os.path.join(DATA_DIR, "global_state.json")
+USER_AGENT = "Mozilla/5.0 (compatible; SitemapHunterBot/2.1; +https://github.com/p4blo4p/bot-crawl-sitemap-images)"
 MAX_WORKERS = 5 
-# REDUCED TIME LIMIT: 40 Minutes. 
-# Leaves 20 mins for Git operations (add/commit/push) which can be very slow with thousands of files.
-TIME_LIMIT_SECONDS = 40 * 60 
-MIN_DISK_FREE_BYTES = 1024 * 1024 * 1024 # 1GB Buffer
-MAX_FILES_PER_RUN = 100 # Reduced to 100 to prevent HTTP 500 RPC Errors during git push
+TIME_LIMIT_SECONDS = 40 * 60  # 40 Minutes
+MIN_DISK_FREE_BYTES = 512 * 1024 * 1024 # 512MB Buffer
+MAX_FILES_PER_RUN = 100 
 
 # Efficiency & Politeness
 MAX_URL_RETRIES = 3 
 DOMAIN_FAILURE_LIMIT = 20 
-DEFAULT_CRAWL_DELAY = 1.0 # Seconds
+DEFAULT_CRAWL_DELAY = 1.0 
 
 START_TIME = time.time()
 FILES_PROCESSED_THIS_RUN = 0
@@ -43,7 +41,6 @@ def get_elapsed_time():
     return time.time() - START_TIME
 
 def check_disk_space():
-    """Returns False if disk space is critically low."""
     try:
         total, used, free = shutil.disk_usage(DATA_DIR)
         return free > MIN_DISK_FREE_BYTES
@@ -53,36 +50,63 @@ def check_disk_space():
 def parse_date(date_str):
     if not date_str: return None
     try:
-        # Use email.utils to robustly parse HTTP Last-Modified headers (RFC 2822)
         return parsedate_to_datetime(date_str)
     except:
         return None
 
-def load_state():
-    default_state = {
-        "file_meta": {}, 
-        "queues": {}, 
-        "visited": {},
-        "errors": {},
-        "domain_stats": {} # { "domain": { "total_files": 0, "newest_mod": null, "oldest_mod": null, "last_crawl": null } }
-    }
-    if os.path.exists(STATE_FILE):
-        try:
-            with open(STATE_FILE, 'r') as f:
-                data = json.load(f)
-                for k in default_state:
-                    if k not in data: data[k] = default_state[k]
-                return data
-        except:
-            return default_state
-    return default_state
+# --- STATE MANAGEMENT (SHARDED) ---
 
-def save_state(state):
+def load_global_state():
+    """Loads only the high-level stats needed for sorting domains."""
+    if os.path.exists(GLOBAL_STATE_FILE):
+        try:
+            with open(GLOBAL_STATE_FILE, 'r') as f:
+                return json.load(f)
+        except:
+            pass
+    return {"domain_stats": {}}
+
+def save_global_state(state):
     try:
-        with open(STATE_FILE, 'w') as f:
+        with open(GLOBAL_STATE_FILE, 'w') as f:
             json.dump(state, f, indent=2)
     except Exception as e:
-        print(f"[!] Critical error saving state: {e}")
+        print(f"[!] Error saving global state: {e}")
+
+def get_domain_state_path(domain):
+    # Sanitize domain for folder name
+    domain_safe = domain.replace("http://", "").replace("https://", "").replace("/", "_")
+    return os.path.join(DATA_DIR, "domains", domain_safe, "state.json")
+
+def load_domain_state(domain):
+    """Loads the heavy state specific to one domain."""
+    path = get_domain_state_path(domain)
+    default_state = {
+        "file_meta": {}, 
+        "queues": [], 
+        "visited": [],
+        "errors": {}
+    }
+    if os.path.exists(path):
+        try:
+            with open(path, 'r') as f:
+                data = json.load(f)
+                # Convert list back to deque for queue if needed, but JSON uses lists
+                return data
+        except:
+            pass
+    return default_state
+
+def save_domain_state(domain, state):
+    path = get_domain_state_path(domain)
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    try:
+        with open(path, 'w') as f:
+            json.dump(state, f, indent=2)
+    except Exception as e:
+        print(f"[!] Error saving state for {domain}: {e}")
+
+# --- CRAWLER LOGIC ---
 
 def get_robots_parser(domain):
     rp = urllib.robotparser.RobotFileParser()
@@ -94,71 +118,60 @@ def get_robots_parser(domain):
         return None
 
 def get_initial_sitemaps(domain, rp):
-    """Extracts initial sitemap URLs from robots.txt using RobotFileParser."""
     sitemaps = []
     if rp:
         sitemaps = rp.site_maps() or []
     
     if not sitemaps:
-        # Fallback common locations
         common = ["/sitemap.xml", "/sitemap_index.xml", "/sitemap-index.xml"]
         for path in common:
             sitemaps.append(urljoin(domain, path))
             
-    return list(set(sitemaps)) # Dedup
+    return list(set(sitemaps))
 
 def classify_content(url, text_content):
     if RE_SITEMAP_INDEX.search(text_content):
         return "indices", "Index"
-
     if RE_RICH_METADATA.search(text_content):
-        return "content_rich", "RICH (Metadata tags found)"
-
+        return "content_rich", "RICH (Metadata tags)"
     locs = RE_LOC.findall(text_content)
     if locs:
-        # Heuristic: Check for SEO friendly URLs (hyphens/underscores)
         seo_urls = [u for u in locs if ('-' in u or '_' in u) and len(u.split('/')[-1]) > 5]
         if len(seo_urls) > 0:
-             return "content_rich", "RICH (SEO-friendly URLs detected)"
+             return "content_rich", "RICH (SEO URLs)"
+    return "content_raw", "RAW"
 
-    return "content_raw", "RAW (No descriptive text/slugs found)"
-
-def update_domain_stats(state, domain, file_date_str):
-    if domain not in state['domain_stats']:
-        state['domain_stats'][domain] = {"total_files": 0, "newest_mod": None, "oldest_mod": None, "last_crawl": None}
+def update_global_stats(global_state, domain, file_date_str):
+    if 'domain_stats' not in global_state: global_state['domain_stats'] = {}
+    if domain not in global_state['domain_stats']:
+        global_state['domain_stats'][domain] = {"total_files": 0, "newest_mod": None, "last_crawl": None}
     
-    stats = state['domain_stats'][domain]
+    stats = global_state['domain_stats'][domain]
     stats['total_files'] += 1
     
     current_date = parse_date(file_date_str)
     if current_date:
-        # Update Newest
         if not stats['newest_mod'] or current_date > datetime.fromisoformat(stats['newest_mod']):
             stats['newest_mod'] = current_date.isoformat()
-        # Update Oldest
-        if not stats['oldest_mod'] or current_date < datetime.fromisoformat(stats['oldest_mod']):
-            stats['oldest_mod'] = current_date.isoformat()
 
-def mark_domain_crawled(state, domain):
-    if domain not in state['domain_stats']:
-        state['domain_stats'][domain] = {}
-    state['domain_stats'][domain]['last_crawl'] = datetime.now().isoformat()
+def mark_domain_crawled(global_state, domain):
+    if 'domain_stats' not in global_state: global_state['domain_stats'] = {}
+    if domain not in global_state['domain_stats']: global_state['domain_stats'][domain] = {}
+    global_state['domain_stats'][domain]['last_crawl'] = datetime.now().isoformat()
+    save_global_state(global_state)
 
-def process_url(url, domain_folder, state, crawl_delay):
-    # Polite Delay
+def process_url(url, domain_folder, domain_state, crawl_delay):
     time.sleep(crawl_delay + random.uniform(0, 0.5))
-
     headers = {"User-Agent": USER_AGENT}
     
-    error_count = state['errors'].get(url, 0)
-    if error_count >= MAX_URL_RETRIES:
-        return (url, False, False, None, [], "MAX_RETRIES_EXCEEDED")
+    # Check retries
+    if url in domain_state['errors'] and domain_state['errors'][url] >= MAX_URL_RETRIES:
+        return (url, False, False, None, [], "MAX_RETRIES")
 
-    cached_meta = state['file_meta'].get(url, {})
-    if 'etag' in cached_meta and cached_meta['etag']:
-        headers['If-None-Match'] = cached_meta['etag']
-    if 'last_modified' in cached_meta and cached_meta['last_modified']:
-        headers['If-Modified-Since'] = cached_meta['last_modified']
+    # Check Cache
+    cached_meta = domain_state['file_meta'].get(url, {})
+    if cached_meta.get('etag'): headers['If-None-Match'] = cached_meta['etag']
+    if cached_meta.get('last_modified'): headers['If-Modified-Since'] = cached_meta['last_modified']
 
     try:
         response = requests.get(url, headers=headers, timeout=20)
@@ -176,23 +189,15 @@ def process_url(url, domain_folder, state, crawl_delay):
         is_index = (subfolder == "indices")
         is_rich = (subfolder == "content_rich")
         
-        # Save File (Compressed)
+        # Save File
         parsed = urlparse(url)
         name = os.path.basename(parsed.path) or "sitemap"
-        
-        # Smart extension handling
-        if name.lower().endswith(".xml"): 
-            name = name[:-4]
-        elif name.lower().endswith(".xml.gz"):
-            name = name[:-7]
-        
-        # Short hash to avoid filename collisions
+        if name.lower().endswith(".xml"): name = name[:-4]
+        elif name.lower().endswith(".xml.gz"): name = name[:-7]
         url_hash = hex(abs(hash(url)))[2:][:6] 
         
         save_dir = os.path.join(domain_folder, subfolder)
         os.makedirs(save_dir, exist_ok=True)
-        
-        # Use .xml.gz extension
         filename = f"{name}_{url_hash}.xml.gz"
         save_path = os.path.join(save_dir, filename)
         
@@ -218,159 +223,151 @@ def process_url(url, domain_folder, state, crawl_delay):
     except Exception as e:
         return (url, False, False, None, [], str(e))
 
-def process_site(domain, state):
+def process_site(domain, global_state):
     global FILES_PROCESSED_THIS_RUN
     print(f"\n=== Processing Domain: {domain} ===")
     
     if not domain.startswith("http"): domain = "https://" + domain
     
-    # 1. Setup Robot Parser
     rp = get_robots_parser(domain)
     crawl_delay = DEFAULT_CRAWL_DELAY
     if rp:
         rate = rp.request_rate(USER_AGENT)
-        if rate:
-            crawl_delay = rate.seconds / rate.requests
-        elif rp.crawl_delay(USER_AGENT):
-            crawl_delay = rp.crawl_delay(USER_AGENT)
+        if rate: crawl_delay = rate.seconds / rate.requests
+        elif rp.crawl_delay(USER_AGENT): crawl_delay = rp.crawl_delay(USER_AGENT)
     
     print(f"[*] Polite Delay: {crawl_delay:.2f}s")
 
-    # 2. Setup Folder
+    # Load Domain Specific State
+    domain_state = load_domain_state(domain)
+    
+    # Setup Folder
     domain_safe = domain.replace("http://", "").replace("https://", "").replace("/", "_")
     domain_folder = os.path.join(DATA_DIR, "domains", domain_safe)
     
-    # 3. Load Queue
-    saved_queue = state['queues'].get(domain, [])
-    if saved_queue:
-        print(f"[*] Resuming {len(saved_queue)} URLs...")
-        queue = deque(saved_queue)
+    # Initialize Queue
+    if domain_state['queues']:
+        print(f"[*] Resuming {len(domain_state['queues'])} URLs from saved state...")
+        queue = deque(domain_state['queues'])
     else:
         queue = deque(get_initial_sitemaps(domain, rp))
         
-    visited = set(state['visited'].get(domain, []))
+    visited = set(domain_state['visited'])
     consecutive_failures = 0
     
-    with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
-        while queue:
-            # Global Checks
-            
-            # Check File Limit (Batching)
-            if FILES_PROCESSED_THIS_RUN >= MAX_FILES_PER_RUN:
-                print(f"\n[!] FILE BATCH LIMIT REACHED ({MAX_FILES_PER_RUN}). Saving state and exiting for git push.")
-                state['queues'][domain] = list(queue)
-                state['visited'][domain] = list(visited)
-                # Don't mark as crawled fully yet, just save
-                save_state(state)
-                sys.exit(0)
+    try:
+        with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
+            while queue:
+                # --- EXIT CONDITIONS ---
+                if FILES_PROCESSED_THIS_RUN >= MAX_FILES_PER_RUN:
+                    print(f"\n[!] BATCH LIMIT ({MAX_FILES_PER_RUN}). Saving & Exiting.")
+                    raise SystemExit
+                if get_elapsed_time() > TIME_LIMIT_SECONDS:
+                    print(f"\n[!] TIME LIMIT (40m). Saving & Exiting.")
+                    mark_domain_crawled(global_state, domain)
+                    raise SystemExit
+                if not check_disk_space():
+                    print(f"\n[!] DISK FULL. Saving & Exiting.")
+                    mark_domain_crawled(global_state, domain)
+                    raise SystemExit
+                if consecutive_failures >= DOMAIN_FAILURE_LIMIT:
+                    print(f"[!] Circuit breaker triggered for {domain}.")
+                    mark_domain_crawled(global_state, domain)
+                    break
 
-            if get_elapsed_time() > TIME_LIMIT_SECONDS:
-                print(f"\n[!] TIME LIMIT REACHED (40m). Stopping to sync data.")
-                state['queues'][domain] = list(queue)
-                state['visited'][domain] = list(visited)
-                mark_domain_crawled(state, domain) # Mark as touched so it goes to back of queue next time
-                save_state(state)
-                sys.exit(0)
-            
-            if not check_disk_space():
-                print(f"\n[!] DISK FULL (<1GB). Saving state and exiting gracefully.")
-                state['queues'][domain] = list(queue)
-                state['visited'][domain] = list(visited)
-                mark_domain_crawled(state, domain)
-                save_state(state)
-                sys.exit(0)
-
-            if consecutive_failures >= DOMAIN_FAILURE_LIMIT:
-                print(f"[!] Circuit breaker triggered for {domain}. Skipping.")
-                state['queues'][domain] = list(queue)
-                state['visited'][domain] = list(visited)
-                mark_domain_crawled(state, domain)
-                save_state(state)
-                return 
-
-            current_batch = []
-            while queue and len(current_batch) < MAX_WORKERS:
-                u = queue.popleft()
-                if u not in visited:
-                    visited.add(u)
-                    current_batch.append(u)
-            
-            if not current_batch: continue
+                current_batch = []
+                while queue and len(current_batch) < MAX_WORKERS:
+                    u = queue.popleft()
+                    if u not in visited:
+                        visited.add(u)
+                        current_batch.append(u)
                 
-            future_to_url = {
-                executor.submit(process_url, url, domain_folder, state, crawl_delay): url 
-                for url in current_batch
-            }
-            
-            for future in as_completed(future_to_url):
-                url = future_to_url[future]
-                try:
-                    r_url, success, is_index, meta, children, status = future.result()
+                if not current_batch: continue
                     
-                    if success or status == "NOT_MODIFIED":
-                        consecutive_failures = 0
-                        if url in state['errors']: del state['errors'][url]
+                future_to_url = {
+                    executor.submit(process_url, url, domain_folder, domain_state, crawl_delay): url 
+                    for url in current_batch
+                }
+                
+                for future in as_completed(future_to_url):
+                    url = future_to_url[future]
+                    try:
+                        r_url, success, is_index, meta, children, status = future.result()
                         
-                        if success:
-                            FILES_PROCESSED_THIS_RUN += 1
-                            print(f"    [OK] {status} (#{FILES_PROCESSED_THIS_RUN}): {url}")
-                            if meta: 
-                                state['file_meta'][url] = meta
-                                update_domain_stats(state, domain, meta.get('last_modified'))
-                            if is_index and children:
-                                for child in children:
-                                    if child not in visited: queue.append(child)
+                        if success or status == "NOT_MODIFIED":
+                            consecutive_failures = 0
+                            if url in domain_state['errors']: del domain_state['errors'][url]
+                            
+                            if success:
+                                FILES_PROCESSED_THIS_RUN += 1
+                                print(f"    [OK] {status} (#{FILES_PROCESSED_THIS_RUN}): {url}")
+                                if meta: 
+                                    domain_state['file_meta'][url] = meta
+                                    update_global_stats(global_state, domain, meta.get('last_modified'))
+                                if is_index and children:
+                                    for child in children:
+                                        if child not in visited: queue.append(child)
+                            else:
+                                print(f"    [OK] {status}: {url}")
                         else:
-                            print(f"    [OK] {status}: {url}")
-
-                    elif status == "MAX_RETRIES_EXCEEDED":
-                         print(f"    [DROP] {url} (Max Retries)")
-                    else:
+                            consecutive_failures += 1
+                            print(f"    [ERR] {url}: {status}")
+                            domain_state['errors'][url] = domain_state['errors'].get(url, 0) + 1
+                    except:
                         consecutive_failures += 1
-                        print(f"    [ERR] {url}: {status}")
-                        state['errors'][url] = state['errors'].get(url, 0) + 1
+                
+                # Checkpoint domain state periodically
+                domain_state['queues'] = list(queue)
+                domain_state['visited'] = list(visited)
+                save_domain_state(domain, domain_state)
 
-                except Exception as exc:
-                    print(f"    [ERR] Thread exception {url}: {exc}")
-                    consecutive_failures += 1
-            
-            # Checkpoint every batch
-            state['queues'][domain] = list(queue)
-            state['visited'][domain] = list(visited)
-            save_state(state)
+    except SystemExit:
+        # Save before exiting
+        domain_state['queues'] = list(queue)
+        domain_state['visited'] = list(visited)
+        save_domain_state(domain, domain_state)
+        save_global_state(global_state)
+        sys.exit(0)
+    finally:
+        # Ensure cleanup save
+        domain_state['queues'] = list(queue)
+        domain_state['visited'] = list(visited)
+        save_domain_state(domain, domain_state)
+        save_global_state(global_state)
 
-    # If we finish the queue, we clear it and update timestamp
-    if domain in state['queues']: del state['queues'][domain]
-    mark_domain_crawled(state, domain)
+    # Finished domain
+    if domain_state['queues']: # If items left (circuit breaker), don't delete
+         pass 
+    else:
+         domain_state['queues'] = []
+    
+    mark_domain_crawled(global_state, domain)
 
 def main():
     try:
         os.makedirs(DATA_DIR, exist_ok=True)
-        state = load_state()
+        global_state = load_global_state()
         
         try:
             with open(SITES_FILE, "r") as f:
                 sites = [line.strip() for line in f if line.strip()]
             
-            # Sort sites by 'last_crawl' timestamp. 
-            # Sites with no timestamp (never crawled) or old timestamps get priority.
-            # '1970...' ensures never-visited sites come first.
-            sites.sort(key=lambda s: state.get('domain_stats', {}).get(s, {}).get('last_crawl', "1970-01-01"))
-            print(f"Loaded {len(sites)} sites. Sorted by staleness (Oldest crawl first).")
+            # Sort sites by 'last_crawl' timestamp from global state
+            sites.sort(key=lambda s: global_state.get('domain_stats', {}).get(s, {}).get('last_crawl', "1970-01-01"))
+            print(f"Loaded {len(sites)} sites. Sorted by staleness.")
 
         except FileNotFoundError:
             print("No sites.txt found.")
             return
 
         for site in sites:
-            process_site(site, state)
+            process_site(site, global_state)
             
     except KeyboardInterrupt:
         print("\n[!] Interrupted.")
     except Exception as e:
-        print(f"\n[!] Unexpected Crash: {e}")
+        print(f"\n[!] Crash: {e}")
     finally:
-        if 'state' in locals(): save_state(state)
         print("\n=== Job Complete ===")
 
 if __name__ == "__main__":
