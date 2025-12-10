@@ -1,0 +1,10 @@
+{
+  "file_meta": {},
+  "queues": [
+    "https://komikcast.li/sitemap.xml",
+    "https://komikcast.li/sitemap_index.xml",
+    "https://komikcast.li/sitemap-index.xml"
+  ],
+  "visited": [],
+  "errors": {}
+}
