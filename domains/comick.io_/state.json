@@ -1,0 +1,10 @@
+{
+  "file_meta": {},
+  "queues": [
+    "https://comick.io/sitemap-index.xml",
+    "https://comick.io/sitemap.xml",
+    "https://comick.io/sitemap_index.xml"
+  ],
+  "visited": [],
+  "errors": {}
+}
