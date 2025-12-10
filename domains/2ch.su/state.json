@@ -6,9 +6,9 @@
     "https://2ch.su/sitemap_index.xml"
   ],
   "visited": [
+    "https://2ch.su/sitemap_index.xml",
     "https://2ch.su/sitemap.xml",
-    "https://2ch.su/sitemap-index.xml",
-    "https://2ch.su/sitemap_index.xml"
+    "https://2ch.su/sitemap-index.xml"
   ],
   "errors": {
     "https://2ch.su/sitemap_index.xml": 1,
