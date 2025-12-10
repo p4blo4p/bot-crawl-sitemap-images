@@ -1,0 +1,10 @@
+{
+  "file_meta": {},
+  "queues": [
+    "https://dynasty-scans.com/sitemap.xml",
+    "https://dynasty-scans.com/sitemap_index.xml",
+    "https://dynasty-scans.com/sitemap-index.xml"
+  ],
+  "visited": [],
+  "errors": {}
+}
