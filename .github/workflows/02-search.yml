@@ -24,13 +24,17 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
     steps:
-      - name: Free Disk Space (Aggressive)
+      - name: Free Disk Space (Very Aggressive)
         run: |
+          sudo swapoff -a
+          sudo rm -f /swapfile
           sudo rm -rf /usr/share/dotnet
           sudo rm -rf /usr/local/lib/android
           sudo rm -rf /opt/ghc
           sudo rm -rf /opt/hostedtoolcache/CodeQL
           sudo docker image prune --all --force
+          sudo rm -rf /usr/local/share/boost
+          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
           df -h
 
       - name: Checkout Tool Code
@@ -49,7 +53,15 @@ jobs:
            REPO_URL="https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
            if git ls-remote --heads "$REPO_URL" "${{ env.SITEMAP_BRANCH }}" | grep -q "${{ env.SITEMAP_BRANCH }}"; then
              # Shallow clone to save disk space
+             echo "Cloning data branch..."
              git clone --depth 1 --single-branch --branch ${{ env.SITEMAP_BRANCH }} "$REPO_URL" sitemaps_data
+             
+             # CRITICAL: Delete .git folder immediately to free space
+             echo "Deleting .git folder to save space..."
+             rm -rf sitemaps_data/.git
+             
+             echo "Disk space after clone:"
+             df -h
            else
              echo "Sitemap branch not found. Skipping."
              exit 0
@@ -60,8 +72,11 @@ jobs:
            REPO_URL="https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
            if git ls-remote --heads "$REPO_URL" "${{ env.RESULTS_BRANCH }}" | grep -q "${{ env.RESULTS_BRANCH }}"; then
              git clone --depth 1 --single-branch --branch ${{ env.RESULTS_BRANCH }} "$REPO_URL" results_repo_state
+             
              # Copy previous search state to data dir so script can read it
+             # We put it in sitemaps_data because the python script expects it there
              cp results_repo_state/search_state.json sitemaps_data/ 2>/dev/null || echo "No previous search state."
+             
              # Copy previous results so we append to them
              cp results_repo_state/results_*.txt . 2>/dev/null || true
              cp results_repo_state/results_*.md . 2>/dev/null || true
@@ -82,7 +97,7 @@ jobs:
           REPO_URL="https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
           
           mkdir -p results_temp
-          # Copy Results + Updated Search State
+          # Copy Results + Updated Search State (from sitemaps_data)
           cp results_*.txt results_temp/ 2>/dev/null || true
           cp results_*.md results_temp/ 2>/dev/null || true
           cp sitemaps_data/search_state.json results_temp/ 2>/dev/null || true
