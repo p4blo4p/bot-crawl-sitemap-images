@@ -1,0 +1,10 @@
+{
+  "file_meta": {},
+  "queues": [
+    "https://mangapark.net/sitemap.xml",
+    "https://mangapark.net/sitemap_index.xml",
+    "https://mangapark.net/sitemap-index.xml"
+  ],
+  "visited": [],
+  "errors": {}
+}
