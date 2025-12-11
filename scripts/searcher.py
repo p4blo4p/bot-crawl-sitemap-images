@@ -12,7 +12,7 @@ DEFAULT_PHRASE = "Dragon Ball"
 SEARCH_PHRASE = os.getenv("SEARCH_PHRASE", DEFAULT_PHRASE)
 DATA_DIR = "sitemaps_data"
 # Stores "filepath": mtime_of_last_scan
-SEARCH_STATE_FILE = "search_state.json" 
+SEARCH_STATE_FILE = os.path.join(DATA_DIR, "search_state.json")
 
 FUZZY_THRESHOLD = 0.8
 TIME_LIMIT_SECONDS = 40 * 60 # 40 Minutes strict limit
