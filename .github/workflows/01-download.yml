@@ -1,4 +1,4 @@
-name: 01 Download Sitemaps (Incremental)
+name: 01 Download Sitemaps (comics)
 
 on:
   schedule:
@@ -10,11 +10,11 @@ permissions:
 
 # Prevent race conditions if runs stack up
 concurrency:
-  group: sitemap-download
+  group: sitemap-download-comics
   cancel-in-progress: false
 
 env:
-  SITEMAP_BRANCH: data-sitemaps
+  SITEMAP_BRANCH: data-comics
 
 jobs:
   download:
@@ -23,11 +23,15 @@ jobs:
     steps:
       - name: Free Disk Space (Aggressive)
         run: |
+          sudo swapoff -a
+          sudo rm -f /swapfile
           sudo rm -rf /usr/share/dotnet
           sudo rm -rf /usr/local/lib/android
           sudo rm -rf /opt/ghc
           sudo rm -rf /opt/hostedtoolcache/CodeQL
           sudo docker image prune --all --force
+          sudo rm -rf /usr/local/share/boost
+          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
           df -h
 
       - name: Checkout Tool Code
@@ -59,8 +63,9 @@ jobs:
           REPO_URL="https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
           
           if git ls-remote --heads "$REPO_URL" "${{ env.SITEMAP_BRANCH }}"; then
-            echo "Branch exists. Cloning..."
-            git clone --single-branch --branch ${{ env.SITEMAP_BRANCH }} "$REPO_URL" sitemaps_data
+            echo "Branch exists. Cloning (Shallow)..."
+            # Shallow clone to save disk space
+            git clone --depth 1 --single-branch --branch ${{ env.SITEMAP_BRANCH }} "$REPO_URL" sitemaps_data
           else
             echo "Branch not found. Initializing..."
             mkdir sitemaps_data
@@ -68,15 +73,16 @@ jobs:
             git init
             git checkout -b ${{ env.SITEMAP_BRANCH }}
             git remote add origin "$REPO_URL"
-            echo '{"created": true}' > state.json
+            echo '{"created": true}' > global_state.json
             git add .
             git commit -m "Initial data structure"
             cd ..
           fi
 
       - name: Run Downloader
+        env:
+          SITES_FILE: main_code/sites/comics.txt
         run: |
-          cp main_code/sites.txt .
           python main_code/scripts/downloader.py
 
       - name: Commit and Push Changes
@@ -88,7 +94,7 @@ jobs:
             echo "No changes."
           else
             echo "Pushing update..."
-            git commit -m "Update sitemaps (Checkpoint): $TODAY"
+            git commit -m "Update sitemaps (comics): $TODAY"
             git remote remove origin 2>/dev/null || true
             git remote add origin "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
             git push origin ${{ env.SITEMAP_BRANCH }}
