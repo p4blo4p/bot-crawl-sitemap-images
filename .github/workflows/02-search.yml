@@ -24,6 +24,15 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
     steps:
+      - name: Free Disk Space (Aggressive)
+        run: |
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /opt/ghc
+          sudo rm -rf /opt/hostedtoolcache/CodeQL
+          sudo docker image prune --all --force
+          df -h
+
       - name: Checkout Tool Code
         uses: actions/checkout@v3
         with:
@@ -31,32 +40,55 @@ jobs:
 
       - name: Checkout Data
         run: |
+           # Git Config for Large Repos
+           git config --global http.postBuffer 1048576000
+           git config --global core.compression 9
+           git config --global http.lowSpeedLimit 0
+           git config --global http.lowSpeedTime 999999
+           
            REPO_URL="https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
            if git ls-remote --heads "$REPO_URL" "${{ env.SITEMAP_BRANCH }}" | grep -q "${{ env.SITEMAP_BRANCH }}"; then
-             git clone --single-branch --branch ${{ env.SITEMAP_BRANCH }} "$REPO_URL" sitemaps_data
+             # Shallow clone to save disk space
+             git clone --depth 1 --single-branch --branch ${{ env.SITEMAP_BRANCH }} "$REPO_URL" sitemaps_data
            else
              echo "Sitemap branch not found. Skipping."
              exit 0
            fi
       
+      - name: Retrieve Search State
+        run: |
+           REPO_URL="https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
+           if git ls-remote --heads "$REPO_URL" "${{ env.RESULTS_BRANCH }}" | grep -q "${{ env.RESULTS_BRANCH }}"; then
+             git clone --depth 1 --single-branch --branch ${{ env.RESULTS_BRANCH }} "$REPO_URL" results_repo_state
+             # Copy previous search state to data dir so script can read it
+             cp results_repo_state/search_state.json sitemaps_data/ 2>/dev/null || echo "No previous search state."
+             # Copy previous results so we append to them
+             cp results_repo_state/results_*.txt . 2>/dev/null || true
+             cp results_repo_state/results_*.md . 2>/dev/null || true
+           else
+             echo "No results branch yet."
+           fi
+
       - name: Run Searcher
         env:
           SEARCH_PHRASE: ${{ github.event.inputs.search_phrase || 'Dragon Ball' }}
         run: |
           [ -d "sitemaps_data" ] && python main_code/scripts/searcher.py
 
-      - name: Deploy Results
+      - name: Deploy Results & State
         run: |
           git config --global user.name "Sitemap Bot"
           git config --global user.email "bot@actionforge.local"
           REPO_URL="https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
           
           mkdir -p results_temp
-          # Copy both TXT and MD files
-          cp results_* results_temp/ 2>/dev/null || echo "No results generated."
+          # Copy Results + Updated Search State
+          cp results_*.txt results_temp/ 2>/dev/null || true
+          cp results_*.md results_temp/ 2>/dev/null || true
+          cp sitemaps_data/search_state.json results_temp/ 2>/dev/null || true
           
           if git ls-remote --heads "$REPO_URL" "${{ env.RESULTS_BRANCH }}" | grep -q "${{ env.RESULTS_BRANCH }}"; then
-             git clone --single-branch --branch ${{ env.RESULTS_BRANCH }} "$REPO_URL" results_repo
+             git clone --depth 1 --single-branch --branch ${{ env.RESULTS_BRANCH }} "$REPO_URL" results_repo
           else
              mkdir results_repo && cd results_repo
              git init
