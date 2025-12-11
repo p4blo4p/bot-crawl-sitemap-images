@@ -1,52 +1,3 @@
-name: 01 Download Sitemaps (mangas)
-
-on:
-  schedule:
-    - cron: '0 * * * *'
-  workflow_dispatch:
-
-permissions:
-  contents: write
-
-# Prevent race conditions if runs stack up
-concurrency:
-  group: sitemap-download-mangas
-  cancel-in-progress: false
-
-env:
-  SITEMAP_BRANCH: data-mangas
-
-jobs:
-  download:
-    runs-on: ubuntu-latest
-    timeout-minutes: 360 # Allow up to 6 hours if account permits
-    steps:
-      - name: Free Disk Space (Aggressive)
-        run: |
-          sudo swapoff -a
-          sudo rm -f /swapfile
-          sudo rm -rf /usr/share/dotnet
-          sudo rm -rf /usr/local/lib/android
-          sudo rm -rf /opt/ghc
-          sudo rm -rf /opt/hostedtoolcache/CodeQL
-          sudo docker image prune --all --force
-          sudo rm -rf /usr/local/share/boost
-          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
-          df -h
-
-      - name: Checkout Tool Code
-        uses: actions/checkout@v3
-        with:
-          path: main_code
-
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
-
-      - name: Install Dependencies
-        run: pip install requests
-
       - name: Prepare Data Branch
         run: |
           git config --global user.name "Sitemap Bot"
@@ -62,12 +13,11 @@ jobs:
           
           REPO_URL="https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
           
-          if git ls-remote --heads "$REPO_URL" "${{ env.SITEMAP_BRANCH }}"; then
-            echo "Branch exists. Cloning (Shallow)..."
-            # Shallow clone to save disk space
-            git clone --depth 1 --single-branch --branch ${{ env.SITEMAP_BRANCH }} "$REPO_URL" sitemaps_data
+          # Try to clone the branch. If it fails (branch doesn't exist or is empty), initialize it.
+          if git clone --depth 1 --single-branch --branch ${{ env.SITEMAP_BRANCH }} "$REPO_URL" sitemaps_data; then
+            echo "Branch cloned successfully."
           else
-            echo "Branch not found. Initializing..."
+            echo "Branch not found or is empty. Initializing..."
             mkdir sitemaps_data
             cd sitemaps_data
             git init
@@ -77,25 +27,4 @@ jobs:
             git add .
             git commit -m "Initial data structure"
             cd ..
-          fi
-
-      - name: Run Downloader
-        env:
-          SITES_FILE: main_code/sites/mangas.txt
-        run: |
-          python main_code/scripts/downloader.py
-
-      - name: Commit and Push Changes
-        working-directory: sitemaps_data
-        run: |
-          git add .
-          TODAY=$(date +'%Y-%m-%d')
-          if git diff --staged --quiet; then
-            echo "No changes."
-          else
-            echo "Pushing update..."
-            git commit -m "Update sitemaps (mangas): $TODAY"
-            git remote remove origin 2>/dev/null || true
-            git remote add origin "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
-            git push origin ${{ env.SITEMAP_BRANCH }}
           fi
