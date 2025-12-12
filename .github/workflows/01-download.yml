@@ -1,4 +1,4 @@
-name: 01 Download Sitemaps (comics)
+name: 01 Download Sitemaps (mangas)
 
 on:
   schedule:
@@ -10,11 +10,11 @@ permissions:
 
 # Prevent race conditions if runs stack up
 concurrency:
-  group: sitemap-download-comics
+  group: sitemap-download-mangas
   cancel-in-progress: false
 
 env:
-  SITEMAP_BRANCH: data-comics
+  SITEMAP_BRANCH: data-mangas
 
 jobs:
   download:
@@ -81,7 +81,7 @@ jobs:
 
       - name: Run Downloader
         env:
-          SITES_FILE: main_code/sites/comics.txt
+          SITES_FILE: main_code/sites/mangas.txt
         run: |
           python main_code/scripts/downloader.py
 
@@ -94,7 +94,7 @@ jobs:
             echo "No changes."
           else
             echo "Pushing update..."
-            git commit -m "Update sitemaps (comics): $TODAY"
+            git commit -m "Update sitemaps (mangas): $TODAY"
             git remote remove origin 2>/dev/null || true
             git remote add origin "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
             git push origin ${{ env.SITEMAP_BRANCH }}
