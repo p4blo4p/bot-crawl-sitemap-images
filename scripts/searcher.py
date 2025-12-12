@@ -21,6 +21,9 @@ TIME_LIMIT_SECONDS = 40 * 60  # 40 Minutes
 START_TIME = time.time()
 
 # --- Logging Setup ---
+# Flush stdout to ensure logs appear immediately in CI environments
+sys.stdout.reconfigure(line_buffering=True)
+
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s [%(levelname)s] %(message)s',
@@ -32,7 +35,8 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # --- Regex ---
-RE_EXTRACT_CONTENT = re.compile(r'<(loc|title|image:caption|image:title|news:title|video:title|video:description)[^>]*>(.*?)</\1>', re.IGNORECASE)
+# Added re.DOTALL to match multi-line content inside tags
+RE_EXTRACT_CONTENT = re.compile(r'<(loc|title|image:caption|image:title|news:title|video:title|video:description)[^>]*>(.*?)</\1>', re.IGNORECASE | re.DOTALL)
 
 def get_elapsed_time():
     return time.time() - START_TIME
