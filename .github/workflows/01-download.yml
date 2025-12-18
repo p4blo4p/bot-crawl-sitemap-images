@@ -14,12 +14,12 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  SITEMAP_BRANCH: data-mangas
+  SITEMAP_BRANCH: ${{ github.event.inputs.list_name || 'mangas-sitemaps' }}
 
 jobs:
   download:
     runs-on: ubuntu-latest
-    timeout-minutes: 360 # Allow up to 6 hours if account permits
+    timeout-minutes: 360 # Allow up to 6 hours
     steps:
       - name: Free Disk Space (Aggressive)
         run: |
@@ -51,11 +51,10 @@ jobs:
         run: |
           git config --global user.name "Sitemap Bot"
           git config --global user.email "bot@actionforge.local"
-          # Optimize Git for large pushes (HTTP/1.1 is more stable for large payloads)
+          # Optimizar Git para repos grandes
           git config --global http.postBuffer 1048576000
           git config --global http.version HTTP/1.1
           git config --global core.compression 9
-          # Network resilience
           git config --global http.lowSpeedLimit 0
           git config --global http.lowSpeedTime 999999
           git config --global pack.windowMemory 100m
@@ -63,19 +62,16 @@ jobs:
           REPO_URL="https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
           
           if git ls-remote --heads "$REPO_URL" "${{ env.SITEMAP_BRANCH }}" | grep -q "${{ env.SITEMAP_BRANCH }}"; then
-            echo "Branch exists. Cloning (Shallow)..."
-            # Shallow clone to save disk space
+            echo "Branch exists. Cloning..."
             git clone --depth 1 --single-branch --branch ${{ env.SITEMAP_BRANCH }} "$REPO_URL" sitemaps_data
           else
             echo "Branch not found. Initializing..."
-            mkdir sitemaps_data
-            cd sitemaps_data
+            mkdir sitemaps_data && cd sitemaps_data
             git init
             git checkout -b ${{ env.SITEMAP_BRANCH }}
             git remote add origin "$REPO_URL"
-            echo '{"created": true}' > global_state.json
-            git add .
-            git commit -m "Initial data structure"
+            echo '{"init": true}' > global_state.json
+            git add . && git commit -m "Initialize data structure"
             cd ..
           fi
 
@@ -85,7 +81,7 @@ jobs:
         run: |
           python main_code/scripts/downloader.py
 
-      - name: Commit and Push Changes
+      - name: Push Changes
         working-directory: sitemaps_data
         run: |
           git add .
@@ -93,9 +89,6 @@ jobs:
           if git diff --staged --quiet; then
             echo "No changes."
           else
-            echo "Pushing update..."
-            git commit -m "Update sitemaps (mangas): $TODAY"
-            git remote remove origin 2>/dev/null || true
-            git remote add origin "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
+            git commit -m "Update sitemaps and stats (mangas): $TODAY"
             git push origin ${{ env.SITEMAP_BRANCH }}
           fi
