@@ -1,0 +1,629 @@
+{
+  "file_meta": {
+    "https://mangareader.to/sitemap.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": true,
+      "is_rich": false,
+      "urls_count": 68,
+      "last_check": "2025-12-19T07:33:02.817134"
+    },
+    "https://mangareader.to/sitemap-type.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 7,
+      "last_check": "2025-12-19T07:33:04.062038"
+    },
+    "https://mangareader.to/sitemap-manga-1.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:04.166552"
+    },
+    "https://mangareader.to/sitemap-page.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 11,
+      "last_check": "2025-12-19T07:33:04.204830"
+    },
+    "https://mangareader.to/sitemap-manga-2.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:04.206217"
+    },
+    "https://mangareader.to/sitemap-genre.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 45,
+      "last_check": "2025-12-19T07:33:04.286497"
+    },
+    "https://mangareader.to/sitemap-manga-5.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:05.620343"
+    },
+    "https://mangareader.to/sitemap-manga-4.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:05.744632"
+    },
+    "https://mangareader.to/sitemap-manga-3.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:05.756206"
+    },
+    "https://mangareader.to/sitemap-manga-7.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:05.757760"
+    },
+    "https://mangareader.to/sitemap-manga-6.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:05.796137"
+    },
+    "https://mangareader.to/sitemap-manga-12.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:07.150380"
+    },
+    "https://mangareader.to/sitemap-manga-9.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:07.239015"
+    },
+    "https://mangareader.to/sitemap-manga-10.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:07.312751"
+    },
+    "https://mangareader.to/sitemap-manga-11.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:07.397458"
+    },
+    "https://mangareader.to/sitemap-manga-8.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:07.425150"
+    },
+    "https://mangareader.to/sitemap-manga-14.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:08.763511"
+    },
+    "https://mangareader.to/sitemap-manga-15.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:08.785719"
+    },
+    "https://mangareader.to/sitemap-manga-17.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:08.882954"
+    },
+    "https://mangareader.to/sitemap-manga-13.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:08.907780"
+    },
+    "https://mangareader.to/sitemap-manga-16.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:09.024538"
+    },
+    "https://mangareader.to/sitemap-manga-19.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:10.344903"
+    },
+    "https://mangareader.to/sitemap-manga-18.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:10.412112"
+    },
+    "https://mangareader.to/sitemap-manga-22.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:10.462775"
+    },
+    "https://mangareader.to/sitemap-manga-21.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:10.517362"
+    },
+    "https://mangareader.to/sitemap-manga-20.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:10.578248"
+    },
+    "https://mangareader.to/sitemap-manga-26.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:11.873951"
+    },
+    "https://mangareader.to/sitemap-manga-27.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:11.956641"
+    },
+    "https://mangareader.to/sitemap-manga-23.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:11.977611"
+    },
+    "https://mangareader.to/sitemap-manga-24.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:11.994157"
+    },
+    "https://mangareader.to/sitemap-manga-25.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:12.025472"
+    },
+    "https://mangareader.to/sitemap-manga-32.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:13.355093"
+    },
+    "https://mangareader.to/sitemap-manga-28.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:13.417122"
+    },
+    "https://mangareader.to/sitemap-manga-31.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:13.459010"
+    },
+    "https://mangareader.to/sitemap-manga-29.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:13.460607"
+    },
+    "https://mangareader.to/sitemap-manga-30.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:13.696347"
+    },
+    "https://mangareader.to/sitemap-manga-35.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:15.019732"
+    },
+    "https://mangareader.to/sitemap-manga-34.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:15.134084"
+    },
+    "https://mangareader.to/sitemap-manga-37.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:15.176462"
+    },
+    "https://mangareader.to/sitemap-manga-36.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:15.264684"
+    },
+    "https://mangareader.to/sitemap-manga-33.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:15.317082"
+    },
+    "https://mangareader.to/sitemap-manga-41.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:16.675160"
+    },
+    "https://mangareader.to/sitemap-manga-42.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:16.800259"
+    },
+    "https://mangareader.to/sitemap-manga-39.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:16.816216"
+    },
+    "https://mangareader.to/sitemap-manga-38.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:16.931203"
+    },
+    "https://mangareader.to/sitemap-manga-40.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:17.040682"
+    },
+    "https://mangareader.to/sitemap-manga-45.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:18.346456"
+    },
+    "https://mangareader.to/sitemap-manga-43.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:18.394896"
+    },
+    "https://mangareader.to/sitemap-manga-47.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:18.435261"
+    },
+    "https://mangareader.to/sitemap-manga-46.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:18.507711"
+    },
+    "https://mangareader.to/sitemap-manga-44.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:18.652739"
+    },
+    "https://mangareader.to/sitemap-manga-49.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:19.982140"
+    },
+    "https://mangareader.to/sitemap-manga-52.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:20.024527"
+    },
+    "https://mangareader.to/sitemap-manga-48.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:20.057795"
+    },
+    "https://mangareader.to/sitemap-manga-51.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:20.101211"
+    },
+    "https://mangareader.to/sitemap-manga-50.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:20.277313"
+    },
+    "https://mangareader.to/sitemap-manga-57.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:21.647487"
+    },
+    "https://mangareader.to/sitemap-manga-55.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:21.649450"
+    },
+    "https://mangareader.to/sitemap-manga-56.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:21.721324"
+    },
+    "https://mangareader.to/sitemap-manga-54.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:21.738077"
+    },
+    "https://mangareader.to/sitemap-manga-53.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:21.754147"
+    },
+    "https://mangareader.to/sitemap-manga-59.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:23.069535"
+    },
+    "https://mangareader.to/sitemap-manga-61.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:23.089353"
+    },
+    "https://mangareader.to/sitemap-manga-62.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:23.142088"
+    },
+    "https://mangareader.to/sitemap-manga-60.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:23.201889"
+    },
+    "https://mangareader.to/sitemap-manga-58.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:23.236001"
+    },
+    "https://mangareader.to/sitemap-manga-64.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:24.650239"
+    },
+    "https://mangareader.to/sitemap-manga-63.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 200,
+      "last_check": "2025-12-19T07:33:24.651805"
+    },
+    "https://mangareader.to/sitemap-manga-65.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 44,
+      "last_check": "2025-12-19T07:33:24.734408"
+    }
+  },
+  "queues": [],
+  "visited": [
+    "https://mangareader.to/sitemap-manga-14.xml",
+    "https://mangareader.to/sitemap-manga-36.xml",
+    "https://mangareader.to/sitemap-manga-19.xml",
+    "https://mangareader.to/sitemap.xml",
+    "https://mangareader.to/sitemap-manga-34.xml",
+    "https://mangareader.to/sitemap-manga-15.xml",
+    "https://mangareader.to/sitemap-manga-58.xml",
+    "https://mangareader.to/sitemap-manga-5.xml",
+    "https://mangareader.to/sitemap-manga-47.xml",
+    "https://mangareader.to/sitemap-type.xml",
+    "https://mangareader.to/sitemap-manga-37.xml",
+    "https://mangareader.to/sitemap-manga-1.xml",
+    "https://mangareader.to/sitemap-manga-17.xml",
+    "https://mangareader.to/sitemap-manga-53.xml",
+    "https://mangareader.to/sitemap-manga-8.xml",
+    "https://mangareader.to/sitemap-manga-43.xml",
+    "https://mangareader.to/sitemap-manga-65.xml",
+    "https://mangareader.to/sitemap-manga-57.xml",
+    "https://mangareader.to/sitemap-manga-12.xml",
+    "https://mangareader.to/sitemap-manga-11.xml",
+    "https://mangareader.to/sitemap-manga-18.xml",
+    "https://mangareader.to/sitemap-manga-41.xml",
+    "https://mangareader.to/sitemap-manga-25.xml",
+    "https://mangareader.to/sitemap-manga-42.xml",
+    "https://mangareader.to/sitemap-manga-55.xml",
+    "https://mangareader.to/sitemap-manga-7.xml",
+    "https://mangareader.to/sitemap-manga-6.xml",
+    "https://mangareader.to/sitemap-manga-31.xml",
+    "https://mangareader.to/sitemap-manga-52.xml",
+    "https://mangareader.to/sitemap-manga-61.xml",
+    "https://mangareader.to/sitemap-manga-60.xml",
+    "https://mangareader.to/sitemap-manga-3.xml",
+    "https://mangareader.to/sitemap-manga-20.xml",
+    "https://mangareader.to/sitemap-manga-27.xml",
+    "https://mangareader.to/sitemap-manga-48.xml",
+    "https://mangareader.to/sitemap-manga-4.xml",
+    "https://mangareader.to/sitemap-manga-16.xml",
+    "https://mangareader.to/sitemap-manga-24.xml",
+    "https://mangareader.to/sitemap-manga-51.xml",
+    "https://mangareader.to/sitemap-manga-29.xml",
+    "https://mangareader.to/sitemap-manga-13.xml",
+    "https://mangareader.to/sitemap-manga-23.xml",
+    "https://mangareader.to/sitemap-manga-39.xml",
+    "https://mangareader.to/sitemap-manga-50.xml",
+    "https://mangareader.to/sitemap-manga-10.xml",
+    "https://mangareader.to/sitemap-manga-2.xml",
+    "https://mangareader.to/sitemap-manga-9.xml",
+    "https://mangareader.to/sitemap-page.xml",
+    "https://mangareader.to/sitemap-manga-21.xml",
+    "https://mangareader.to/sitemap-manga-54.xml",
+    "https://mangareader.to/sitemap-manga-64.xml",
+    "https://mangareader.to/sitemap-manga-56.xml",
+    "https://mangareader.to/sitemap-manga-33.xml",
+    "https://mangareader.to/sitemap-manga-49.xml",
+    "https://mangareader.to/sitemap-manga-26.xml",
+    "https://mangareader.to/sitemap-manga-40.xml",
+    "https://mangareader.to/sitemap-manga-38.xml",
+    "https://mangareader.to/sitemap-manga-59.xml",
+    "https://mangareader.to/sitemap-manga-45.xml",
+    "https://mangareader.to/sitemap-manga-46.xml",
+    "https://mangareader.to/sitemap-manga-30.xml",
+    "https://mangareader.to/sitemap-manga-22.xml",
+    "https://mangareader.to/sitemap-manga-28.xml",
+    "https://mangareader.to/sitemap-manga-35.xml",
+    "https://mangareader.to/sitemap-manga-62.xml",
+    "https://mangareader.to/sitemap-manga-32.xml",
+    "https://mangareader.to/sitemap-manga-63.xml",
+    "https://mangareader.to/sitemap-manga-44.xml",
+    "https://mangareader.to/sitemap-genre.xml"
+  ],
+  "errors": {}
+}

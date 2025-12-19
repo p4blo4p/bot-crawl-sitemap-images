@@ -1,0 +1,503 @@
+{
+  "file_meta": {
+    "https://mangafire.to/sitemap.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": true,
+      "is_rich": false,
+      "urls_count": 54,
+      "last_check": "2025-12-19T07:32:13.208762"
+    },
+    "https://mangafire.to/sitemap-genre.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 41,
+      "last_check": "2025-12-19T07:32:14.505707"
+    },
+    "https://mangafire.to/sitemap-list-1.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 1000,
+      "last_check": "2025-12-19T07:32:14.544940"
+    },
+    "https://mangafire.to/sitemap-list-2.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 1000,
+      "last_check": "2025-12-19T07:32:14.547577"
+    },
+    "https://mangafire.to/sitemap-list-3.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 1000,
+      "last_check": "2025-12-19T07:32:14.709358"
+    },
+    "https://mangafire.to/sitemap-page.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 9,
+      "last_check": "2025-12-19T07:32:14.715150"
+    },
+    "https://mangafire.to/sitemap-list-6.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 1000,
+      "last_check": "2025-12-19T07:32:16.116120"
+    },
+    "https://mangafire.to/sitemap-list-8.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 1000,
+      "last_check": "2025-12-19T07:32:16.202125"
+    },
+    "https://mangafire.to/sitemap-list-4.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 1000,
+      "last_check": "2025-12-19T07:32:16.254598"
+    },
+    "https://mangafire.to/sitemap-list-5.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 1000,
+      "last_check": "2025-12-19T07:32:16.257453"
+    },
+    "https://mangafire.to/sitemap-list-7.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 1000,
+      "last_check": "2025-12-19T07:32:16.320226"
+    },
+    "https://mangafire.to/sitemap-list-11.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 1000,
+      "last_check": "2025-12-19T07:32:17.728997"
+    },
+    "https://mangafire.to/sitemap-list-10.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 1000,
+      "last_check": "2025-12-19T07:32:17.773020"
+    },
+    "https://mangafire.to/sitemap-list-13.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 1000,
+      "last_check": "2025-12-19T07:32:17.862928"
+    },
+    "https://mangafire.to/sitemap-list-12.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 1000,
+      "last_check": "2025-12-19T07:32:17.882651"
+    },
+    "https://mangafire.to/sitemap-list-9.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 1000,
+      "last_check": "2025-12-19T07:32:17.923178"
+    },
+    "https://mangafire.to/sitemap-list-17.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 1000,
+      "last_check": "2025-12-19T07:32:19.265643"
+    },
+    "https://mangafire.to/sitemap-list-16.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 1000,
+      "last_check": "2025-12-19T07:32:19.285640"
+    },
+    "https://mangafire.to/sitemap-list-18.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 1000,
+      "last_check": "2025-12-19T07:32:19.569206"
+    },
+    "https://mangafire.to/sitemap-list-15.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 1000,
+      "last_check": "2025-12-19T07:32:19.572122"
+    },
+    "https://mangafire.to/sitemap-list-14.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 1000,
+      "last_check": "2025-12-19T07:32:19.574497"
+    },
+    "https://mangafire.to/sitemap-list-20.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 1000,
+      "last_check": "2025-12-19T07:32:21.155456"
+    },
+    "https://mangafire.to/sitemap-list-21.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 1000,
+      "last_check": "2025-12-19T07:32:21.157434"
+    },
+    "https://mangafire.to/sitemap-list-19.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 1000,
+      "last_check": "2025-12-19T07:32:21.209430"
+    },
+    "https://mangafire.to/sitemap-list-22.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 1000,
+      "last_check": "2025-12-19T07:32:21.236834"
+    },
+    "https://mangafire.to/sitemap-list-23.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 1000,
+      "last_check": "2025-12-19T07:32:21.275091"
+    },
+    "https://mangafire.to/sitemap-list-26.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 1000,
+      "last_check": "2025-12-19T07:32:22.772631"
+    },
+    "https://mangafire.to/sitemap-list-28.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 1000,
+      "last_check": "2025-12-19T07:32:22.920697"
+    },
+    "https://mangafire.to/sitemap-list-24.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 1000,
+      "last_check": "2025-12-19T07:32:22.923877"
+    },
+    "https://mangafire.to/sitemap-list-27.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 1000,
+      "last_check": "2025-12-19T07:32:22.944934"
+    },
+    "https://mangafire.to/sitemap-list-25.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 1000,
+      "last_check": "2025-12-19T07:32:23.070112"
+    },
+    "https://mangafire.to/sitemap-list-32.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 1000,
+      "last_check": "2025-12-19T07:32:24.627572"
+    },
+    "https://mangafire.to/sitemap-list-31.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 1000,
+      "last_check": "2025-12-19T07:32:24.647031"
+    },
+    "https://mangafire.to/sitemap-list-30.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 1000,
+      "last_check": "2025-12-19T07:32:24.735431"
+    },
+    "https://mangafire.to/sitemap-list-29.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 1000,
+      "last_check": "2025-12-19T07:32:24.738651"
+    },
+    "https://mangafire.to/sitemap-list-33.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 1000,
+      "last_check": "2025-12-19T07:32:24.788592"
+    },
+    "https://mangafire.to/sitemap-list-37.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 1000,
+      "last_check": "2025-12-19T07:32:26.330776"
+    },
+    "https://mangafire.to/sitemap-list-35.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 1000,
+      "last_check": "2025-12-19T07:32:26.393707"
+    },
+    "https://mangafire.to/sitemap-list-36.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 1000,
+      "last_check": "2025-12-19T07:32:26.497714"
+    },
+    "https://mangafire.to/sitemap-list-34.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 1000,
+      "last_check": "2025-12-19T07:32:26.593490"
+    },
+    "https://mangafire.to/sitemap-list-38.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 1000,
+      "last_check": "2025-12-19T07:32:26.614473"
+    },
+    "https://mangafire.to/sitemap-list-41.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 1000,
+      "last_check": "2025-12-19T07:32:28.172760"
+    },
+    "https://mangafire.to/sitemap-list-43.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 1000,
+      "last_check": "2025-12-19T07:32:28.201694"
+    },
+    "https://mangafire.to/sitemap-list-39.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 1000,
+      "last_check": "2025-12-19T07:32:28.255389"
+    },
+    "https://mangafire.to/sitemap-list-40.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 1000,
+      "last_check": "2025-12-19T07:32:28.258808"
+    },
+    "https://mangafire.to/sitemap-list-42.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 1000,
+      "last_check": "2025-12-19T07:32:28.279295"
+    },
+    "https://mangafire.to/sitemap-list-45.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 1000,
+      "last_check": "2025-12-19T07:32:29.834109"
+    },
+    "https://mangafire.to/sitemap-list-47.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 1000,
+      "last_check": "2025-12-19T07:32:29.943051"
+    },
+    "https://mangafire.to/sitemap-list-48.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 1000,
+      "last_check": "2025-12-19T07:32:29.946531"
+    },
+    "https://mangafire.to/sitemap-list-46.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 1000,
+      "last_check": "2025-12-19T07:32:29.974992"
+    },
+    "https://mangafire.to/sitemap-list-44.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 1000,
+      "last_check": "2025-12-19T07:32:30.103087"
+    },
+    "https://mangafire.to/sitemap-list-50.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 1000,
+      "last_check": "2025-12-19T07:32:31.587938"
+    },
+    "https://mangafire.to/sitemap-list-52.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 324,
+      "last_check": "2025-12-19T07:32:31.734684"
+    },
+    "https://mangafire.to/sitemap-list-51.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 1000,
+      "last_check": "2025-12-19T07:32:31.779487"
+    },
+    "https://mangafire.to/sitemap-list-49.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 1000,
+      "last_check": "2025-12-19T07:32:31.970407"
+    }
+  },
+  "queues": [],
+  "visited": [
+    "https://mangafire.to/sitemap-list-28.xml",
+    "https://mangafire.to/sitemap-list-6.xml",
+    "https://mangafire.to/sitemap-genre.xml",
+    "https://mangafire.to/sitemap-list-9.xml",
+    "https://mangafire.to/sitemap-list-13.xml",
+    "https://mangafire.to/sitemap-list-14.xml",
+    "https://mangafire.to/sitemap-list-31.xml",
+    "https://mangafire.to/sitemap-list-11.xml",
+    "https://mangafire.to/sitemap-list-17.xml",
+    "https://mangafire.to/sitemap-list-12.xml",
+    "https://mangafire.to/sitemap-list-32.xml",
+    "https://mangafire.to/sitemap-list-18.xml",
+    "https://mangafire.to/sitemap-list-50.xml",
+    "https://mangafire.to/sitemap-list-46.xml",
+    "https://mangafire.to/sitemap-list-5.xml",
+    "https://mangafire.to/sitemap-list-7.xml",
+    "https://mangafire.to/sitemap-list-16.xml",
+    "https://mangafire.to/sitemap-list-4.xml",
+    "https://mangafire.to/sitemap-list-25.xml",
+    "https://mangafire.to/sitemap-list-45.xml",
+    "https://mangafire.to/sitemap-page.xml",
+    "https://mangafire.to/sitemap-list-20.xml",
+    "https://mangafire.to/sitemap-list-52.xml",
+    "https://mangafire.to/sitemap-list-41.xml",
+    "https://mangafire.to/sitemap-list-39.xml",
+    "https://mangafire.to/sitemap-list-40.xml",
+    "https://mangafire.to/sitemap-list-42.xml",
+    "https://mangafire.to/sitemap-list-43.xml",
+    "https://mangafire.to/sitemap-list-2.xml",
+    "https://mangafire.to/sitemap-list-23.xml",
+    "https://mangafire.to/sitemap-list-22.xml",
+    "https://mangafire.to/sitemap-list-3.xml",
+    "https://mangafire.to/sitemap-list-51.xml",
+    "https://mangafire.to/sitemap-list-1.xml",
+    "https://mangafire.to/sitemap-list-48.xml",
+    "https://mangafire.to/sitemap-list-15.xml",
+    "https://mangafire.to/sitemap-list-49.xml",
+    "https://mangafire.to/sitemap-list-10.xml",
+    "https://mangafire.to/sitemap-list-26.xml",
+    "https://mangafire.to/sitemap-list-29.xml",
+    "https://mangafire.to/sitemap-list-38.xml",
+    "https://mangafire.to/sitemap-list-47.xml",
+    "https://mangafire.to/sitemap-list-34.xml",
+    "https://mangafire.to/sitemap-list-27.xml",
+    "https://mangafire.to/sitemap.xml",
+    "https://mangafire.to/sitemap-list-30.xml",
+    "https://mangafire.to/sitemap-list-19.xml",
+    "https://mangafire.to/sitemap-list-33.xml",
+    "https://mangafire.to/sitemap-list-36.xml",
+    "https://mangafire.to/sitemap-list-24.xml",
+    "https://mangafire.to/sitemap-list-35.xml",
+    "https://mangafire.to/sitemap-list-44.xml",
+    "https://mangafire.to/sitemap-list-21.xml",
+    "https://mangafire.to/sitemap-list-37.xml",
+    "https://mangafire.to/sitemap-list-8.xml"
+  ],
+  "errors": {}
+}

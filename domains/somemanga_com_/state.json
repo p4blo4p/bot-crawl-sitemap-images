@@ -1,0 +1,44 @@
+{
+  "file_meta": {
+    "https://somemanga.com/sitemap_index.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": true,
+      "is_rich": false,
+      "urls_count": 3,
+      "last_check": "2025-12-19T07:33:42.713259"
+    },
+    "https://somemanga.com/category-sitemap.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 20,
+      "last_check": "2025-12-19T07:33:46.134569"
+    },
+    "https://somemanga.com/post-sitemap.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 12,
+      "last_check": "2025-12-19T07:33:46.323638"
+    },
+    "https://somemanga.com/page-sitemap.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": false,
+      "urls_count": 4,
+      "last_check": "2025-12-19T07:33:46.412062"
+    }
+  },
+  "queues": [],
+  "visited": [
+    "https://somemanga.com/sitemap_index.xml",
+    "https://somemanga.com/category-sitemap.xml",
+    "https://somemanga.com/post-sitemap.xml",
+    "https://somemanga.com/page-sitemap.xml"
+  ],
+  "errors": {}
+}

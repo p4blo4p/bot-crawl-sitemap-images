@@ -1,0 +1,17 @@
+{
+  "file_meta": {
+    "https://mangakakalot.com/sitemap.xml": {
+      "etag": null,
+      "last_modified": null,
+      "is_index": false,
+      "is_rich": true,
+      "urls_count": 0,
+      "last_check": "2025-12-19T07:33:34.526073"
+    }
+  },
+  "queues": [],
+  "visited": [
+    "https://mangakakalot.com/sitemap.xml"
+  ],
+  "errors": {}
+}

@@ -1,1 +1,194 @@
-{"init": true}
+{
+  "init": true,
+  "domain_stats": {
+    "https://mangataro.org/": {
+      "sitemaps_downloaded": 0,
+      "urls_discovered": 0,
+      "errors_total": 1,
+      "index_count": 0,
+      "rich_content_count": 0,
+      "bytes_processed": 0,
+      "last_crawl": "2025-12-19T07:29:22.508749"
+    },
+    "https://bato.to/": {
+      "sitemaps_downloaded": 0,
+      "urls_discovered": 0,
+      "errors_total": 1,
+      "index_count": 0,
+      "rich_content_count": 0,
+      "bytes_processed": 0,
+      "last_crawl": "2025-12-19T07:32:02.812612"
+    },
+    "https://comick.io/": {
+      "sitemaps_downloaded": 0,
+      "urls_discovered": 0,
+      "errors_total": 1,
+      "index_count": 0,
+      "rich_content_count": 0,
+      "bytes_processed": 0,
+      "last_crawl": "2025-12-19T07:32:04.490397"
+    },
+    "https://dynasty-scans.com/": {
+      "sitemaps_downloaded": 0,
+      "urls_discovered": 0,
+      "errors_total": 1,
+      "index_count": 0,
+      "rich_content_count": 0,
+      "bytes_processed": 0,
+      "last_crawl": "2025-12-19T07:32:06.479069"
+    },
+    "https://hiperdex.com/": {
+      "sitemaps_downloaded": 0,
+      "urls_discovered": 0,
+      "errors_total": 1,
+      "index_count": 0,
+      "rich_content_count": 0,
+      "bytes_processed": 0,
+      "last_crawl": "2025-12-19T07:32:07.757040"
+    },
+    "http://www.keenspot.com/": {
+      "sitemaps_downloaded": 0,
+      "urls_discovered": 0,
+      "errors_total": 1,
+      "index_count": 0,
+      "rich_content_count": 0,
+      "bytes_processed": 0,
+      "last_crawl": "2025-12-19T07:32:08.838888"
+    },
+    "https://fanfox.net/": {
+      "sitemaps_downloaded": 0,
+      "urls_discovered": 0,
+      "errors_total": 1,
+      "index_count": 0,
+      "rich_content_count": 0,
+      "bytes_processed": 0,
+      "last_crawl": "2025-12-19T07:33:46.643117"
+    },
+    "https://www.mangahere.cc/": {
+      "sitemaps_downloaded": 0,
+      "urls_discovered": 0,
+      "errors_total": 1,
+      "index_count": 0,
+      "rich_content_count": 0,
+      "bytes_processed": 0,
+      "last_crawl": "2025-12-19T07:33:46.697555"
+    },
+    "https://mangafire.to/": {
+      "sitemaps_downloaded": 55,
+      "urls_discovered": 51428,
+      "errors_total": 0,
+      "index_count": 1,
+      "rich_content_count": 0,
+      "bytes_processed": 6954763,
+      "last_crawl": "2025-12-19T07:32:31.972232"
+    },
+    "https://mangapark.net/": {
+      "sitemaps_downloaded": 1,
+      "urls_discovered": 0,
+      "errors_total": 0,
+      "index_count": 0,
+      "rich_content_count": 0,
+      "bytes_processed": 109,
+      "last_crawl": "2025-12-19T07:33:47.435700"
+    },
+    "https://mangaread.org/": {
+      "sitemaps_downloaded": 0,
+      "urls_discovered": 0,
+      "errors_total": 1,
+      "index_count": 0,
+      "rich_content_count": 0,
+      "bytes_processed": 0,
+      "last_crawl": "2025-12-19T07:33:01.087878"
+    },
+    "https://mangareader.to/": {
+      "sitemaps_downloaded": 69,
+      "urls_discovered": 12975,
+      "errors_total": 0,
+      "index_count": 1,
+      "rich_content_count": 0,
+      "bytes_processed": 1745547,
+      "last_crawl": "2025-12-19T07:33:47.639731"
+    },
+    "https://readcomiconline.li/": {
+      "sitemaps_downloaded": 0,
+      "urls_discovered": 0,
+      "errors_total": 1,
+      "index_count": 0,
+      "rich_content_count": 0,
+      "bytes_processed": 0,
+      "last_crawl": "2025-12-19T07:33:26.545295"
+    },
+    "https://raw.senmanga.com/": {
+      "sitemaps_downloaded": 1,
+      "urls_discovered": 0,
+      "errors_total": 0,
+      "index_count": 0,
+      "rich_content_count": 1,
+      "bytes_processed": 659,
+      "last_crawl": "2025-12-19T07:33:28.570428"
+    },
+    "https://tcbscans.me/": {
+      "sitemaps_downloaded": 0,
+      "urls_discovered": 0,
+      "errors_total": 1,
+      "index_count": 0,
+      "rich_content_count": 0,
+      "bytes_processed": 0,
+      "last_crawl": "2025-12-19T07:33:30.406762"
+    },
+    "https://weebcentral.com/A": {
+      "sitemaps_downloaded": 0,
+      "urls_discovered": 0,
+      "errors_total": 1,
+      "index_count": 0,
+      "rich_content_count": 0,
+      "bytes_processed": 0,
+      "last_crawl": "2025-12-19T07:33:31.549211"
+    },
+    "https://deathblade.xyz/": {
+      "sitemaps_downloaded": 0,
+      "urls_discovered": 0,
+      "errors_total": 1,
+      "index_count": 0,
+      "rich_content_count": 0,
+      "bytes_processed": 0,
+      "last_crawl": "2025-12-19T07:33:46.590170"
+    },
+    "https://mangakakalot.com/": {
+      "sitemaps_downloaded": 1,
+      "urls_discovered": 0,
+      "errors_total": 0,
+      "index_count": 0,
+      "rich_content_count": 1,
+      "bytes_processed": 91818,
+      "last_crawl": "2025-12-19T07:33:46.926326"
+    },
+    "https://manganato.com/": {
+      "sitemaps_downloaded": 1,
+      "urls_discovered": 0,
+      "errors_total": 0,
+      "index_count": 0,
+      "rich_content_count": 1,
+      "bytes_processed": 91818,
+      "last_crawl": "2025-12-19T07:33:47.165293"
+    },
+    "https://www.ninemanga.com/": {
+      "sitemaps_downloaded": 0,
+      "urls_discovered": 0,
+      "errors_total": 1,
+      "index_count": 0,
+      "rich_content_count": 0,
+      "bytes_processed": 0,
+      "last_crawl": "2025-12-19T07:33:47.679923"
+    },
+    "https://somemanga.com/": {
+      "sitemaps_downloaded": 4,
+      "urls_discovered": 39,
+      "errors_total": 0,
+      "index_count": 1,
+      "rich_content_count": 0,
+      "bytes_processed": 7308,
+      "last_crawl": "2025-12-19T07:33:47.716109"
+    }
+  }
+}
