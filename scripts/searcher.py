@@ -8,244 +8,199 @@ import json
 import time
 import logging
 import signal
+from urllib.parse import unquote
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
-# --- Configuration ---
+# --- Configuración Pro ---
 DEFAULT_PHRASE = "Dragon Ball"
 SEARCH_PHRASE = os.getenv("SEARCH_PHRASE", DEFAULT_PHRASE)
 DATA_DIR = "sitemaps_data"
 SEARCH_STATE_FILE = os.path.join(DATA_DIR, "search_state.json")
 LOG_FILE = "searcher.log"
 
-FUZZY_THRESHOLD = 0.8
-TIME_LIMIT_SECONDS = 40 * 60  # 40 Minutes
+MAX_WORKERS = 8  # Procesamiento paralelo para máxima velocidad
+FUZZY_THRESHOLD = 0.85
+TIME_LIMIT_SECONDS = 50 * 60 
 START_TIME = time.time()
 
-# --- Logging Setup ---
-# Flush stdout to ensure logs appear immediately in CI environments
+# Configuración de Logging
 sys.stdout.reconfigure(line_buffering=True)
-
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s [%(levelname)s] %(message)s',
-    handlers=[
-        logging.StreamHandler(sys.stdout),
-        logging.FileHandler(LOG_FILE)
-    ]
+    handlers=[logging.StreamHandler(sys.stdout), logging.FileHandler(LOG_FILE)]
 )
 logger = logging.getLogger(__name__)
 
-# --- Regex ---
-# Added re.DOTALL to match multi-line content inside tags
-RE_EXTRACT_CONTENT = re.compile(r'<(loc|title|image:caption|image:title|news:title|video:title|video:description)[^>]*>(.*?)</\1>', re.IGNORECASE | re.DOTALL)
+# Regex para extraer contenido relevante de sitemaps (namespaces incluidos)
+RE_CONTENT_BLOCKS = re.compile(r'<(loc|title|image:caption|image:title|news:title|video:title|video:description|video:tag)[^>]*>(.*?)</\1>', re.IGNORECASE | re.DOTALL)
 
-def get_elapsed_time():
-    return time.time() - START_TIME
+def slugify(text):
+    """Normaliza texto para comparación de URLs y slugs."""
+    if not text: return ""
+    text = unquote(text).lower()
+    text = re.sub(r'[^a-z0-9]+', ' ', text).strip()
+    return text
+
+def normalize_strict(text):
+    """Normalización extrema para ignorar separadores."""
+    return slugify(text).replace(' ', '')
+
+def advanced_match(query, target):
+    """
+    Lógica de coincidencia multinivel de alto rendimiento.
+    """
+    q_slug = slugify(query)
+    t_slug = slugify(target)
+    if not q_slug or not t_slug: return False, 0, None
+
+    # 1. Match Directo de Términos
+    if q_slug in t_slug:
+        return True, 1.0, "Direct"
+
+    # 2. Match de Términos Colapsados (ej: dragonball == dragon ball)
+    if normalize_strict(query) in normalize_strict(target):
+        return True, 0.95, "Collapsed"
+
+    # 3. Match Difuso para variaciones menores
+    if len(t_slug) < (len(q_slug) * 5):
+        ratio = difflib.SequenceMatcher(None, q_slug, t_slug).ratio()
+        if ratio >= FUZZY_THRESHOLD:
+            return True, ratio, f"Fuzzy ({int(ratio*100)}%)"
+
+    return False, 0, None
+
+def process_single_file(path, phrase):
+    """Procesa un solo archivo sitemap y devuelve los hallazgos."""
+    results = []
+    try:
+        with gzip.open(path, "rt", encoding="utf-8", errors="ignore") as f:
+            content = f.read()
+            blocks = RE_CONTENT_BLOCKS.findall(content)
+            
+            current_url = "N/A"
+            for tag, text in blocks:
+                tag_clean = tag.lower()
+                if tag_clean == 'loc':
+                    current_url = text.strip()
+                
+                is_hit, conf, m_type = advanced_match(phrase, text)
+                if is_hit:
+                    results.append({
+                        "url": current_url,
+                        "tag": tag,
+                        "text": text.strip(),
+                        "conf": conf,
+                        "type": m_type,
+                        "file": os.path.basename(path)
+                    })
+        return path, results, True
+    except Exception as e:
+        return path, [], False
 
 def load_search_state():
     if os.path.exists(SEARCH_STATE_FILE):
         try:
             with open(SEARCH_STATE_FILE, 'r') as f:
-                state = json.load(f)
-                logger.info(f"Loaded search state. Scanned files history: {len(state.get('scanned', {}))}")
-                return state
-        except json.JSONDecodeError:
-            logger.error("Corrupted search state file. Starting fresh.")
-        except Exception as e:
-            logger.error(f"Error loading state: {e}")
-    
-    return {"phrase": SEARCH_PHRASE, "scanned": {}}
+                return json.load(f)
+        except: pass
+    return {"phrase": SEARCH_PHRASE, "scanned_files": {}}
 
 def save_search_state(state):
     try:
-        # Atomic save
-        temp_file = SEARCH_STATE_FILE + ".tmp"
-        with open(temp_file, 'w') as f:
+        with open(SEARCH_STATE_FILE + ".tmp", 'w') as f:
             json.dump(state, f, indent=2)
-        os.replace(temp_file, SEARCH_STATE_FILE)
-        logger.info("Search state saved successfully.")
+        os.replace(SEARCH_STATE_FILE + ".tmp", SEARCH_STATE_FILE)
     except Exception as e:
-        logger.error(f"Failed to save search state: {e}")
-
-def normalize_text(text):
-    return text.lower().replace('-', ' ').replace('_', ' ').replace('/', ' ').strip()
-
-def fuzzy_match(query, text):
-    query_norm = normalize_text(query)
-    text_norm = normalize_text(text)
-    
-    if not text_norm:
-        return False, 0.0, None
-
-    if query_norm in text_norm:
-        return True, 1.0, "Substring"
-        
-    if len(text_norm) < 500: 
-        ratio = difflib.SequenceMatcher(None, query_norm, text_norm).ratio()
-        if ratio >= FUZZY_THRESHOLD:
-            return True, ratio, f"Fuzzy ({int(ratio*100)}%)"
-            
-    return False, 0.0, None
-
-def search_files(directory, phrase, state):
-    results = []
-    scanned_count = 0
-    skipped_count = 0
-    errors_count = 0
-    
-    # State validation
-    if state.get("phrase") != phrase:
-        logger.warning(f"Search phrase changed from '{state.get('phrase')}' to '{phrase}'. Resetting scan history.")
-        state["phrase"] = phrase
-        state["scanned"] = {}
-
-    logger.info(f"Starting search for '{phrase}' in '{directory}'")
-    
-    if not os.path.exists(directory):
-        logger.error(f"Data directory '{directory}' not found.")
-        return [], 0
-
-    try:
-        for root, dirs, files in os.walk(directory):
-            # Optimizations
-            if '.git' in dirs: dirs.remove('.git')
-            if 'content_raw' in dirs: dirs.remove('content_raw') 
-            
-            for file in files:
-                # Time Check
-                if get_elapsed_time() > TIME_LIMIT_SECONDS:
-                    logger.warning("Time limit reached. Stopping search.")
-                    raise TimeoutError("Time limit reached")
-
-                if file.endswith(".xml") or file.endswith(".xml.gz"):
-                    path = os.path.join(root, file)
-                    
-                    try:
-                        mtime = os.path.getmtime(path)
-                        
-                        # Incremental check
-                        last_scan = state["scanned"].get(path, 0)
-                        if last_scan >= mtime:
-                            skipped_count += 1
-                            continue
-
-                        scanned_count += 1
-                        if scanned_count % 1000 == 0: 
-                            logger.info(f"Progress: Scanned {scanned_count} files...")
-
-                        # Process File
-                        open_func = gzip.open if file.endswith(".gz") else open
-                        with open_func(path, "rt", encoding="utf-8", errors="ignore") as f:
-                            content = f.read()
-                            
-                            potential_matches = RE_EXTRACT_CONTENT.findall(content)
-                            # Pre-calculate URLs to associate with metadata
-                            urls = [p[1] for p in potential_matches if p[0].lower() == 'loc']
-                            first_url = urls[0].strip() if urls else "No URL found"
-
-                            for tag_type, text in potential_matches:
-                                is_match, conf, m_type = fuzzy_match(phrase, text)
-                                if is_match:
-                                    associated_url = text if tag_type == 'loc' else first_url
-                                    
-                                    results.append({
-                                        "url": associated_url.strip(),
-                                        "match_text": text.strip(),
-                                        "confidence": conf,
-                                        "type": m_type,
-                                        "file": file
-                                    })
-                        
-                        state["scanned"][path] = mtime
-
-                    except (OSError, EOFError, gzip.BadGzipFile) as e:
-                        logger.warning(f"Corrupt/Unreadable file {path}: {e}")
-                        errors_count += 1
-                    except Exception as e:
-                        logger.error(f"Unexpected error processing {path}: {e}")
-                        errors_count += 1
-
-    except TimeoutError:
-        pass
-    except KeyboardInterrupt:
-        logger.warning("Interrupted by user.")
-    except Exception as e:
-        logger.critical(f"Critical crawler crash: {e}", exc_info=True)
-    finally:
-        logger.info(f"Scan finished. New: {scanned_count}, Skipped: {skipped_count}, Errors: {errors_count}")
-        save_search_state(state)
-
-    return results, scanned_count
-
-def write_results(hits, phrase):
-    if not hits:
-        logger.info("No new matches found.")
-        return
-
-    today = datetime.date.today().isoformat()
-    safe_phrase = re.sub(r'[^\w\-_]', '_', phrase)
-    
-    # Deduplicate and Sort
-    unique_hits = {}
-    for h in hits:
-        u = h['url']
-        if u not in unique_hits or h['confidence'] > unique_hits[u]['confidence']:
-            unique_hits[u] = h
-    
-    sorted_hits = sorted(unique_hits.values(), key=lambda x: x['confidence'], reverse=True)
-    logger.info(f"Writing {len(sorted_hits)} unique matches.")
-
-    # TXT Output
-    txt_filename = f"results_{safe_phrase}_{today}.txt"
-    try:
-        with open(txt_filename, "a") as f:
-             for hit in sorted_hits:
-                if hit['url'].startswith('http'):
-                    f.write(hit['url'] + "\n")
-        logger.info(f"Results appended to {txt_filename}")
-    except IOError as e:
-        logger.error(f"Failed to write TXT results: {e}")
-
-    # MD Output
-    md_filename = f"results_{safe_phrase}_{today}.md"
-    try:
-        new_file = not os.path.exists(md_filename)
-        with open(md_filename, "a") as f:
-            if new_file:
-                f.write(f"# Search Results: {phrase} ({today})\n")
-                f.write("| Confidence | Match Type | URL / Content | Source |\n")
-                f.write("|------------|------------|---------------|--------|\n")
-            
-            for hit in sorted_hits:
-                conf_str = f"{int(hit['confidence']*100)}%"
-                url_display = f"[{hit['url']}]({hit['url']})" if hit['url'].startswith('http') else hit['url']
-                context = ""
-                if hit['match_text'] != hit['url']:
-                    clean_text = hit['match_text'].replace('|', '\|').replace('\n', ' ')[:50]
-                    context = f"<br/>*Match: {clean_text}...*"
-                f.write(f"| {conf_str} | {hit['type']} | {url_display}{context} | {hit['file']} |\n")
-        logger.info(f"Report appended to {md_filename}")
-    except IOError as e:
-        logger.error(f"Failed to write Markdown results: {e}")
+        logger.error(f"Error guardando estado: {e}")
 
 def main():
-    logger.info("--- Search Job Started ---")
+    logger.info(f"=== INICIANDO MOTOR DE BÚSQUEDA PRO: {SEARCH_PHRASE} ===")
     state = load_search_state()
     
-    # Graceful exit handler
+    # Manejo de cambio de frase: si la frase es distinta, resetear historial
+    if state.get("phrase") != SEARCH_PHRASE:
+        logger.info(f"Frase cambiada de '{state.get('phrase')}' a '{SEARCH_PHRASE}'. Forzando re-escaneo.")
+        state = {"phrase": SEARCH_PHRASE, "scanned_files": {}}
+
     def signal_handler(sig, frame):
-        logger.warning("Signal received, saving state...")
+        logger.warning("Señal de terminación recibida. Guardando estado y saliendo...")
         save_search_state(state)
         sys.exit(0)
-    
+
     signal.signal(signal.SIGINT, signal_handler)
     signal.signal(signal.SIGTERM, signal_handler)
 
-    hits, count = search_files(DATA_DIR, SEARCH_PHRASE, state)
-    
-    if hits:
-        write_results(hits, SEARCH_PHRASE)
-    
-    logger.info("--- Search Job Completed ---")
+    all_files_to_scan = []
+    for root, _, files in os.walk(DATA_DIR):
+        for file in files:
+            if not file.endswith(".xml.gz"): continue
+            path = os.path.join(root, file)
+            mtime = os.path.getmtime(path)
+            if state["scanned_files"].get(path, 0) < mtime:
+                all_files_to_scan.append(path)
+
+    if not all_files_to_scan:
+        logger.info("No hay archivos nuevos para escanear.")
+        return
+
+    logger.info(f"Escaneando {len(all_files_to_scan)} archivos sitemaps en paralelo...")
+    total_hits = []
+    scanned_successfully = 0
+
+    with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
+        futures = {executor.submit(process_single_file, path, SEARCH_PHRASE): path for path in all_files_to_scan}
+        for future in as_completed(futures):
+            path = futures[future]
+            if time.time() - START_TIME > TIME_LIMIT_SECONDS:
+                logger.warning("Límite de tiempo alcanzado. Deteniendo procesamiento paralelo.")
+                break
+                
+            path, file_hits, success = future.result()
+            if success:
+                scanned_successfully += 1
+                total_hits.extend(file_hits)
+                state["scanned_files"][path] = os.path.getmtime(path)
+            
+            if scanned_successfully % 100 == 0:
+                logger.info(f"Progreso: {scanned_successfully}/{len(all_files_to_scan)} archivos...")
+
+    if total_hits:
+        # Deduplicación y ordenación por relevancia
+        unique_results = {}
+        for h in total_hits:
+            key = h['url']
+            if key not in unique_results or h['conf'] > unique_results[key]['conf']:
+                unique_results[key] = h
+        
+        final_results = sorted(unique_results.values(), key=lambda x: x['conf'], reverse=True)
+        today = datetime.date.today().isoformat()
+        safe_phrase = re.sub(r'[^a-z0-9]', '_', SEARCH_PHRASE.lower())
+
+        # Exportar TXT (Solo URLs únicas)
+        txt_filename = f"hits_{safe_phrase}_{today}.txt"
+        with open(txt_filename, "w") as f:
+            for h in final_results: f.write(f"{h['url']}\n")
+
+        # Exportar MD (Reporte enriquecido)
+        md_filename = f"report_{safe_phrase}_{today}.md"
+        with open(md_filename, "w") as f:
+            f.write(f"# Informe de Rastreo: {SEARCH_PHRASE}\n\n")
+            f.write(f"- **Fecha:** {today}\n")
+            f.write(f"- **Archivos procesados:** {scanned_successfully}\n")
+            f.write(f"- **Hallazgos únicos:** {len(final_results)}\n\n")
+            f.write(f"| Confianza | Tipo | Etiqueta | Coincidencia | Fuente | Enlace |\n")
+            f.write(f"|---|---|---|---|---|---|\n")
+            for h in final_results:
+                txt_snippet = (h['text'][:50] + '...') if len(h['text']) > 50 else h['text']
+                txt_snippet = txt_snippet.replace('|', '\\|').replace('\n', ' ')
+                f.write(f"| {int(h['conf']*100)}% | {h['type']} | `{h['tag']}` | {txt_snippet} | {h['file']} | [Abrir URL]({h['url']}) |\n")
+        
+        logger.info(f"Búsqueda finalizada. Hallazgos: {len(final_results)}. Reportes: {txt_filename}, {md_filename}")
+    else:
+        logger.info("No se encontraron coincidencias en los nuevos archivos.")
+
+    save_search_state(state)
 
 if __name__ == "__main__":
     main()
