@@ -35,10 +35,10 @@
   },
   "queues": [],
   "visited": [
-    "https://somemanga.com/sitemap_index.xml",
     "https://somemanga.com/category-sitemap.xml",
     "https://somemanga.com/post-sitemap.xml",
-    "https://somemanga.com/page-sitemap.xml"
+    "https://somemanga.com/page-sitemap.xml",
+    "https://somemanga.com/sitemap_index.xml"
   ],
   "errors": {}
 }
