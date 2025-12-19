@@ -1,130 +1,93 @@
-name: 02 Search Phrase
+name: 02 Search Phrase (mangas)
 
 on:
   workflow_run:
-    workflows: ["01 Download Sitemaps (Incremental)"]
-    types:
-      - completed
+    workflows: ["01 Download Sitemaps (mangas)"]
+    types: [completed]
   workflow_dispatch:
     inputs:
       search_phrase:
-        description: 'Phrase to search for'
+        description: 'Frase o término a buscar en los sitemaps'
         required: true
         default: 'Dragon Ball'
+      target_branch:
+        description: 'Rama de origen de los sitemaps'
+        required: true
+        type: choice
+        default: 'mangas-sitemaps'
+        options:
+          - 'mangas-sitemaps'
+          - 'main'
+      custom_branch:
+        description: 'Rama personalizada (si no está en la lista)'
+        required: false
+        default: ''
 
 permissions:
   contents: write
-
-env:
-  SITEMAP_BRANCH: data-sitemaps
-  RESULTS_BRANCH: data-results
 
 jobs:
   search:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
     steps:
-      - name: Free Disk Space (Very Aggressive)
+      - name: 🧹 Massive Disk Cleanup
         run: |
-          sudo swapoff -a
-          sudo rm -f /swapfile
           sudo rm -rf /usr/share/dotnet
           sudo rm -rf /usr/local/lib/android
           sudo rm -rf /opt/ghc
           sudo rm -rf /opt/hostedtoolcache/CodeQL
-          sudo docker image prune --all --force
-          sudo rm -rf /usr/local/share/boost
-          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
           df -h
 
-      - name: Checkout Tool Code
+      - name: 🛠️ Performance Git Tuning
+        run: |
+          git config --global http.postBuffer 1048576000
+          git config --global user.name "Searcher Bot"
+          git config --global user.email "search@actionforge.local"
+
+      - name: 📥 Checkout Main Engine
         uses: actions/checkout@v3
         with:
           path: main_code
 
-      - name: Checkout Data
+      - name: 🗂️ Clone Sitemap Data
         run: |
-           # Git Config for Large Repos
-           git config --global http.postBuffer 1048576000
-           git config --global core.compression 9
-           git config --global http.lowSpeedLimit 0
-           git config --global http.lowSpeedTime 999999
-           
-           REPO_URL="https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
-           if git ls-remote --heads "$REPO_URL" "${{ env.SITEMAP_BRANCH }}" | grep -q "${{ env.SITEMAP_BRANCH }}"; then
-             # Shallow clone to save disk space
-             echo "Cloning data branch..."
-             git clone --depth 1 --single-branch --branch ${{ env.SITEMAP_BRANCH }} "$REPO_URL" sitemaps_data
-             
-             # CRITICAL: Delete .git folder immediately to free space
-             echo "Deleting .git folder to save space..."
-             rm -rf sitemaps_data/.git
-             
-             echo "Disk space after clone:"
-             df -h
-           else
-             echo "Sitemap branch not found. Skipping."
-             exit 0
-           fi
-      
-      - name: Retrieve Search State
-        run: |
-           REPO_URL="https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
-           if git ls-remote --heads "$REPO_URL" "${{ env.RESULTS_BRANCH }}" | grep -q "${{ env.RESULTS_BRANCH }}"; then
-             git clone --depth 1 --single-branch --branch ${{ env.RESULTS_BRANCH }} "$REPO_URL" results_repo_state
-             
-             # Copy previous search state to data dir so script can read it
-             # We put it in sitemaps_data because the python script expects it there
-             cp results_repo_state/search_state.json sitemaps_data/ 2>/dev/null || echo "No previous search state."
-             
-             # Copy previous results so we append to them
-             cp results_repo_state/results_*.txt . 2>/dev/null || true
-             cp results_repo_state/results_*.md . 2>/dev/null || true
-           else
-             echo "No results branch yet."
-           fi
+          BRANCH_NAME="${{ github.event.inputs.custom_branch || github.event.inputs.target_branch || 'mangas-sitemaps' }}"
+          echo "Targeting branch: $BRANCH_NAME"
+          git clone --depth 1 --branch "$BRANCH_NAME" "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" sitemaps_data
+          # Remove .git from data to avoid nested repo issues
+          rm -rf sitemaps_data/.git
 
-      - name: Run Searcher
+      - name: 📑 Prepare Results Repository
+        run: |
+          REPO_URL="https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
+          if git ls-remote --heads "$REPO_URL" "mangas-results" | grep -q "mangas-results"; then
+            git clone --depth 1 --branch mangas-results "$REPO_URL" results_repo
+            # Import previous search state to avoid full rescans
+            cp results_repo/search_state.json sitemaps_data/ 2>/dev/null || true
+          else
+            mkdir results_repo && cd results_repo
+            git init && git checkout -b mangas-results
+            git remote add origin "$REPO_URL"
+            cd ..
+          fi
+
+      - name: 🚀 Run Searcher Engine
         env:
           SEARCH_PHRASE: ${{ github.event.inputs.search_phrase || 'Dragon Ball' }}
-        run: |
-          [ -d "sitemaps_data" ] && python main_code/scripts/searcher.py
+        run: python main_code/scripts/searcher.py --phrase "$SEARCH_PHRASE"
 
-      - name: Deploy Results & State
+      - name: 📤 Deploy Results to Results Branch
         run: |
-          git config --global user.name "Sitemap Bot"
-          git config --global user.email "bot@actionforge.local"
-          REPO_URL="https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
-          
-          mkdir -p results_temp
-          # Copy Results + Updated Search State (from sitemaps_data)
-          cp results_*.txt results_temp/ 2>/dev/null || true
-          cp results_*.md results_temp/ 2>/dev/null || true
-          cp sitemaps_data/search_state.json results_temp/ 2>/dev/null || true
-          
-          if git ls-remote --heads "$REPO_URL" "${{ env.RESULTS_BRANCH }}" | grep -q "${{ env.RESULTS_BRANCH }}"; then
-             git clone --depth 1 --single-branch --branch ${{ env.RESULTS_BRANCH }} "$REPO_URL" results_repo
-          else
-             mkdir results_repo && cd results_repo
-             git init
-             git checkout -b ${{ env.RESULTS_BRANCH }}
-             git remote add origin "$REPO_URL"
-             echo "Results Storage" > README.md
-             git add .
-             git commit -m "Init results"
-             cd ..
-          fi
-          
+          # Copy findings and updated state
+          cp hits_* sitemaps_data/search_state.json report_* results_repo/ 2>/dev/null || true
           cd results_repo
-          cp ../results_temp/* . 2>/dev/null || echo "No new files."
+          git remote add origin_auth "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" || true
           git add .
-          
-          TODAY=$(date +'%Y-%m-%d')
-          if git diff --staged --quiet; then
-             echo "No results changed."
+          if ! git diff --staged --quiet; then
+            PHRASE_TAG="${{ github.event.inputs.search_phrase || 'Dragon Ball' }}"
+            git commit -m "New findings for: $PHRASE_TAG ($(date +'%Y-%m-%d'))"
+            git push origin_auth mangas-results
           else
-             git commit -m "Search results: $TODAY"
-             git remote remove origin 2>/dev/null || true
-             git remote add origin "$REPO_URL"
-             git push origin ${{ env.RESULTS_BRANCH }}
+            echo "No new findings detected."
           fi
