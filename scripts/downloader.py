@@ -10,13 +10,14 @@ import shutil
 import urllib.robotparser
 import logging
 import signal
+import psutil
 from urllib.parse import urljoin, urlparse
 from collections import deque
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
 from email.utils import parsedate_to_datetime
 
-# --- Configuration (Full Parity with p4blo4p/bot-crawl-sitemap-images) ---
+# --- Configuration ---
 SITES_FILE = os.getenv("SITES_FILE", "sites.txt")
 DATA_DIR = "sitemaps_data" 
 GLOBAL_STATE_FILE = os.path.join(DATA_DIR, "global_state.json")
@@ -27,6 +28,7 @@ MAX_WORKERS = 5
 TIME_LIMIT_SECONDS = 340 * 60 # 5.6 hours (GHA limit is 6h)
 MIN_DISK_FREE_BYTES = 512 * 1024 * 1024 
 MAX_FILES_PER_RUN = 500 # Aumentado para mayor cobertura
+TIMEOUT = 25  # Definir el timeout que faltaba
 
 # Efficiency & Politeness
 MAX_URL_RETRIES = 3 
@@ -124,16 +126,54 @@ def update_stats(global_state, domain, key, increment=1):
         global_state['domain_stats'][domain] = {
             "sitemaps_downloaded": 0, "urls_discovered": 0, "errors_total": 0,
             "index_count": 0, "rich_content_count": 0, "bytes_processed": 0,
-            "last_crawl": None
+            "last_crawl": None, "avg_download_time": 0
         }
     
     stats = global_state['domain_stats'][domain]
     if key in stats:
         stats[key] += increment
 
+def normalize_domain(domain):
+    """Normaliza el dominio para evitar duplicados HTTP/HTTPS"""
+    if not domain.startswith(('http://', 'https://')):
+        domain = 'https://' + domain
+    parsed = urlparse(domain)
+    return f"{parsed.scheme}://{parsed.netloc}"
+
+def validate_url(url, base_domain):
+    """Valida que una URL pertenezca al dominio base"""
+    try:
+        parsed = urlparse(url)
+        base_parsed = urlparse(base_domain)
+        return parsed.netloc == base_parsed.netloc
+    except:
+        return False
+
+def get_optimal_workers():
+    """Ajusta dinámicamente el número de trabajadores según la carga del sistema"""
+    cpu_count = psutil.cpu_count()
+    # Ajusta este factor según tus necesidades
+    return min(MAX_WORKERS, max(1, cpu_count - 1))
+
+def get_with_retry(url, headers, max_retries=MAX_URL_RETRIES):
+    """Implementa un retraso exponencial para reintentos"""
+    for attempt in range(max_retries):
+        try:
+            response = requests.get(url, headers=headers, timeout=TIMEOUT)
+            if response.status_code == 429:  # Too Many Requests
+                retry_after = int(response.headers.get('Retry-After', 2 ** attempt))
+                time.sleep(retry_after)
+                continue
+            return response
+        except Exception as e:
+            if attempt == max_retries - 1:
+                raise
+            time.sleep(2 ** attempt)
+    return None
+
 # --- CRAWLER LOGIC ---
 
-def process_url(url, domain_folder, domain_state, crawl_delay):
+def process_url(url, domain_folder, domain_state, crawl_delay, base_domain):
     time.sleep(crawl_delay + random.uniform(0, 0.3))
     headers = {
         "User-Agent": USER_AGENT,
@@ -145,13 +185,16 @@ def process_url(url, domain_folder, domain_state, crawl_delay):
     if cached_meta.get('etag'): headers['If-None-Match'] = cached_meta['etag']
     if cached_meta.get('last_modified'): headers['If-Modified-Since'] = cached_meta['last_modified']
 
+    start_time = time.time()
     try:
-        response = requests.get(url, headers=headers, timeout=TIMEOUT)
+        response = get_with_retry(url, headers)
+        download_time = time.time() - start_time
+        
         if response.status_code == 304:
-            return (url, True, cached_meta.get('is_index', False), None, [], "NOT_MODIFIED", 0)
+            return (url, True, cached_meta.get('is_index', False), None, [], "NOT_MODIFIED", 0, download_time)
         
         if response.status_code != 200:
-            return (url, False, False, None, [], f"HTTP_{response.status_code}", 0)
+            return (url, False, False, None, [], f"HTTP_{response.status_code}", 0, download_time)
 
         content = response.content
         text_content = content.decode('utf-8', 'ignore')
@@ -171,24 +214,32 @@ def process_url(url, domain_folder, domain_state, crawl_delay):
             f.write(content)
             
         locs = [l.strip() for l in RE_LOC.findall(text_content)]
+        # Filtrar URLs para mantener solo las del mismo dominio
+        valid_locs = [l for l in locs if validate_url(l, base_domain)]
         
         new_meta = {
             'etag': response.headers.get('ETag'),
             'last_modified': response.headers.get('Last-Modified'),
             'is_index': is_index,
             'is_rich': is_rich,
-            'urls_count': len(locs),
+            'urls_count': len(valid_locs),
             'last_check': datetime.now().isoformat()
         }
         
-        return (url, True, is_index, new_meta, locs, "DOWNLOADED", len(content))
+        return (url, True, is_index, new_meta, valid_locs, "DOWNLOADED", len(content), download_time)
+    except requests.exceptions.Timeout:
+        return (url, False, False, None, [], "TIMEOUT", 0, time.time() - start_time)
+    except requests.exceptions.ConnectionError:
+        return (url, False, False, None, [], "CONNECTION_ERROR", 0, time.time() - start_time)
     except Exception as e:
-        return (url, False, False, None, [], str(e), 0)
+        return (url, False, False, None, [], str(e), 0, time.time() - start_time)
 
 def process_site(domain, global_state):
     global FILES_PROCESSED_THIS_RUN
     logger.info(f"=== Site: {domain} ===")
-    if not domain.startswith("http"): domain = "https://" + domain
+    
+    # Normalizar dominio
+    domain = normalize_domain(domain)
     
     domain_state = load_domain_state(domain)
     domain_name_clean = urlparse(domain).netloc or domain.replace("https://", "").replace("http://", "")
@@ -204,7 +255,8 @@ def process_site(domain, global_state):
         delay = rp.crawl_delay(USER_AGENT)
         if delay: crawl_delay = delay
         for s in (rp.site_maps() or []):
-            seeds.add(s)
+            if validate_url(s, domain):
+                seeds.add(s)
     except: pass
 
     # Fallback Discovery
@@ -220,14 +272,18 @@ def process_site(domain, global_state):
     visited = set(domain_state.get('visited', []))
     consecutive_failures = 0
     
+    # Ajustar dinámicamente el número de trabajadores
+    optimal_workers = get_optimal_workers()
+    logger.info(f"Using {optimal_workers} workers for {domain}")
+    
     try:
-        with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
+        with ThreadPoolExecutor(max_workers=optimal_workers) as executor:
             while queue and FILES_PROCESSED_THIS_RUN < MAX_FILES_PER_RUN:
                 if get_elapsed_time() > TIME_LIMIT_SECONDS or not check_disk_space():
                     break
                 
                 batch = []
-                while queue and len(batch) < MAX_WORKERS:
+                while queue and len(batch) < optimal_workers:
                     u = queue.popleft()
                     if u not in visited:
                         visited.add(u)
@@ -235,12 +291,24 @@ def process_site(domain, global_state):
                 
                 if not batch: continue
                 
-                futures = {executor.submit(process_url, u, domain_folder, domain_state, crawl_delay): u for u in batch}
+                futures = {executor.submit(process_url, u, domain_folder, domain_state, crawl_delay, domain): u for u in batch}
                 for future in as_completed(futures):
                     url = futures[future]
                     try:
                         res = future.result()
-                        url, success, is_index, meta, locs, status, b_size = res
+                        url, success, is_index, meta, locs, status, b_size, download_time = res
+                        
+                        # Actualizar tiempo promedio de descarga
+                        if "domain_stats" in global_state and domain in global_state["domain_stats"]:
+                            stats = global_state["domain_stats"][domain]
+                            if "avg_download_time" in stats:
+                                # Calcular nuevo promedio
+                                current_avg = stats["avg_download_time"]
+                                count = stats.get("sitemaps_downloaded", 0)
+                                if count > 0:
+                                    stats["avg_download_time"] = (current_avg * count + download_time) / (count + 1)
+                                else:
+                                    stats["avg_download_time"] = download_time
                         
                         update_stats(global_state, domain, "bytes_processed", b_size)
                         
@@ -258,7 +326,7 @@ def process_site(domain, global_state):
                                 if is_index:
                                     for l in locs:
                                         if l not in visited: queue.append(l)
-                                logger.info(f"  [OK] {url} (+{meta['urls_count']} urls)")
+                                logger.info(f"  [OK] {url} (+{meta['urls_count']} urls, {download_time:.2f}s)")
                             else:
                                 logger.info(f"  [CACHE] {url}")
                         else:
@@ -272,6 +340,10 @@ def process_site(domain, global_state):
                     logger.error(f"Circuit breaker triggered for {domain}")
                     break
     finally:
+        if "domain_stats" not in global_state: global_state["domain_stats"] = {}
+        if domain not in global_state["domain_stats"]:
+            update_stats(global_state, domain, "bytes_processed", 0)
+        
         global_state['domain_stats'][domain]['last_crawl'] = datetime.now().isoformat()
         domain_state['queues'] = list(queue)
         domain_state['visited'] = list(visited)
@@ -298,9 +370,20 @@ def main():
         with open(SITES_FILE, "r") as f:
             sites = [l.strip() for l in f if l.strip()]
             
-        sites.sort(key=lambda s: state.get('domain_stats', {}).get(s, {}).get('last_crawl') or '1970')
-        
+        # Normalizar dominios para evitar duplicados
+        normalized_sites = []
+        seen_domains = set()
         for site in sites:
+            normalized = normalize_domain(site)
+            domain = urlparse(normalized).netloc
+            if domain not in seen_domains:
+                normalized_sites.append(normalized)
+                seen_domains.add(domain)
+        
+        # Ordenar sitios por última fecha de rastreo
+        normalized_sites.sort(key=lambda s: state.get('domain_stats', {}).get(s, {}).get('last_crawl') or '1970')
+        
+        for site in normalized_sites:
             if get_elapsed_time() > TIME_LIMIT_SECONDS:
                 logger.info("Time limit reached. Stopping crawler.")
                 break
