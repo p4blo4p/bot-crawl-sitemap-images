@@ -10,7 +10,7 @@ import shutil
 import urllib.robotparser
 import logging
 import signal
-import psutil
+import socket
 from urllib.parse import urljoin, urlparse
 from collections import deque
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -23,17 +23,24 @@ DATA_DIR = "sitemaps_data"
 GLOBAL_STATE_FILE = os.path.join(DATA_DIR, "global_state.json")
 LOG_FILE = "downloader.log"
 
-USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+# Lista de User-Agents para rotar y evitar bloqueos
+USER_AGENTS = [
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/121.0",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:109.0) Gecko/20100101 Firefox/121.0"
+]
+
 MAX_WORKERS = 5 
 TIME_LIMIT_SECONDS = 340 * 60 # 5.6 hours (GHA limit is 6h)
 MIN_DISK_FREE_BYTES = 512 * 1024 * 1024 
-MAX_FILES_PER_RUN = 500 # Aumentado para mayor cobertura
-TIMEOUT = 25  # Definir el timeout que faltaba
+MAX_FILES_PER_RUN = 500
+TIMEOUT = 25
 
 # Efficiency & Politeness
 MAX_URL_RETRIES = 3 
 DOMAIN_FAILURE_LIMIT = 25 
-DEFAULT_CRAWL_DELAY = 1.0 
+DEFAULT_CRAWL_DELAY = 2.0  # Aumentado para ser más respetuoso
 
 COMMON_PATHS = ["/sitemap.xml", "/sitemap_index.xml", "/sitemap-index.xml", "/sitemap.php", "/sitemap.xml.gz"]
 
@@ -149,21 +156,109 @@ def validate_url(url, base_domain):
     except:
         return False
 
-def get_optimal_workers():
-    """Ajusta dinámicamente el número de trabajadores según la carga del sistema"""
-    cpu_count = psutil.cpu_count()
-    # Ajusta este factor según tus necesidades
-    return min(MAX_WORKERS, max(1, cpu_count - 1))
+def get_random_user_agent():
+    """Selecciona un User-Agent aleatorio de la lista"""
+    return random.choice(USER_AGENTS)
+
+def check_domain_exists(domain):
+    """
+    Verifica si un dominio existe y es accesible antes de procesarlo.
+    Returns:
+        tuple: (exists, error_message)
+    """
+    try:
+        parsed = urlparse(domain)
+        hostname = parsed.netloc
+        
+        # Verificar resolución DNS
+        socket.gethostbyname(hostname)
+        
+        # Intentar una conexión simple
+        response = requests.get(
+            domain, 
+            headers={"User-Agent": get_random_user_agent()}, 
+            timeout=10,
+            allow_redirects=True
+        )
+        
+        if response.status_code >= 400:
+            return False, f"Domain returned HTTP {response.status_code}"
+            
+        return True, None
+    except socket.gaierror:
+        return False, "DNS resolution failed"
+    except requests.exceptions.RequestException as e:
+        return False, f"Connection error: {str(e)}"
+    except Exception as e:
+        return False, f"Unknown error: {str(e)}"
+
+def parse_robots_txt(domain):
+    """
+    Parsea el archivo robots.txt y extrae los sitemaps declarados.
+    Returns:
+        tuple: (sitemaps, crawl_delay)
+    """
+    sitemaps = []
+    crawl_delay = DEFAULT_CRAWL_DELAY
+    
+    try:
+        robots_url = urljoin(domain, "/robots.txt")
+        logger.info(f"Checking robots.txt at {robots_url}")
+        
+        response = requests.get(
+            robots_url, 
+            headers={"User-Agent": get_random_user_agent()}, 
+            timeout=TIMEOUT
+        )
+        
+        if response.status_code == 200:
+            content = response.text
+            logger.info(f"robots.txt found for {domain}")
+            
+            # Extraer sitemaps del robots.txt
+            for line in content.splitlines():
+                line = line.strip()
+                if line.lower().startswith("sitemap:"):
+                    sitemap_url = line.split(":", 1)[1].strip()
+                    if sitemap_url:
+                        sitemaps.append(sitemap_url)
+                elif line.lower().startswith("crawl-delay"):
+                    try:
+                        delay = float(line.split(":", 1)[1].strip())
+                        if delay > 0:
+                            crawl_delay = max(crawl_delay, delay)
+                            logger.info(f"Crawl delay set to {crawl_delay}s from robots.txt")
+                    except ValueError:
+                        pass
+        else:
+            logger.warning(f"robots.txt not found (HTTP {response.status_code}) for {domain}")
+    except Exception as e:
+        logger.warning(f"Error parsing robots.txt for {domain}: {str(e)}")
+    
+    return sitemaps, crawl_delay
 
 def get_with_retry(url, headers, max_retries=MAX_URL_RETRIES):
-    """Implementa un retraso exponencial para reintentos"""
+    """Implementa un retraso exponencial para reintentos con User-Agent aleatorio"""
     for attempt in range(max_retries):
         try:
+            # Añadir User-Agent aleatorio en cada intento
+            headers["User-Agent"] = get_random_user_agent()
+            
             response = requests.get(url, headers=headers, timeout=TIMEOUT)
-            if response.status_code == 429:  # Too Many Requests
+            
+            # Manejar específicamente el código 429 (Too Many Requests)
+            if response.status_code == 429:
                 retry_after = int(response.headers.get('Retry-After', 2 ** attempt))
+                logger.warning(f"Rate limited. Waiting {retry_after}s before retrying...")
                 time.sleep(retry_after)
                 continue
+                
+            # Manejar específicamente el código 403 (Forbidden)
+            if response.status_code == 403:
+                logger.warning(f"Access forbidden (403) for {url}. Waiting before retry...")
+                time.sleep(5 + (2 ** attempt))
+                continue
+                
             return response
         except Exception as e:
             if attempt == max_retries - 1:
@@ -174,11 +269,14 @@ def get_with_retry(url, headers, max_retries=MAX_URL_RETRIES):
 # --- CRAWLER LOGIC ---
 
 def process_url(url, domain_folder, domain_state, crawl_delay, base_domain):
-    time.sleep(crawl_delay + random.uniform(0, 0.3))
+    time.sleep(crawl_delay + random.uniform(0, 0.5))  # Aumentado el random para más variabilidad
     headers = {
-        "User-Agent": USER_AGENT,
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-        "Accept-Language": "en-US,en;q=0.5"
+        "Accept-Language": "en-US,en;q=0.5",
+        "Accept-Encoding": "gzip, deflate",
+        "DNT": "1",
+        "Connection": "keep-alive",
+        "Upgrade-Insecure-Requests": "1"
     }
     
     cached_meta = domain_state.get('file_meta', {}).get(url, {})
@@ -241,26 +339,33 @@ def process_site(domain, global_state):
     # Normalizar dominio
     domain = normalize_domain(domain)
     
+    # Verificar si el dominio existe antes de procesarlo
+    domain_exists, error_msg = check_domain_exists(domain)
+    if not domain_exists:
+        logger.error(f"Domain {domain} is not accessible: {error_msg}")
+        update_stats(global_state, domain, "errors_total", 5)  # Penalizar errores de dominio
+        return
+    
     domain_state = load_domain_state(domain)
     domain_name_clean = urlparse(domain).netloc or domain.replace("https://", "").replace("http://", "")
     domain_folder = os.path.join(DATA_DIR, "domains", domain_name_clean.replace(".", "_"))
     
-    # Discovery
+    # Discovery - Parsear robots.txt primero
+    logger.info(f"Discovering sitemaps for {domain}")
+    sitemaps_from_robots, crawl_delay = parse_robots_txt(domain)
+    
+    # Crear conjunto de URLs de sitemap
     seeds = set()
-    rp = urllib.robotparser.RobotFileParser()
-    rp.set_url(urljoin(domain, "/robots.txt"))
-    crawl_delay = DEFAULT_CRAWL_DELAY
-    try:
-        rp.read()
-        delay = rp.crawl_delay(USER_AGENT)
-        if delay: crawl_delay = delay
-        for s in (rp.site_maps() or []):
-            if validate_url(s, domain):
-                seeds.add(s)
-    except: pass
-
-    # Fallback Discovery
+    
+    # Añadir sitemaps encontrados en robots.txt
+    for s in sitemaps_from_robots:
+        if validate_url(s, domain):
+            seeds.add(s)
+            logger.info(f"Found sitemap in robots.txt: {s}")
+    
+    # Fallback Discovery - si no se encontraron sitemaps en robots.txt
     if not seeds:
+        logger.info(f"No sitemaps found in robots.txt, trying common paths for {domain}")
         for path in COMMON_PATHS:
             seeds.add(urljoin(domain, path))
 
@@ -272,18 +377,16 @@ def process_site(domain, global_state):
     visited = set(domain_state.get('visited', []))
     consecutive_failures = 0
     
-    # Ajustar dinámicamente el número de trabajadores
-    optimal_workers = get_optimal_workers()
-    logger.info(f"Using {optimal_workers} workers for {domain}")
+    logger.info(f"Using crawl delay of {crawl_delay}s for {domain}")
     
     try:
-        with ThreadPoolExecutor(max_workers=optimal_workers) as executor:
+        with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
             while queue and FILES_PROCESSED_THIS_RUN < MAX_FILES_PER_RUN:
                 if get_elapsed_time() > TIME_LIMIT_SECONDS or not check_disk_space():
                     break
                 
                 batch = []
-                while queue and len(batch) < optimal_workers:
+                while queue and len(batch) < MAX_WORKERS:
                     u = queue.popleft()
                     if u not in visited:
                         visited.add(u)
@@ -332,6 +435,14 @@ def process_site(domain, global_state):
                         else:
                             update_stats(global_state, domain, "errors_total")
                             consecutive_failures += 1
+                            
+                            # Manejo específico para errores 403
+                            if "HTTP_403" in status:
+                                logger.warning(f"Access forbidden (403) for {url}. Increasing delay...")
+                                # Aumentar el retraso para este dominio
+                                crawl_delay = min(crawl_delay * 1.5, 10.0)
+                                logger.warning(f"New crawl delay for {domain}: {crawl_delay}s")
+                            
                             logger.warning(f"  [ERR] {url}: {status}")
                     except Exception as e:
                         logger.error(f"Error processing future for {url}: {e}")
