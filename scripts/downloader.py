@@ -71,16 +71,27 @@ def atomic_write_json(filepath, data):
 
 # --- STATE & STATS MANAGEMENT ---
 
+def ensure_state_keys(state):
+    """Deep ensure required keys exist in state dictionary."""
+    if not isinstance(state, dict):
+        return {"domain_stats": {}}
+    if "domain_stats" not in state:
+        state["domain_stats"] = {}
+    return state
+
 def load_global_state():
+    state = {"domain_stats": {}}
     if os.path.exists(GLOBAL_STATE_FILE):
         try:
             with open(GLOBAL_STATE_FILE, 'r') as f:
-                return json.load(f)
-        except:
-            logger.error("Global state file corrupted. Starting fresh.")
-    return {"domain_stats": {}}
+                loaded = json.load(f)
+                state = ensure_state_keys(loaded)
+        except Exception as e:
+            logger.error(f"Global state file corrupted ({e}). Starting fresh.")
+    return state
 
 def save_global_state(state):
+    state = ensure_state_keys(state)
     atomic_write_json(GLOBAL_STATE_FILE, state)
 
 def get_domain_state_path(domain):
@@ -89,12 +100,15 @@ def get_domain_state_path(domain):
 
 def load_domain_state(domain):
     path = get_domain_state_path(domain)
+    default_state = {"file_meta": {}, "queues": [], "visited": [], "errors": {}}
     if os.path.exists(path):
         try:
             with open(path, 'r') as f:
-                return json.load(f)
+                loaded = json.load(f)
+                if isinstance(loaded, dict):
+                    return loaded
         except: pass
-    return {"file_meta": {}, "queues": [], "visited": [], "errors": {}}
+    return default_state
 
 def save_domain_state(domain, state):
     path = get_domain_state_path(domain)
@@ -102,12 +116,17 @@ def save_domain_state(domain, state):
     atomic_write_json(path, state)
 
 def update_stats(global_state, domain, key, increment=1):
+    # Defensive check for global_state structure
+    if "domain_stats" not in global_state:
+        global_state["domain_stats"] = {}
+        
     if domain not in global_state['domain_stats']:
         global_state['domain_stats'][domain] = {
             "sitemaps_downloaded": 0, "urls_discovered": 0, "errors_total": 0,
             "index_count": 0, "rich_content_count": 0, "bytes_processed": 0,
             "last_crawl": None
         }
+    
     stats = global_state['domain_stats'][domain]
     if key in stats:
         stats[key] += increment
@@ -137,7 +156,6 @@ def process_url(url, domain_folder, domain_state, crawl_delay):
         is_rich = bool(RE_RICH_METADATA.search(text_content))
         subfolder = "indices" if is_index else ("content_rich" if is_rich else "content_raw")
         
-        # Guardar archivo
         parsed = urlparse(url)
         name = os.path.basename(parsed.path) or "sitemap"
         url_hash = hex(abs(hash(url)))[2:][:6] 
@@ -171,7 +189,6 @@ def process_site(domain, global_state):
     domain_state = load_domain_state(domain)
     domain_folder = os.path.join(DATA_DIR, "domains", domain.replace("https://", "").replace(".", "_"))
     
-    # Robots.txt
     rp = urllib.robotparser.RobotFileParser()
     rp.set_url(urljoin(domain, "/robots.txt"))
     crawl_delay = DEFAULT_CRAWL_DELAY
@@ -181,22 +198,20 @@ def process_site(domain, global_state):
         if delay: crawl_delay = delay
     except: pass
 
-    # Cola inicial
-    if domain_state['queues']:
+    if domain_state.get('queues'):
         queue = deque(domain_state['queues'])
     else:
         seeds = list(rp.site_maps() or [])
         if not seeds: seeds = [urljoin(domain, "/sitemap.xml")]
         queue = deque(seeds)
         
-    visited = set(domain_state['visited'])
+    visited = set(domain_state.get('visited', []))
     consecutive_failures = 0
     
     try:
         with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
             while queue and FILES_PROCESSED_THIS_RUN < MAX_FILES_PER_RUN:
                 if get_elapsed_time() > TIME_LIMIT_SECONDS or not check_disk_space():
-                    logger.warning("Time or Disk limit reached for this session.")
                     break
                 
                 batch = []
@@ -211,34 +226,43 @@ def process_site(domain, global_state):
                 futures = {executor.submit(process_url, u, domain_folder, domain_state, crawl_delay): u for u in batch}
                 for future in as_completed(futures):
                     url = futures[future]
-                    res = future.result()
-                    url, success, is_index, meta, locs, status, b_size = res
-                    
-                    update_stats(global_state, domain, "bytes_processed", b_size)
-                    
-                    if success or status == "NOT_MODIFIED":
-                        consecutive_failures = 0
-                        if success:
-                            FILES_PROCESSED_THIS_RUN += 1
-                            update_stats(global_state, domain, "sitemaps_downloaded")
-                            update_stats(global_state, domain, "urls_discovered", meta['urls_count'])
-                            if is_index: update_stats(global_state, domain, "index_count")
-                            if meta['is_rich']: update_stats(global_state, domain, "rich_content_count")
-                            
-                            domain_state['file_meta'][url] = meta
-                            if is_index:
-                                for l in locs:
-                                    if l not in visited: queue.append(l)
-                            logger.info(f"  [OK] {url} (+{meta['urls_count']} urls)")
-                    else:
-                        update_stats(global_state, domain, "errors_total")
-                        consecutive_failures += 1
-                        logger.warning(f"  [ERR] {url}: {status}")
+                    try:
+                        res = future.result()
+                        url, success, is_index, meta, locs, status, b_size = res
+                        
+                        update_stats(global_state, domain, "bytes_processed", b_size)
+                        
+                        if success or status == "NOT_MODIFIED":
+                            consecutive_failures = 0
+                            if success:
+                                FILES_PROCESSED_THIS_RUN += 1
+                                update_stats(global_state, domain, "sitemaps_downloaded")
+                                update_stats(global_state, domain, "urls_discovered", meta['urls_count'])
+                                if is_index: update_stats(global_state, domain, "index_count")
+                                if meta['is_rich']: update_stats(global_state, domain, "rich_content_count")
+                                
+                                if 'file_meta' not in domain_state: domain_state['file_meta'] = {}
+                                domain_state['file_meta'][url] = meta
+                                if is_index:
+                                    for l in locs:
+                                        if l not in visited: queue.append(l)
+                                logger.info(f"  [OK] {url} (+{meta['urls_count']} urls)")
+                        else:
+                            update_stats(global_state, domain, "errors_total")
+                            consecutive_failures += 1
+                            logger.warning(f"  [ERR] {url}: {status}")
+                    except Exception as e:
+                        logger.error(f"Error processing future for {url}: {e}")
 
                 if consecutive_failures > DOMAIN_FAILURE_LIMIT:
-                    logger.error(f"Circuit breaker for {domain}: too many failures.")
+                    logger.error(f"Circuit breaker triggered for {domain}")
                     break
     finally:
+        # Final safety check before updating stats
+        if "domain_stats" not in global_state: global_state["domain_stats"] = {}
+        if domain not in global_state["domain_stats"]:
+             update_stats(global_state, domain, "bytes_processed", 0)
+        
         global_state['domain_stats'][domain]['last_crawl'] = datetime.now().isoformat()
         domain_state['queues'] = list(queue)
         domain_state['visited'] = list(visited)
@@ -249,14 +273,14 @@ def main():
     logger.info("Downloader Job Started")
     state = load_global_state()
     
-    # Manejo de señales
     def handler(sig, frame):
-        logger.warning("Terminating gracefully...")
+        logger.info("Termination signal received. Saving state...")
         save_global_state(state)
         sys.exit(0)
+        
     signal.signal(signal.SIGINT, handler)
     signal.signal(signal.SIGTERM, handler)
-
+    
     try:
         if not os.path.exists(SITES_FILE):
             logger.error(f"Sites file {SITES_FILE} not found!")
@@ -264,17 +288,23 @@ def main():
 
         with open(SITES_FILE, "r") as f:
             sites = [l.strip() for l in f if l.strip()]
-        
-        # Priorizar sitios por antigüedad de crawl
-        sites.sort(key=lambda s: state.get('domain_stats', {}).get(s, {}).get('last_crawl', '1970'))
+            
+        # Ensure we can sort safely even if stats are missing
+        sites.sort(key=lambda s: state.get('domain_stats', {}).get(s, {}).get('last_crawl') or '1970')
         
         for site in sites:
-            if get_elapsed_time() > TIME_LIMIT_SECONDS: break
-            process_site(site, state)
-            
+            if get_elapsed_time() > TIME_LIMIT_SECONDS:
+                logger.info("Time limit reached. Stopping crawler.")
+                break
+            try:
+                process_site(site, state)
+            except Exception as e:
+                logger.error(f"Failed to process site {site}: {e}", exc_info=True)
+                
     except Exception as e:
         logger.critical(f"Global Crash: {e}", exc_info=True)
     finally:
+        save_global_state(state)
         logger.info("Job Complete")
 
 if __name__ == "__main__":
