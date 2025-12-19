@@ -16,22 +16,24 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
 from email.utils import parsedate_to_datetime
 
-# --- Configuration ---
+# --- Configuration (Full Parity with p4blo4p/bot-crawl-sitemap-images) ---
 SITES_FILE = os.getenv("SITES_FILE", "sites.txt")
 DATA_DIR = "sitemaps_data" 
 GLOBAL_STATE_FILE = os.path.join(DATA_DIR, "global_state.json")
 LOG_FILE = "downloader.log"
 
-USER_AGENT = "Mozilla/5.0 (compatible; SitemapHunterBot/3.0; +https://github.com/actionforge/bot)"
+USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
 MAX_WORKERS = 5 
-TIME_LIMIT_SECONDS = 40 * 60 
+TIME_LIMIT_SECONDS = 340 * 60 # 5.6 hours (GHA limit is 6h)
 MIN_DISK_FREE_BYTES = 512 * 1024 * 1024 
-MAX_FILES_PER_RUN = 200 
+MAX_FILES_PER_RUN = 500 # Aumentado para mayor cobertura
 
 # Efficiency & Politeness
 MAX_URL_RETRIES = 3 
 DOMAIN_FAILURE_LIMIT = 25 
 DEFAULT_CRAWL_DELAY = 1.0 
+
+COMMON_PATHS = ["/sitemap.xml", "/sitemap_index.xml", "/sitemap-index.xml", "/sitemap.php", "/sitemap.xml.gz"]
 
 START_TIME = time.time()
 FILES_PROCESSED_THIS_RUN = 0
@@ -55,7 +57,7 @@ def get_elapsed_time():
 
 def check_disk_space():
     try:
-        total, used, free = shutil.disk_usage(DATA_DIR)
+        total, used, free = shutil.disk_usage(".")
         return free > MIN_DISK_FREE_BYTES
     except:
         return True
@@ -63,6 +65,7 @@ def check_disk_space():
 def atomic_write_json(filepath, data):
     try:
         temp_path = filepath + ".tmp"
+        os.makedirs(os.path.dirname(filepath), exist_ok=True)
         with open(temp_path, 'w') as f:
             json.dump(data, f, indent=2)
         os.replace(temp_path, filepath)
@@ -72,7 +75,6 @@ def atomic_write_json(filepath, data):
 # --- STATE & STATS MANAGEMENT ---
 
 def ensure_state_keys(state):
-    """Deep ensure required keys exist in state dictionary."""
     if not isinstance(state, dict):
         return {"domain_stats": {}}
     if "domain_stats" not in state:
@@ -112,11 +114,9 @@ def load_domain_state(domain):
 
 def save_domain_state(domain, state):
     path = get_domain_state_path(domain)
-    os.makedirs(os.path.dirname(path), exist_ok=True)
     atomic_write_json(path, state)
 
 def update_stats(global_state, domain, key, increment=1):
-    # Defensive check for global_state structure
     if "domain_stats" not in global_state:
         global_state["domain_stats"] = {}
         
@@ -135,14 +135,18 @@ def update_stats(global_state, domain, key, increment=1):
 
 def process_url(url, domain_folder, domain_state, crawl_delay):
     time.sleep(crawl_delay + random.uniform(0, 0.3))
-    headers = {"User-Agent": USER_AGENT}
+    headers = {
+        "User-Agent": USER_AGENT,
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "Accept-Language": "en-US,en;q=0.5"
+    }
     
-    cached_meta = domain_state['file_meta'].get(url, {})
+    cached_meta = domain_state.get('file_meta', {}).get(url, {})
     if cached_meta.get('etag'): headers['If-None-Match'] = cached_meta['etag']
     if cached_meta.get('last_modified'): headers['If-Modified-Since'] = cached_meta['last_modified']
 
     try:
-        response = requests.get(url, headers=headers, timeout=25)
+        response = requests.get(url, headers=headers, timeout=TIMEOUT)
         if response.status_code == 304:
             return (url, True, cached_meta.get('is_index', False), None, [], "NOT_MODIFIED", 0)
         
@@ -150,7 +154,7 @@ def process_url(url, domain_folder, domain_state, crawl_delay):
             return (url, False, False, None, [], f"HTTP_{response.status_code}", 0)
 
         content = response.content
-        text_content = response.text
+        text_content = content.decode('utf-8', 'ignore')
         
         is_index = bool(RE_SITEMAP_INDEX.search(text_content))
         is_rich = bool(RE_RICH_METADATA.search(text_content))
@@ -187,8 +191,11 @@ def process_site(domain, global_state):
     if not domain.startswith("http"): domain = "https://" + domain
     
     domain_state = load_domain_state(domain)
-    domain_folder = os.path.join(DATA_DIR, "domains", domain.replace("https://", "").replace(".", "_"))
+    domain_name_clean = urlparse(domain).netloc or domain.replace("https://", "").replace("http://", "")
+    domain_folder = os.path.join(DATA_DIR, "domains", domain_name_clean.replace(".", "_"))
     
+    # Discovery
+    seeds = set()
     rp = urllib.robotparser.RobotFileParser()
     rp.set_url(urljoin(domain, "/robots.txt"))
     crawl_delay = DEFAULT_CRAWL_DELAY
@@ -196,14 +203,19 @@ def process_site(domain, global_state):
         rp.read()
         delay = rp.crawl_delay(USER_AGENT)
         if delay: crawl_delay = delay
+        for s in (rp.site_maps() or []):
+            seeds.add(s)
     except: pass
+
+    # Fallback Discovery
+    if not seeds:
+        for path in COMMON_PATHS:
+            seeds.add(urljoin(domain, path))
 
     if domain_state.get('queues'):
         queue = deque(domain_state['queues'])
     else:
-        seeds = list(rp.site_maps() or [])
-        if not seeds: seeds = [urljoin(domain, "/sitemap.xml")]
-        queue = deque(seeds)
+        queue = deque(list(seeds))
         
     visited = set(domain_state.get('visited', []))
     consecutive_failures = 0
@@ -234,7 +246,7 @@ def process_site(domain, global_state):
                         
                         if success or status == "NOT_MODIFIED":
                             consecutive_failures = 0
-                            if success:
+                            if status != "NOT_MODIFIED":
                                 FILES_PROCESSED_THIS_RUN += 1
                                 update_stats(global_state, domain, "sitemaps_downloaded")
                                 update_stats(global_state, domain, "urls_discovered", meta['urls_count'])
@@ -247,6 +259,8 @@ def process_site(domain, global_state):
                                     for l in locs:
                                         if l not in visited: queue.append(l)
                                 logger.info(f"  [OK] {url} (+{meta['urls_count']} urls)")
+                            else:
+                                logger.info(f"  [CACHE] {url}")
                         else:
                             update_stats(global_state, domain, "errors_total")
                             consecutive_failures += 1
@@ -258,11 +272,6 @@ def process_site(domain, global_state):
                     logger.error(f"Circuit breaker triggered for {domain}")
                     break
     finally:
-        # Final safety check before updating stats
-        if "domain_stats" not in global_state: global_state["domain_stats"] = {}
-        if domain not in global_state["domain_stats"]:
-             update_stats(global_state, domain, "bytes_processed", 0)
-        
         global_state['domain_stats'][domain]['last_crawl'] = datetime.now().isoformat()
         domain_state['queues'] = list(queue)
         domain_state['visited'] = list(visited)
@@ -289,7 +298,6 @@ def main():
         with open(SITES_FILE, "r") as f:
             sites = [l.strip() for l in f if l.strip()]
             
-        # Ensure we can sort safely even if stats are missing
         sites.sort(key=lambda s: state.get('domain_stats', {}).get(s, {}).get('last_crawl') or '1970')
         
         for site in sites:
