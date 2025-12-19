@@ -40,12 +40,14 @@ jobs:
           path: main_code
 
       - name: Setup Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.10'
 
       - name: Install Dependencies
-        run: pip install requests
+        working-directory: main_code
+        run: |
+          pip install -r requirements.txt
 
       - name: Prepare Data Branch
         run: |
@@ -76,10 +78,11 @@ jobs:
           fi
 
       - name: Run Downloader
+        working-directory: main_code
         env:
-          SITES_FILE: main_code/sites/mangas.txt
+          SITES_FILE: sites/mangas.txt
         run: |
-          python main_code/scripts/downloader.py
+          python scripts/downloader.py
 
       - name: Push Changes
         working-directory: sitemaps_data
